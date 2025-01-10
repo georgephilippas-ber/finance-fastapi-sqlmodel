@@ -1,3 +1,5 @@
+from typing import Optional
+
 from pydantic import BaseModel
 
 
@@ -21,6 +23,6 @@ class CountrySchema(BaseModel):
     iso_code: CountryISOCodeSchema
     location: LocationSchema
 
-    capital: str
+    capital: Optional[str]
     population: int
     flag_url: str

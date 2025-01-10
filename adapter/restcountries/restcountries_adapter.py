@@ -29,7 +29,7 @@ class RESTCountriesAdapter(Adapter):
 
         location_ = LocationSchema(latitude=json_['latlng'][0], longitude=json_['latlng'][1])
 
-        capital_ = json_['capital']
+        capital_ = json_['capital'][0] if len(json_['capital']) > 0 else None
         population_ = json_['population']
         continent_list_ = [ContinentSchema(name=continent_name_) for continent_name_ in json_['continents']]
 
