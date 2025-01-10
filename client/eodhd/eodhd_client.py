@@ -7,6 +7,7 @@ from urllib.parse import urljoin
 
 import httpx
 
+from abstract.client.client import Client
 from configuration.configuration import EODHD_DEMO, project_root
 from core.environment.environment import load_environment
 from exception.exception import APISecurityException
@@ -21,12 +22,12 @@ if API_TOKEN is None:
 BASE_URL: str = 'https://eodhd.com'
 
 
-class EODHDClient:
-    _base_url: str
+class EODHDClient(Client):
     _api_token: str
 
     def __init__(self, base_url: str = BASE_URL, api_token: str = API_TOKEN):
-        self._base_url = base_url
+        super().__init__(base_url)
+
         self._api_token = api_token
 
     async def exchanges_list(self, prefer_cached: bool = True) -> Optional[List[str]]:
