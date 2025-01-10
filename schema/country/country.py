@@ -12,12 +12,6 @@ class CountryISOCodeSchema(BaseModel):
     cca3: str
 
 
-class CurrencySchema(BaseModel):
-    code: str
-    name: str
-    symbol: str
-
-
 class LocationSchema(BaseModel):
     latitude: float
     longitude: float
@@ -26,10 +20,8 @@ class LocationSchema(BaseModel):
 class CountrySchema(BaseModel):
     name: CountryNameSchema
     iso_code: CountryISOCodeSchema
-    currency_list: List[CurrencySchema]
     location: LocationSchema
 
     capital: str
     population: int
-    continents: List[str]
     flag_url: str
