@@ -38,6 +38,8 @@ class CountryManager(Manager):
             self._session.add(country_)
 
             await self._session.commit()
+
+            return country_
         except SQLAlchemyError as e:
             print(e)
             await self._session.rollback()
