@@ -1,20 +1,21 @@
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, TypeAlias
 
 from abstract.adapter.adapter import Adapter
 from schema.continent.continent import ContinentSchema
 from schema.country.country import CountrySchema, CountryNameSchema, CountryISOCodeSchema, LocationSchema
 from schema.currency.currency import CurrencySchema
 
+CountryType: TypeAlias = Tuple[CountrySchema, List[CurrencySchema], List[ContinentSchema]]
+
 
 class RESTCountriesAdapter(Adapter):
     def __init__(self):
         super().__init__()
 
-    def adapt_many(self, json_list_: List[Dict]) -> List[
-        Tuple[CountrySchema, List[CurrencySchema], List[ContinentSchema]]]:
+    def adapt_many(self, json_list_: List[Dict]) -> List[CountryType]:
         return [self.adapt(json_) for json_ in json_list_]
 
-    def adapt(self, json_: Dict) -> Tuple[CountrySchema, List[CurrencySchema], List[ContinentSchema]]:
+    def adapt(self, json_: Dict) -> CountryType:
         country_name_ = CountryNameSchema(common=json_['name']['common'],
                                           official=json_['name']['official'])
 
