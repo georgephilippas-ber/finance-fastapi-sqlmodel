@@ -3,12 +3,15 @@ from typing import Optional, List
 from sqlmodel import SQLModel, Field, Relationship
 
 from model.link.country_continent.country_continent import CountryContinent
+from model.link.currency_country.currency_country import CurrencyCountry
 
 
 class Country(SQLModel, table=True):
     id: int = Field(primary_key=True)
 
-    name: str = Field(nullable=False, unique=True)
+    common_name: str = Field(nullable=False, unique=True)
+    official_name: str = Field(nullable=False, unique=True)
+
     cca2: str = Field(nullable=False, unique=True)
     cca3: str = Field(nullable=False, unique=True)
 
