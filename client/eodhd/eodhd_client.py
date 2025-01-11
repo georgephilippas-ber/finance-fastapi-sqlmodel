@@ -1,3 +1,4 @@
+import asyncio
 import json
 from http import HTTPStatus
 from os import environ
@@ -30,6 +31,29 @@ class EODHDClient(Client):
 
         self._api_token = api_token
 
+    async def exchange_symbol_list(self, exchange_code: str, prefer_cached: bool = True) -> Optional[List[Dict]]:
+        url_ = urljoin(self._base_url, f'/api/exchange-symbol-list/{exchange_code.upper()}')
+        cache_file_path_ = join(project_root(), "client", "cache", "eodhd", "exchange_symbols",
+                                f"{exchange_code.upper()}.json")
+
+        if prefer_cached:
+            try:
+                with open(cache_file_path_, 'r') as cache_file:
+                    return json.load(cache_file)
+            except FileNotFoundError:
+                pass
+
+        async with httpx.AsyncClient() as client:
+            response_ = await client.get(url_, params={'api_token': self._api_token, 'fmt': 'json'})
+
+            if response_.status_code == HTTPStatus.OK:
+                with open(cache_file_path_, 'w') as cache_file:
+                    json.dump(response_.json(), cache_file, indent=4)
+
+                return response_.json()
+            else:
+                return None
+
     async def exchanges_list(self, prefer_cached: bool = True) -> Optional[List[Dict]]:
         url_ = urljoin(self._base_url, '/api/exchanges-list')
         cache_file_path_ = join(project_root(), "client", "cache", "eodhd", "exchanges", "exchanges.json")
@@ -54,4 +78,9 @@ class EODHDClient(Client):
 
 
 if __name__ == '__main__':
-    pass
+    async def execute():
+        s = await EODHDClient().exchange_symbol_list('f')
+        print(s)
+
+
+    asyncio.run(execute())
