@@ -1,13 +1,12 @@
-from typing import Optional
+from typing import Optional, Dict
 
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlmodel import select
 
 from abstract.manager.manager import Manager
 from model.country.country import Country
 from schema.country.country import CountrySchema
-
-from sqlmodel import select
 
 
 class CountryManager(Manager):
@@ -19,21 +18,21 @@ class CountryManager(Manager):
 
         return (await self._session.exec(query_)).first()
 
-    async def by_cca3(self, cca2: str) -> Optional[Country]:
-        query_ = select(Country).where(Country.cca3 == cca2.upper())
+    async def by_cca3(self, cca3: str) -> Optional[Country]:
+        query_ = select(Country).where(Country.cca3 == cca3.upper())
 
         return (await self._session.exec(query_)).first()
 
-    async def persist(self, country_schema: CountrySchema) -> Optional[Country]:
-        country_ = Country(common_name=country_schema.name.common,
-                           official_name=country_schema.name.official,
-                           cca2=country_schema.iso_code.cca2,
-                           cca3=country_schema.iso_code.cca3,
-                           latitude=country_schema.location.latitude,
-                           longitude=country_schema.location.longitude,
-                           capital=country_schema.capital,
-                           population=country_schema.population,
-                           flag_url=country_schema.flag_url)
+    async def persist(self, schema: CountrySchema, keys: Optional[Dict] = None) -> Optional[Country]:
+        country_ = Country(common_name=schema.name.common,
+                           official_name=schema.name.official,
+                           cca2=schema.iso_code.cca2,
+                           cca3=schema.iso_code.cca3,
+                           latitude=schema.location.latitude,
+                           longitude=schema.location.longitude,
+                           capital=schema.capital,
+                           population=schema.population,
+                           flag_url=schema.flag_url)
 
         try:
             self._session.add(country_)
