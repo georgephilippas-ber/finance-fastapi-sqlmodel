@@ -1,10 +1,10 @@
 from typing import Optional, Dict, Any
 
 from sqlalchemy.exc import SQLAlchemyError
-from sqlalchemy.ext.asyncio import AsyncSession
 from sqlmodel import select
+from sqlmodel.ext.asyncio.session import AsyncSession
 
-from abstract.manager.manager import Manager
+from abstract.manager.manager import Manager, SQLModelBound
 from model.country.country import Country
 from schema.country.country import CountrySchema
 
@@ -23,7 +23,17 @@ class CountryManager(Manager):
 
         return (await self._session.exec(query_)).first()
 
+    async def retrieve_unique(self, schema: CountrySchema) -> Optional[Country]:
+        query_ = select(Country).where(Country.cca2 == schema.iso_code.cca2)
+
+        return (await self._session.exec(query_)).first()
+
     async def persist(self, schema: CountrySchema, foreign_keys: Optional[Dict[str, Any]] = None) -> Optional[Country]:
+        existing_ = await self.retrieve_unique(schema)
+
+        if existing_ is not None:
+            return existing_
+
         country_ = Country(common_name=schema.name.common,
                            official_name=schema.name.official,
                            cca2=schema.iso_code.cca2,

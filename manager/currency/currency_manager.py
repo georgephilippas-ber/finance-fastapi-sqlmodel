@@ -12,8 +12,18 @@ class CurrencyManager(Manager):
     def __init__(self, session: AsyncSession):
         super().__init__(session)
 
+    async def retrieve_unique(self, schema: CurrencySchema) -> Optional[Currency]:
+        query_ = Currency.select().where(Currency.code == schema.code)
+
+        return (await self._session.exec(query_)).first()
+
     async def persist(self, schema: CurrencySchema, foreign_keys: Optional[Dict[str, Any]] = None) -> Optional[
         Currency]:
+        existing_ = await self.retrieve_unique(schema)
+
+        if existing_ is not None:
+            return existing_
+
         currency_ = Currency(name=schema.name, code=schema.code, symbol=schema.symbol)
 
         try:

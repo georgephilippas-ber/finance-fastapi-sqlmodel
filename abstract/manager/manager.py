@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Optional, TypeVar, Dict, Any
 
+from poetry.console.commands import self
 from pydantic import BaseModel
 from sqlmodel import SQLModel
 from sqlmodel.ext.asyncio.session import AsyncSession
@@ -16,5 +17,10 @@ class Manager(ABC):
         self._session = session
 
     @abstractmethod
-    async def persist(self, schema: BaseModelBound, foreign_keys: Optional[Dict[str, Any]] = None) -> Optional[SQLModelBound]:
+    async def retrieve_unique(self, schema: BaseModelBound) -> Optional[SQLModelBound]:
+        return None
+
+    @abstractmethod
+    async def persist(self, schema: BaseModelBound, foreign_keys: Optional[Dict[str, Any]] = None) -> Optional[
+        SQLModelBound]:
         pass
