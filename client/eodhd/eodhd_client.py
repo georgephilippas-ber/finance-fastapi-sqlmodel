@@ -2,7 +2,7 @@ import json
 from http import HTTPStatus
 from os import environ
 from os.path import join
-from typing import Optional, List
+from typing import Optional, List, Dict
 from urllib.parse import urljoin
 
 import httpx
@@ -30,7 +30,7 @@ class EODHDClient(Client):
 
         self._api_token = api_token
 
-    async def exchanges_list(self, prefer_cached: bool = True) -> Optional[List[str]]:
+    async def exchanges_list(self, prefer_cached: bool = True) -> Optional[List[Dict]]:
         url_ = urljoin(self._base_url, '/api/exchanges-list')
         cache_file_path_ = join(project_root(), "client", "cache", "eodhd", "exchanges", "exchanges.json")
 
