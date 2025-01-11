@@ -51,4 +51,3 @@ class EODHDSeeder:
             print(exchange_schema_)
             print(currency_schema_)
             print()
-
