@@ -1,6 +1,7 @@
 from typing import Optional, Dict, Any
 
 from sqlalchemy.exc import SQLAlchemyError
+from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from abstract.manager.manager import Manager
@@ -39,6 +40,6 @@ class CurrencyManager(Manager):
             return None
 
     async def by_code(self, code: str) -> Optional[Currency]:
-        query_ = Currency.select().where(Currency.code == code)
+        query_ = select(Currency).where(Currency.code == code)
 
         return (await self._session.exec(query_)).first()
