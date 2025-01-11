@@ -24,3 +24,5 @@ class Country(SQLModel, table=True):
 
     continent_list: List["Continent"] = Relationship(back_populates="country_list", link_model=CountryContinent)
     currency_list: List["Currency"] = Relationship(back_populates="country_list", link_model=CurrencyCountry)
+
+    exchange_list: List["Exchange"] = Relationship(back_populates="country")

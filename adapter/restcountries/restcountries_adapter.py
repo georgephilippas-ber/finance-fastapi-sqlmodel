@@ -12,9 +12,6 @@ class RESTCountriesAdapter(Adapter):
     def __init__(self):
         super().__init__()
 
-    def adapt_many(self, json_list_: List[Dict]) -> List[CountryType]:
-        return [self.adapt(json_) for json_ in json_list_]
-
     def adapt(self, json_: Dict) -> CountryType:
         country_name_ = CountryNameSchema(common=json_['name']['common'],
                                           official=json_['name']['official'])
@@ -38,3 +35,6 @@ class RESTCountriesAdapter(Adapter):
 
         return CountrySchema(name=country_name_, iso_code=country_iso_code_, location=location_, capital=capital_,
                              population=population_, flag_url=flag_url_), currency_list_, continent_list_
+
+    def adapt_many(self, json_list_: List[Dict]) -> List[CountryType]:
+        return [self.adapt(json_) for json_ in json_list_]
