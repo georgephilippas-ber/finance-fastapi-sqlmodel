@@ -1,7 +1,7 @@
 import asyncio
 from typing import Dict, List, Optional
 
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlmodel.ext.asyncio.session import AsyncSession
 
 from adapter.restcountries.restcountries_adapter import RESTCountriesAdapter
 from client.restcountries.restcountries_client import RESTCountriesClient
@@ -12,6 +12,8 @@ from manager.currency.currency_manager import CurrencyManager
 
 
 class RESTCountriesSeeder:
+    _session: AsyncSession
+
     _restcountries_client: RESTCountriesClient
     _restcountries_adapter: RESTCountriesAdapter
 
@@ -21,9 +23,12 @@ class RESTCountriesSeeder:
 
     _prefer_cached: bool
 
-    def __init__(self, restcountries_client: RESTCountriesClient, restcountries_adapter: RESTCountriesAdapter,
+    def __init__(self, session: AsyncSession, restcountries_client: RESTCountriesClient,
+                 restcountries_adapter: RESTCountriesAdapter,
                  country_manager: CountryManager, currency_manager: CurrencyManager,
                  continent_manager: ContinentManager, *, prefer_cached: bool = True):
+        self._session = session
+
         self._restcountries_client = restcountries_client
         self._restcountries_adapter = restcountries_adapter
 
@@ -36,6 +41,7 @@ class RESTCountriesSeeder:
     async def seed_many(self) -> int:
         dict_list_: Optional[List[Dict]] = await self._restcountries_client.get_all()
 
+        entries_: int = 0
         if dict_list_ is not None:
             schema_list_ = self._restcountries_adapter.adapt_many(dict_list_)
 
@@ -47,11 +53,13 @@ class RESTCountriesSeeder:
 
                 continent_model_list_ = [await self._continent_manager.persist(continent_schema_) for continent_schema_
                                          in continent_schema_list_]
-                print(country_model_)
-                print(currency_model_list_)
-                print(continent_model_list_)
 
-        return 0
+                if country_model_ is not None:
+                    entries_ += 1
+
+        await self._session.commit()
+
+        return entries_
 
 
 if __name__ == '__main__':
@@ -67,10 +75,11 @@ if __name__ == '__main__':
             currency_manager = CurrencyManager(session)
             continent_manager = ContinentManager(session)
 
-            seeder = RESTCountriesSeeder(restcountries_client, restcountries_adapter, country_manager, currency_manager,
+            seeder = RESTCountriesSeeder(session, restcountries_client, restcountries_adapter, country_manager,
+                                         currency_manager,
                                          continent_manager)
 
-            await seeder.seed_many()
+            print(await seeder.seed_many())
 
 
     asyncio.run(execute())

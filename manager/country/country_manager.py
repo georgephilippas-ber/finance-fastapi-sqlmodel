@@ -47,7 +47,7 @@ class CountryManager(Manager):
         try:
             self._session.add(country_)
 
-            await self._session.commit()
+            await self._session.flush()
 
             return country_
         except SQLAlchemyError as e:

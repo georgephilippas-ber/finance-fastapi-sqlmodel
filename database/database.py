@@ -10,7 +10,7 @@ class Database:
     def __init__(self, connection_string: str = DATABASE_URL):
         self._connection_string = connection_string
 
-        self._async_engine = create_async_engine(connection_string)
+        self._async_engine = create_async_engine(connection_string, echo=False, future=True)
 
     def get_async_engine(self) -> AsyncEngine:
         return self._async_engine

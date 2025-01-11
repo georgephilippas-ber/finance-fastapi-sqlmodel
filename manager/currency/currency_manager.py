@@ -14,7 +14,7 @@ class CurrencyManager(Manager):
         super().__init__(session)
 
     async def retrieve_unique(self, schema: CurrencySchema) -> Optional[Currency]:
-        query_ = Currency.select().where(Currency.code == schema.code)
+        query_ = select(Currency).where(Currency.code == schema.code)
 
         return (await self._session.exec(query_)).first()
 
@@ -30,7 +30,7 @@ class CurrencyManager(Manager):
         try:
             self._session.add(currency_)
 
-            await self._session.commit()
+            await self._session.flush()
 
             return currency_
         except SQLAlchemyError as e:
