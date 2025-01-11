@@ -2,4 +2,7 @@ from pydantic import BaseModel
 
 
 class TickerSchema(BaseModel):
-    pass
+    code: str
+    name: str
+    type: str
+    isin: str
