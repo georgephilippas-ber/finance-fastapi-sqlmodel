@@ -1,12 +1,13 @@
 from typing import List
 
+from typing import Optional
 from sqlmodel import SQLModel, Field, Relationship
 
 from model.link.country_continent.country_continent import CountryContinent
 
 
 class Continent(SQLModel, table=True):
-    id: int = Field(primary_key=True)
+    id: Optional[int] = Field(primary_key=True)
 
     name: str = Field(nullable=False, unique=True)
 

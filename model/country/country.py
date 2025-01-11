@@ -7,7 +7,7 @@ from model.link.currency_country.currency_country import CurrencyCountry
 
 
 class Country(SQLModel, table=True):
-    id: int = Field(primary_key=True)
+    id: Optional[int] = Field(primary_key=True)
 
     common_name: str = Field(nullable=False, unique=True)
     official_name: str = Field(nullable=False, unique=True)
