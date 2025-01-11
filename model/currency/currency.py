@@ -13,3 +13,5 @@ class Currency(SQLModel, table=True):
     symbol: str = Field(nullable=False)
 
     country_list: List["Country"] = Relationship(back_populates="currency_list", link_model=CurrencyCountry)
+
+    exchange_list: List["Exchange"] = Relationship(back_populates="currency")

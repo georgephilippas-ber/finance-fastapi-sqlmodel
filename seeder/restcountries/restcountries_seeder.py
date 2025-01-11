@@ -56,24 +56,4 @@ class RESTCountriesSeeder:
 
 
 if __name__ == '__main__':
-    async def execute():
-        db = Database()
-        db.create_tables(drop_all=True)
-
-        restcountries_client = RESTCountriesClient()
-        restcountries_adapter = RESTCountriesAdapter()
-
-        with Session(db.get_engine()) as session:
-            country_manager = CountryManager(session)
-            currency_manager = CurrencyManager(session)
-            continent_manager = ContinentManager(session)
-
-            seeder = RESTCountriesSeeder(restcountries_client, restcountries_adapter, country_manager,
-                                         currency_manager,
-                                         continent_manager)
-
-            print(await seeder.seed_many())
-            session.commit()
-
-
-    asyncio.run(execute())
+    pass

@@ -3,6 +3,7 @@ from typing import Optional
 from sqlmodel import SQLModel, Field, Relationship
 
 from model.country.country import Country
+from model.currency.currency import Currency
 
 
 class Exchange(SQLModel, table=True):
@@ -13,3 +14,6 @@ class Exchange(SQLModel, table=True):
 
     country_id: int = Field(foreign_key="country.id")
     country: Country = Relationship(back_populates="exchange_list")
+
+    currency_id: int = Field(foreign_key="currency.id")
+    currency: Currency = Relationship(back_populates="exchange_list")

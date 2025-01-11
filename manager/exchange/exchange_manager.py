@@ -23,7 +23,8 @@ class ExchangeManager(Manager):
         if existing_ is not None:
             return existing_
 
-        exchange_ = Exchange(name=schema.name, code=schema.code, country_id=foreign_keys['country_id'])
+        exchange_ = Exchange(name=schema.name, code=schema.code, country_id=foreign_keys['country_id'],
+                             currency_id=foreign_keys['currency_id'])
 
         try:
             self._session.add(exchange_)
