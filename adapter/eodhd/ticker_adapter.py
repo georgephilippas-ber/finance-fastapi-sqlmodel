@@ -13,7 +13,7 @@ class TickerAdapter(Adapter):
         super().__init__()
 
     def adapt(self, json_: Dict) -> Optional[TickerType]:
-        if json_['Type'] in ['Common Stock', 'ETF']:
+        if json_['Type'] in ['Common Stock', 'ETF'] and json_['Isin']:
             ticker_schema_ = TickerSchema(code=json_['Code'], name=json_['Name'], isin=json_['Isin'],
                                           type=json_['Type'])
 
@@ -26,4 +26,4 @@ class TickerAdapter(Adapter):
             return None
 
     def adapt_many(self, json_list_: List[Dict]) -> List[TickerType]:
-        return [self.adapt(json_) for json_ in json_list_]
+        return list(filter(lambda json_: json_ is not None, [self.adapt(json_) for json_ in json_list_]))

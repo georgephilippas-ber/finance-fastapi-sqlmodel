@@ -35,7 +35,7 @@ class RESTCountriesSeeder:
 
         self._prefer_cached = prefer_cached
 
-    async def seed_many(self):
+    async def seed(self):
         dict_list_: Optional[List[Dict]] = await self._restcountries_client.get_all()
 
         if dict_list_ is not None:

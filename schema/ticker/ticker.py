@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from enum import Enum
 
 
@@ -25,4 +25,4 @@ class TickerSchema(BaseModel):
     code: str
     name: str
     type: str
-    isin: str
+    isin: Optional[str] = Field(default=None)

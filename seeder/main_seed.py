@@ -3,6 +3,7 @@ import asyncio
 from sqlmodel import Session
 
 from adapter.eodhd.exchange_adapter import ExchangeAdapter
+from adapter.eodhd.ticker_adapter import TickerAdapter
 from adapter.restcountries.restcountries_adapter import RESTCountriesAdapter
 from client.eodhd.eodhd_client import EODHDClient
 from client.restcountries.restcountries_client import RESTCountriesClient
@@ -24,6 +25,7 @@ async def seed():
 
     restcountries_adapter = RESTCountriesAdapter()
     eodhd_exchange_adapter = ExchangeAdapter()
+    eodhd_ticker_adapter = TickerAdapter()
 
     with Session(database_.get_engine()) as session:
         country_manager_ = CountryManager(session)
@@ -35,11 +37,14 @@ async def seed():
                                                     currency_manager_,
                                                     continent_manager_)
 
-        eodhd_seeder_ = EODHDSeeder(eodhd_client, eodhd_exchange_adapter, country_manager_, currency_manager_,
+        eodhd_seeder_ = EODHDSeeder(eodhd_client, eodhd_exchange_adapter, eodhd_ticker_adapter, country_manager_,
+                                    currency_manager_,
                                     exchange_manager_)
 
-        await restcountries_seeder_.seed_many()
+        await restcountries_seeder_.seed()
+
         await eodhd_seeder_.seed_exchange()
+        await eodhd_seeder_.seed_ticker()
 
         session.commit()
 

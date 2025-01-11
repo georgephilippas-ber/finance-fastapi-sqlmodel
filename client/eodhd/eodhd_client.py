@@ -31,6 +31,15 @@ class EODHDClient(Client):
 
         self._api_token = api_token
 
+    async def exchange_symbol_list_many(self, exchange_codes: List[str], prefer_cached: bool = True) -> Optional[
+        List[Dict]]:
+        list_ = []
+
+        for exchange_code_ in exchange_codes:
+            list_.extend(await self.exchange_symbol_list(exchange_code_, prefer_cached))
+
+        return list_
+
     async def exchange_symbol_list(self, exchange_code: str, prefer_cached: bool = True) -> Optional[List[Dict]]:
         url_ = urljoin(self._base_url, f'/api/exchange-symbol-list/{exchange_code.upper()}')
         cache_file_path_ = join(project_root(), "client", "cache", "eodhd", "exchange_symbols",

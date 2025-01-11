@@ -12,6 +12,11 @@ class ExchangeManager(Manager):
     def __init__(self, session: Session):
         super().__init__(session)
 
+    def by_code(self, code: str) -> Optional[Exchange]:
+        query_ = select(Exchange).where(Exchange.code == code)
+
+        return self._session.exec(query_).first()
+
     def retrieve_unique(self, schema: ExchangeSchema) -> Optional[Exchange]:
         query_ = select(Exchange).where(Exchange.code == schema.code)
 
