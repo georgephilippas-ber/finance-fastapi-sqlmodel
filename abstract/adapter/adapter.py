@@ -10,7 +10,6 @@ class Adapter(ABC):
     def adapt(self, json_: Any) -> Any:
         pass
 
-    @abstractmethod
     def _preprocess_many(self, json_list_: List[Any]) -> List[Any]:
         return json_list_
 
