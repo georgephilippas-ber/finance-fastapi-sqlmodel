@@ -11,7 +11,7 @@ def project_root() -> str:
     return sep.join(path_elements_[:project_root_index_ + 1])
 
 
-DATABASE_URL: str = f"mysql+asyncmy://root:development@localhost:3306/{PROJECT_NAME.replace('-', '_')}"
+DATABASE_URL: str = f"mysql://root:development@localhost:3306/{PROJECT_NAME.replace('-', '_')}"
 
 EODHD_DEMO: bool = False
 

@@ -1,19 +1,17 @@
 from abc import ABC, abstractmethod
 from typing import Optional, TypeVar, Dict, Any
 
-from poetry.console.commands import self
 from pydantic import BaseModel
-from sqlmodel import SQLModel
-from sqlmodel.ext.asyncio.session import AsyncSession
+from sqlmodel import SQLModel, Session
 
 BaseModelBound = TypeVar("BaseModelBound", bound=BaseModel)
 SQLModelBound = TypeVar("SQLModelBound", bound=SQLModel)
 
 
 class Manager(ABC):
-    _session: AsyncSession
+    _session: Session
 
-    def __init__(self, session: AsyncSession):
+    def __init__(self, session: Session):
         self._session = session
 
     @abstractmethod

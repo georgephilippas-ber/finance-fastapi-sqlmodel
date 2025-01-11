@@ -1,28 +1,26 @@
 from typing import Optional, Dict, Any
 
 from sqlalchemy.exc import SQLAlchemyError
-from sqlmodel.ext.asyncio.session import AsyncSession
+from sqlmodel import select, Session
 
-from abstract.manager.manager import Manager, BaseModelBound, SQLModelBound
+from abstract.manager.manager import Manager
 from model.continent.continent import Continent
 from schema.continent.continent import ContinentSchema
 
-from sqlmodel import select
-
 
 class ContinentManager(Manager):
-    def __init__(self, session: AsyncSession):
+    def __init__(self, session: Session):
         super().__init__(session)
 
-    async def retrieve_unique(self, schema: ContinentSchema) -> Optional[Continent]:
+    def retrieve_unique(self, schema: ContinentSchema) -> Optional[Continent]:
         query_ = select(Continent).where(Continent.name == schema.name)
 
-        return (await self._session.exec(query_)).first()
+        return (self._session.exec(query_)).first()
 
-    async def persist(self, schema: ContinentSchema, foreign_keys: Optional[Dict[str, Any]] = None) -> Optional[
+    def persist(self, schema: ContinentSchema, foreign_keys: Optional[Dict[str, Any]] = None) -> Optional[
         Continent]:
 
-        existing_ = await self.retrieve_unique(schema)
+        existing_ = self.retrieve_unique(schema)
 
         if existing_ is not None:
             return existing_
@@ -32,11 +30,11 @@ class ContinentManager(Manager):
         try:
             self._session.add(continent_)
 
-            await self._session.flush()
+            self._session.flush()
 
             return continent_
         except SQLAlchemyError as e:
             print(e)
-            await self._session.rollback()
+            self._session.rollback()
 
             return None

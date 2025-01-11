@@ -1,7 +1,7 @@
 import asyncio
 from typing import Dict, List, Optional
 
-from sqlmodel.ext.asyncio.session import AsyncSession
+from sqlmodel import Session
 
 from adapter.restcountries.restcountries_adapter import RESTCountriesAdapter
 from client.restcountries.restcountries_client import RESTCountriesClient
@@ -12,8 +12,6 @@ from manager.currency.currency_manager import CurrencyManager
 
 
 class RESTCountriesSeeder:
-    _session: AsyncSession
-
     _restcountries_client: RESTCountriesClient
     _restcountries_adapter: RESTCountriesAdapter
 
@@ -23,11 +21,10 @@ class RESTCountriesSeeder:
 
     _prefer_cached: bool
 
-    def __init__(self, session: AsyncSession, restcountries_client: RESTCountriesClient,
+    def __init__(self, restcountries_client: RESTCountriesClient,
                  restcountries_adapter: RESTCountriesAdapter,
                  country_manager: CountryManager, currency_manager: CurrencyManager,
                  continent_manager: ContinentManager, *, prefer_cached: bool = True):
-        self._session = session
 
         self._restcountries_client = restcountries_client
         self._restcountries_adapter = restcountries_adapter
@@ -38,48 +35,45 @@ class RESTCountriesSeeder:
 
         self._prefer_cached = prefer_cached
 
-    async def seed_many(self) -> int:
+    async def seed_many(self):
         dict_list_: Optional[List[Dict]] = await self._restcountries_client.get_all()
 
-        entries_: int = 0
         if dict_list_ is not None:
             schema_list_ = self._restcountries_adapter.adapt_many(dict_list_)
 
             for country_schema_, currency_schema_list_, continent_schema_list_ in schema_list_:
-                country_model_ = await self._country_manager.persist(country_schema_)
+                country_model_ = self._country_manager.persist(country_schema_)
 
-                currency_model_list_ = [await self._currency_manager.persist(currency_schema_) for currency_schema_ in
+                currency_model_list_ = [self._currency_manager.persist(currency_schema_) for currency_schema_ in
                                         currency_schema_list_]
 
-                continent_model_list_ = [await self._continent_manager.persist(continent_schema_) for continent_schema_
+                country_model_.currency_list.extend(currency_model_list_)
+
+                continent_model_list_ = [self._continent_manager.persist(continent_schema_) for continent_schema_
                                          in continent_schema_list_]
 
-                if country_model_ is not None:
-                    entries_ += 1
-
-        await self._session.commit()
-
-        return entries_
+                country_model_.continent_list.extend(continent_model_list_)
 
 
 if __name__ == '__main__':
     async def execute():
         db = Database()
-        await db.create_tables(drop_all=True)
+        db.create_tables(drop_all=True)
 
         restcountries_client = RESTCountriesClient()
         restcountries_adapter = RESTCountriesAdapter()
 
-        async with AsyncSession(db.get_async_engine()) as session:
+        with Session(db.get_engine()) as session:
             country_manager = CountryManager(session)
             currency_manager = CurrencyManager(session)
             continent_manager = ContinentManager(session)
 
-            seeder = RESTCountriesSeeder(session, restcountries_client, restcountries_adapter, country_manager,
+            seeder = RESTCountriesSeeder(restcountries_client, restcountries_adapter, country_manager,
                                          currency_manager,
                                          continent_manager)
 
             print(await seeder.seed_many())
+            session.commit()
 
 
     asyncio.run(execute())
