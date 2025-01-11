@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Optional, TypeVar, Dict
+from typing import Optional, TypeVar, Dict, Any
 
 from pydantic import BaseModel
 from sqlmodel import SQLModel
@@ -16,5 +16,5 @@ class Manager(ABC):
         self._session = session
 
     @abstractmethod
-    async def persist(self, schema: BaseModelBound, keys: Optional[Dict] = None) -> Optional[SQLModelBound]:
+    async def persist(self, schema: BaseModelBound, foreign_keys: Optional[Dict[str, Any]] = None) -> Optional[SQLModelBound]:
         pass

@@ -1,4 +1,4 @@
-from typing import Optional, Dict
+from typing import Optional, Dict, Any
 
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -23,7 +23,7 @@ class CountryManager(Manager):
 
         return (await self._session.exec(query_)).first()
 
-    async def persist(self, schema: CountrySchema, keys: Optional[Dict] = None) -> Optional[Country]:
+    async def persist(self, schema: CountrySchema, foreign_keys: Optional[Dict[str, Any]] = None) -> Optional[Country]:
         country_ = Country(common_name=schema.name.common,
                            official_name=schema.name.official,
                            cca2=schema.iso_code.cca2,
