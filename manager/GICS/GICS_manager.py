@@ -4,7 +4,7 @@ from sqlmodel import Session, select
 
 from abstract.manager.manager import Manager
 from model.GICS.GICS import GICSSector, GICSIndustryGroup, GICSIndustry, GICSSubIndustry
-from schema.company.company import GICSSchema
+from schema.GICS.gics import GICSSchema
 
 
 class GICSSectorManager(Manager):

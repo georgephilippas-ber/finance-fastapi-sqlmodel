@@ -1,7 +1,7 @@
 from typing import Dict, Optional, List
 
 from abstract.adapter.adapter import Adapter
-from schema.company.company import GICSSchema
+from schema.GICS.gics import GICSSchema
 
 
 class GICSAdapter(Adapter):
