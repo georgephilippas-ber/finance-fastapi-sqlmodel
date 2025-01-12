@@ -7,8 +7,9 @@ from adapter.eodhd.ticker_adapter import TickerAdapter
 from adapter.restcountries.restcountries_adapter import RESTCountriesAdapter
 from client.eodhd.eodhd_client import EODHDClient
 from client.restcountries.restcountries_client import RESTCountriesClient
-from configuration.dependency import compile_seed_resolver, Entity
+from configuration.dependency import SEED_ENTITIES, ModelSliceEnum
 from core.dependency.dependency import Resolver
+from core.dependency.resolvers.compile import compile_resolver
 from database.database import Database
 from manager.continent.continent_manager import ContinentManager
 from manager.country.country_manager import CountryManager
@@ -45,11 +46,11 @@ async def seed(drop_all: bool = False):
                                     currency_manager_,
                                     exchange_manager_, ticker_manager_)
 
-        resolver_: Resolver = compile_seed_resolver()
+        resolver_: Resolver = compile_resolver(SEED_ENTITIES)
 
-        resolver_.add_callback(Entity.COUNTRY_CURRENCY.value, restcountries_seeder_.seed)
-        resolver_.add_callback(Entity.EXCHANGE.value, eodhd_seeder_.seed_exchange)
-        resolver_.add_callback(Entity.TICKER.value, eodhd_seeder_.seed_ticker)
+        resolver_.add_callback(ModelSliceEnum.COUNTRY_CURRENCY.value, restcountries_seeder_.seed)
+        resolver_.add_callback(ModelSliceEnum.EXCHANGE.value, eodhd_seeder_.seed_exchange)
+        resolver_.add_callback(ModelSliceEnum.TICKER.value, eodhd_seeder_.seed_ticker)
 
         await resolver_.process()
 

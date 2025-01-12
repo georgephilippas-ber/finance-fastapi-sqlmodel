@@ -20,7 +20,7 @@ class CurrencyManager(Manager):
     def persist(self, schema: CurrencySchema, foreign_keys: Optional[Dict[str, Any]] = None) -> Optional[
         Currency]:
         existing_ = self.retrieve_unique(schema)
-        print(existing_, schema)
+
         if existing_ is not None:
             self._session.flush()
             return existing_

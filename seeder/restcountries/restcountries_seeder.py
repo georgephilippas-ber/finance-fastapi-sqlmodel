@@ -1,16 +1,11 @@
-import asyncio
-from typing import Dict, List, Optional, TypeVar
-
-from sqlmodel import Session, SQLModel
+from typing import Dict, List, Optional
 
 from adapter.restcountries.restcountries_adapter import RESTCountriesAdapter
 from client.restcountries.restcountries_client import RESTCountriesClient
-from database.database import Database
+from core.utilities.sqlmodel_utilities import unique_models
 from manager.continent.continent_manager import ContinentManager
 from manager.country.country_manager import CountryManager
 from manager.currency.currency_manager import CurrencyManager
-
-
 
 
 class RESTCountriesSeeder:
@@ -51,14 +46,12 @@ class RESTCountriesSeeder:
                 currency_model_list_ = [self._currency_manager.persist(currency_schema_) for currency_schema_ in
                                         currency_schema_list_]
 
-                country_model_.currency_list = distinct_items(country_model_.currency_list, currency_model_list_)
+                country_model_.currency_list = unique_models(country_model_.currency_list, currency_model_list_)
 
                 continent_model_list_ = [self._continent_manager.persist(continent_schema_) for continent_schema_
                                          in continent_schema_list_]
 
-                # country_model_.continent_list.extend(continent_model_list_)
-
-                country_model_.continent_list = distinct_items(country_model_.continent_list, continent_model_list_)
+                country_model_.continent_list = unique_models(country_model_.continent_list, continent_model_list_)
 
 
 if __name__ == '__main__':
