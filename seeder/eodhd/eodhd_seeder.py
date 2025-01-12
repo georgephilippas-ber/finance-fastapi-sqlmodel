@@ -65,4 +65,5 @@ class EODHDSeeder:
         print("SEEDING - Company")
 
         for symbol_, exchange_ in self._ticker_manager.all():
-            print(symbol_, exchange_)
+            pass
+            # print(symbol_, exchange_)
