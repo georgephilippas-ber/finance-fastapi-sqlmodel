@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import inspect
 from dataclasses import dataclass
-from typing import List, Callable, Set, Optional, Never, Awaitable
+from typing import List, Callable, Set, Optional, Never, Awaitable, Iterable
 
 
 @dataclass
@@ -29,17 +29,20 @@ class Resolver:
 
     _debug: bool
 
-    def __init__(self, entry_list: Optional[List[Injectable]] = None, *, debug: bool = False):
+    def __init__(self, entry_set: Optional[List[Injectable]] = None, *, debug: bool = False):
         self._resolved_set = set()
         self._currently_processing_set = set()
 
-        self._entry_list = entry_list or []
+        self._entry_list = entry_set or []
 
         self._debug = debug
 
     def _clear(self):
         self._resolved_set.clear()
         self._currently_processing_set.clear()
+
+    def add_injectable(self, injectable: Injectable):
+        self._entry_list.append(injectable)
 
     async def _resolve(self, item: Injectable):
         if item.name in self._resolved_set:
@@ -73,13 +76,25 @@ class Resolver:
 
         raise DependencyNotFoundError
 
+    def add_dependencies(self, name: str, dependencies: Iterable[Injectable]):
+        for entry_ in self._entry_list:
+            if entry_.name == name:
+                for dependency in dependencies:
+                    entry_.dependencies.append(dependency)
+                return
+
+        raise DependencyNotFoundError
+
+    def injectable_by_name(self, name: str) -> Optional[Injectable]:
+        for entry_ in self._entry_list:
+            if entry_.name == name:
+                return entry_
+
+        return None
+
     async def process(self):
         for item in self._entry_list:
             await self._resolve(item)
-
-
-def print_name(s):
-    print(s)
 
 
 if __name__ == '__main__':

@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Dict
+from typing import Dict, Tuple, List
 
 from core.dependency.dependency import Resolver, Injectable
 
@@ -10,22 +10,21 @@ class Entity(str, Enum):
     TICKER = "ticker"
 
 
-SEED_ENTITIES: Dict[Entity, bool] = {
-    Entity.COUNTRY_CURRENCY: True,
-    Entity.EXCHANGE: True,
-    Entity.TICKER: True
+SEED_ENTITIES: Dict[Entity, Tuple[bool, List[Entity]]] = {
+    Entity.COUNTRY_CURRENCY: (True, []),
+    Entity.EXCHANGE: (True, [Entity.COUNTRY_CURRENCY]),
+    Entity.TICKER: (True, [Entity.EXCHANGE])
 }
 
 
 def compile_seed_resolver() -> Resolver:
-    country_currency_injectable_ = Injectable(name=Entity.COUNTRY_CURRENCY.value,
-                                              enabled=SEED_ENTITIES[Entity.COUNTRY_CURRENCY], dependencies=[],
-                                              callback=None)
+    resolver_: Resolver = Resolver()
 
-    exchange_injectable_ = Injectable(name=Entity.EXCHANGE.value, enabled=SEED_ENTITIES[Entity.EXCHANGE],
-                                      dependencies=[country_currency_injectable_], callback=None)
+    for entry_ in SEED_ENTITIES:
+        injectable_ = Injectable(name=entry_.value, enabled=SEED_ENTITIES[entry_][0], dependencies=[],
+                                 callback=None)
+        resolver_.add_injectable(injectable_)
+        resolver_.add_dependencies(entry_.value, map(lambda entity_: resolver_.injectable_by_name(entity_.value),
+                                                     SEED_ENTITIES[entry_][1]))
 
-    ticker_injectable_ = Injectable(name=Entity.TICKER.value, enabled=SEED_ENTITIES[Entity.TICKER],
-                                    dependencies=[exchange_injectable_], callback=None)
-
-    return Resolver([country_currency_injectable_, exchange_injectable_, ticker_injectable_])
+    return resolver_
