@@ -22,3 +22,5 @@ class Ticker(SQLModel, table=True):
     currency: Currency = Relationship(back_populates="ticker_list")
 
     instrument_type: InstrumentType = Field(nullable=False)
+
+    company: "Company" = Relationship(back_populates="ticker")

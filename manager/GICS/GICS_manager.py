@@ -66,6 +66,7 @@ class GICSIndustryGroupManager(Manager):
 
         if existing_ is not None:
             existing_.name = schema.industry_group
+            existing_.sector_id = foreign_keys['sector_id']
 
             self._session.flush()
             return existing_
@@ -115,6 +116,8 @@ class GICSIndustryManager(Manager):
 
         if existing_ is not None:
             existing_.name = schema.industry
+            existing_.sector_id = foreign_keys['sector_id']
+            existing_.industry_group_id = foreign_keys['industry_group_id']
 
             self._session.flush()
             return existing_
@@ -169,6 +172,9 @@ class GICSSubIndustryManager(Manager):
 
         if existing_ is not None:
             existing_.name = schema.sub_industry
+            existing_.sector_id = foreign_keys['sector_id']
+            existing_.industry_group_id = foreign_keys['industry_group_id']
+            existing_.industry_id = foreign_keys['industry_id']
 
             self._session.flush()
             return existing_
