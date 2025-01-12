@@ -71,10 +71,9 @@ async def seed(drop_all: bool = False):
         resolver_.add_callback(ModelSliceEnum.GICS, kaggle_seeder_.seed_gics)
         resolver_.add_callback(ModelSliceEnum.EXCHANGE.value, eodhd_seeder_.seed_exchange)
         resolver_.add_callback(ModelSliceEnum.TICKER.value, eodhd_seeder_.seed_ticker)
+        resolver_.add_callback(ModelSliceEnum.COMPANY.value, eodhd_seeder_.seed_company)
 
-        # await resolver_.process()
-
-        print(ticker_manager_.all())
+        await resolver_.process()
 
         session.commit()
 
