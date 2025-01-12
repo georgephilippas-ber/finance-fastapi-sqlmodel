@@ -57,4 +57,4 @@ async def seed(drop_all: bool = False):
 
 
 if __name__ == '__main__':
-    asyncio.run(seed(drop_all=True))
+    asyncio.run(seed(drop_all=False))

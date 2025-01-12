@@ -15,17 +15,13 @@ class CurrencyManager(Manager):
     def retrieve_unique(self, schema: CurrencySchema) -> Optional[Currency]:
         query_ = select(Currency).where(Currency.code == schema.code)
 
-        return (self._session.exec(query_)).first()
+        return self._session.exec(query_).first()
 
     def persist(self, schema: CurrencySchema, foreign_keys: Optional[Dict[str, Any]] = None) -> Optional[
         Currency]:
         existing_ = self.retrieve_unique(schema)
-
+        print(existing_, schema)
         if existing_ is not None:
-            existing_.name = schema.name
-            existing_.code = schema.code
-            existing_.symbol = schema.symbol
-
             self._session.flush()
             return existing_
 
