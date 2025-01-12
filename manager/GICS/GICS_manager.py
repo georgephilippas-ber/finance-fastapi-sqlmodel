@@ -37,7 +37,7 @@ class GICSSectorManager(Manager):
             self._session.rollback()
             return None
 
-    def by_id(self, id_: str) -> Optional[GICSSector]:
+    def by_id(self, id_: int) -> Optional[GICSSector]:
         query_ = select(GICSSector).where(GICSSector.id == id_)
 
         return self._session.exec(query_).first()
@@ -83,7 +83,7 @@ class GICSIndustryGroupManager(Manager):
             self._session.rollback()
             return None
 
-    def by_id(self, id_: str) -> Optional[GICSIndustryGroup]:
+    def by_id(self, id_: int) -> Optional[GICSIndustryGroup]:
         query_ = select(GICSIndustryGroup).where(GICSIndustryGroup.id == id_)
 
         return self._session.exec(query_).first()
@@ -133,7 +133,7 @@ class GICSIndustryManager(Manager):
             self._session.rollback()
             return None
 
-    def by_id(self, id_: str) -> Optional[GICSIndustry]:
+    def by_id(self, id_: int) -> Optional[GICSIndustry]:
         query_ = select(GICSIndustry).where(GICSIndustry.id == id_)
 
         return self._session.exec(query_).first()
@@ -188,7 +188,7 @@ class GICSSubIndustryManager(Manager):
             self._session.rollback()
             return None
 
-    def by_id(self, id_: str) -> Optional[GICSSubIndustry]:
+    def by_id(self, id_: int) -> Optional[GICSSubIndustry]:
         query_ = select(GICSSubIndustry).where(GICSSubIndustry.id == id_)
 
         return self._session.exec(query_).first()
