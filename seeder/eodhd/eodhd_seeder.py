@@ -1,7 +1,7 @@
 from adapter.eodhd.exchange_adapter import ExchangeAdapter
 from adapter.eodhd.ticker_adapter import TickerAdapter
 from client.eodhd.eodhd_client import EODHDClient
-from configuration.configuration import EODHD_EXCHANGES
+from configuration.eodhd.eodhd import EODHD_EXCHANGES
 from manager.country.country_manager import CountryManager
 from manager.currency.currency_manager import CurrencyManager
 from manager.exchange.exchange_manager import ExchangeManager
@@ -36,6 +36,8 @@ class EODHDSeeder:
         self._prefer_cached = prefer_cached
 
     async def seed_exchange(self):
+        print("SEEDING - Exchange")
+
         dict_list_ = await self._eodhd_client.exchanges_list()
         schema_list_ = self._eodhd_exchange_adapter.adapt_many(dict_list_)
 
@@ -48,6 +50,8 @@ class EODHDSeeder:
                                                                                     'currency_id': currency_.id})
 
     async def seed_ticker(self):
+        print("SEEDING - Ticker")
+
         dict_list_ = await self._eodhd_client.exchange_symbol_list_many(EODHD_EXCHANGES)
         schema_list_ = self._eodhd_ticker_adapter.adapt_many(dict_list_)
 

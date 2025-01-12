@@ -1,18 +1,23 @@
 from __future__ import annotations
 
+import inspect
 from dataclasses import dataclass
-from typing import List, Callable, Set, Optional
+from typing import List, Callable, Set, Optional, Never, Awaitable
 
 
 @dataclass
 class Injectable:
     name: str
     enabled: bool
-    callback: Callable[[str], None]
+    callback: Optional[Callable[[], Awaitable[None]]]
     dependencies: List[Injectable]
 
 
 class CircularDependencyError(Exception):
+    pass
+
+
+class DependencyNotFoundError(Exception):
     pass
 
 
@@ -36,7 +41,7 @@ class Resolver:
         self._resolved_set.clear()
         self._currently_processing_set.clear()
 
-    def _resolve(self, item: Injectable):
+    async def _resolve(self, item: Injectable):
         if item.name in self._resolved_set:
             return
 
@@ -46,20 +51,31 @@ class Resolver:
         self._currently_processing_set.add(item.name)
 
         for dependency in item.dependencies:
-            self._resolve(dependency)
+            await self._resolve(dependency)
 
         if item.enabled:
             if self._debug:
                 print(f"executing {item.name}")
-            item.callback(item.name)
+            if inspect.iscoroutinefunction(item.callback):
+                await item.callback()
+            else:
+                item.callback()
 
         self._resolved_set.add(item.name)
 
         self._currently_processing_set.remove(item.name)
 
-    def process(self):
+    def add_callback(self, name: str, callback: Callable[[], Awaitable[None]]):
+        for entry_ in self._entry_list:
+            if entry_.name == name:
+                entry_.callback = callback
+                return
+
+        raise DependencyNotFoundError
+
+    async def process(self):
         for item in self._entry_list:
-            self._resolve(item)
+            await self._resolve(item)
 
 
 def print_name(s):

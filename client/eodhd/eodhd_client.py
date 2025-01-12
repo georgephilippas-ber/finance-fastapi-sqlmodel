@@ -9,8 +9,8 @@ from urllib.parse import urljoin
 import httpx
 
 from abstract.client.client import Client
-from configuration.configuration import EODHD_DEMO, project_root
-from configuration.eodhd.eodhd import to_eodhd_exchange_code
+from configuration.configuration import project_root
+from configuration.eodhd.eodhd import to_eodhd_exchange_code, EODHD_DEMO
 from core.environment.environment import load_environment
 from exception.exception import APISecurityException
 

@@ -36,6 +36,8 @@ class RESTCountriesSeeder:
         self._prefer_cached = prefer_cached
 
     async def seed(self):
+        print("SEEDING - Country, Currency, Continent")
+
         dict_list_: Optional[List[Dict]] = await self._restcountries_client.get_all()
 
         if dict_list_ is not None:

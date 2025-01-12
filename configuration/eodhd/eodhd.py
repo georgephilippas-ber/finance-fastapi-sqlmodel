@@ -1,4 +1,4 @@
-from typing import Iterable
+from typing import Iterable, List
 
 UNITED_STATES_EXCHANGE_LIST = [
     {
@@ -58,3 +58,8 @@ def to_eodhd_exchange_code(exchange_code: str) -> str:
         return 'US'
     else:
         return exchange_code
+
+
+EODHD_DEMO: bool = False
+EODHD_EXCHANGES: List[str] = ["XETRA", "F"]
+EODHD_OVERRIDE_TICKERS = [("AAPL", "NASDAQ"), ("AMZN", "NASDAQ"), ("MSFT", "NASDAQ"), ("TSLA", "NASDAQ")]
