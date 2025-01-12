@@ -44,7 +44,6 @@ async def seed(drop_all: bool = False):
                                     exchange_manager_, ticker_manager_)
 
         await restcountries_seeder_.seed()
-
         await eodhd_seeder_.seed_exchange()
         await eodhd_seeder_.seed_ticker()
 
