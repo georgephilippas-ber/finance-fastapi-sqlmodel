@@ -1,11 +1,11 @@
-from typing import List
+from typing import List, Optional
 
 from sqlmodel import SQLModel, Field, Relationship
 
 
 class GICSSector(SQLModel, table=True):
     __tablename__ = 'GICSSector'
-    id: str = Field(primary_key=True)
+    id: Optional[str] = Field(primary_key=True)
     name: str = Field(nullable=False, unique=True)
 
     industry_groups: List["GICSIndustryGroup"] = Relationship(back_populates="sector")
@@ -18,7 +18,7 @@ class GICSSector(SQLModel, table=True):
 class GICSIndustryGroup(SQLModel, table=True):
     __tablename__ = 'GICSIndustryGroup'
 
-    id: str = Field(primary_key=True)
+    id: Optional[str] = Field(primary_key=True)
     name: str = Field(nullable=False, unique=True)
 
     sector_id: str = Field(foreign_key="GICSSector.id")
@@ -33,7 +33,7 @@ class GICSIndustryGroup(SQLModel, table=True):
 class GICSIndustry(SQLModel, table=True):
     __tablename__ = 'GICSIndustry'
 
-    id: str = Field(primary_key=True)
+    id: Optional[str] = Field(primary_key=True)
     name: str = Field(nullable=False, unique=True)
 
     sector_id: str = Field(foreign_key="GICSSector.id")
@@ -50,7 +50,7 @@ class GICSIndustry(SQLModel, table=True):
 class GICSSubIndustry(SQLModel, table=True):
     __tablename__ = 'GICSSubIndustry'
 
-    id: str = Field(primary_key=True)
+    id: Optional[str] = Field(primary_key=True)
     name: str = Field(nullable=False, unique=True)
 
     sector_id: str = Field(foreign_key="GICSSector.id")
