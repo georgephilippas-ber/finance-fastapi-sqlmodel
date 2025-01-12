@@ -70,7 +70,7 @@ class GICSIndustryGroupManager(Manager):
             self._session.flush()
             return existing_
 
-        industry_group_ = GICSIndustryGroup(name=schema.industry, sector_id=foreign_keys['sector_id'])
+        industry_group_ = GICSIndustryGroup(name=schema.industry_group, sector_id=foreign_keys['sector_id'])
 
         try:
             self._session.add(industry_group_)
@@ -173,7 +173,7 @@ class GICSSubIndustryManager(Manager):
             self._session.flush()
             return existing_
 
-        sub_industry_ = GICSSubIndustry(name=schema.industry, sector_id=foreign_keys['sector_id'],
+        sub_industry_ = GICSSubIndustry(name=schema.sub_industry, sector_id=foreign_keys['sector_id'],
                                         industry_group_id=foreign_keys['industry_group_id'],
                                         industry_id=foreign_keys['industry_id'])
 
