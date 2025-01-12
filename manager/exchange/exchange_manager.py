@@ -26,6 +26,12 @@ class ExchangeManager(Manager):
         existing_ = self.retrieve_unique(schema)
 
         if existing_ is not None:
+            existing_.name = schema.name
+            existing_.code = schema.code
+            existing_.country_id = foreign_keys['country_id']
+            existing_.currency_id = foreign_keys['currency_id']
+
+            self._session.flush()
             return existing_
 
         exchange_ = Exchange(name=schema.name, code=schema.code, country_id=foreign_keys['country_id'],

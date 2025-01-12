@@ -31,6 +31,17 @@ class CountryManager(Manager):
         existing_ = self.retrieve_unique(schema)
 
         if existing_ is not None:
+            existing_.common_name = schema.name.common
+            existing_.official_name = schema.name.official
+            existing_.cca2 = schema.iso_code.cca2
+            existing_.cca3 = schema.iso_code.cca3
+            existing_.latitude = schema.location.latitude
+            existing_.longitude = schema.location.longitude
+            existing_.capital = schema.capital
+            existing_.population = schema.population
+            existing_.flag_url = schema.flag_url
+
+            self._session.flush()
             return existing_
 
         country_ = Country(common_name=schema.name.common,

@@ -22,6 +22,11 @@ class CurrencyManager(Manager):
         existing_ = self.retrieve_unique(schema)
 
         if existing_ is not None:
+            existing_.name = schema.name
+            existing_.code = schema.code
+            existing_.symbol = schema.symbol
+
+            self._session.flush()
             return existing_
 
         currency_ = Currency(name=schema.name, code=schema.code, symbol=schema.symbol)

@@ -22,6 +22,14 @@ class TickerManager(Manager):
         existing_ = self.retrieve_unique(schema)
 
         if existing_ is not None:
+            existing_.code = schema.code
+            existing_.isin = schema.isin
+            existing_.name = schema.name
+            existing_.currency_id = foreign_keys['currency_id']
+            existing_.exchange_id = foreign_keys['exchange_id']
+            existing_.instrument_type = InstrumentType.from_str(schema.type)
+
+            self._session.flush()
             return existing_
 
         ticker_ = Ticker(code=schema.code, exchange_id=foreign_keys['exchange_id'], isin=schema.isin, name=schema.name,

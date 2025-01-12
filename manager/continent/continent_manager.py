@@ -23,6 +23,9 @@ class ContinentManager(Manager):
         existing_ = self.retrieve_unique(schema)
 
         if existing_ is not None:
+            existing_.name = schema.name
+
+            self._session.flush()
             return existing_
 
         continent_ = Continent(name=schema.name)
