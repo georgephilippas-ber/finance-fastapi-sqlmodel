@@ -22,8 +22,10 @@ class EODHDSeeder:
                  country_manager: CountryManager, currency_manager: CurrencyManager,
                  exchange_manager: ExchangeManager, *, prefer_cached: bool = True):
         self._eodhd_client = eodhd_client
+
         self._eodhd_exchange_adapter = eodhd_exchange_adapter
         self._eodhd_ticker_adapter = eodhd_ticker_adapter
+
         self._country_manager = country_manager
         self._currency_manager = currency_manager
         self._exchange_manager = exchange_manager
