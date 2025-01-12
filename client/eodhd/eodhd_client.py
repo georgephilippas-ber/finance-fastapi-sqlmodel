@@ -10,6 +10,7 @@ import httpx
 
 from abstract.client.client import Client
 from configuration.configuration import EODHD_DEMO, project_root
+from configuration.eodhd.eodhd import to_eodhd_exchange_code
 from core.environment.environment import load_environment
 from exception.exception import APISecurityException
 
@@ -83,11 +84,11 @@ class EODHDClient(Client):
         list_ = []
 
         for exchange_code_ in eodhd_exchange_code_list:
-            list_.extend(await self.exchange_symbol_list(exchange_code_, prefer_cached))
+            list_.extend(await self.exchange_symbol_list(exchange_code_, prefer_cached=prefer_cached))
 
         return list_
 
-    async def fundamentals(self, symbol: str, eodhd_exchange: str, *, prefer_cached: bool = True) -> Optional[Dict]:
+    async def _fundamentals(self, symbol: str, eodhd_exchange: str, *, prefer_cached: bool = True) -> Optional[Dict]:
         url_ = urljoin(self._base_url, f'/api/fundamentals/{symbol.upper()}.{eodhd_exchange.upper()}')
         cache_file_path_ = join(project_root(), "client", "cache", "eodhd", "fundamentals",
                                 f"{symbol.upper()}-{eodhd_exchange.upper()}.json")
@@ -110,10 +111,13 @@ class EODHDClient(Client):
             else:
                 return None
 
+    async def fundamentals(self, symbol: str, exchange_code: str, *, prefer_cached: bool = True) -> Optional[Dict]:
+        return await self._fundamentals(symbol, to_eodhd_exchange_code(exchange_code), prefer_cached=prefer_cached)
+
 
 if __name__ == '__main__':
     async def execute():
-        s = await EODHDClient().exchange_symbol_list('f')
+        s = await EODHDClient().fundamentals('CAR', 'F')
         print(s)
 
 

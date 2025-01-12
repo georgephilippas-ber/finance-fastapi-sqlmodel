@@ -10,8 +10,10 @@ from schema.ticker.ticker import InstrumentType
 class Ticker(SQLModel, table=True):
     id: Optional[int] = Field(primary_key=True)
 
-    code: str = Field(nullable=False)
     isin: Optional[str] = Field(nullable=True, unique=True)
+
+    code: str = Field(nullable=False)
+    name: str = Field(nullable=False)
 
     exchange_id: int = Field(foreign_key="exchange.id")
     exchange: Exchange = Relationship(back_populates="ticker_list")

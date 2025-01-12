@@ -17,9 +17,9 @@ from seeder.eodhd.eodhd_seeder import EODHDSeeder
 from seeder.restcountries.restcountries_seeder import RESTCountriesSeeder
 
 
-async def seed():
+async def seed(drop_all: bool = False):
     database_ = Database()
-    database_.create_tables(drop_all=True)
+    database_.create_tables(drop_all=drop_all)
 
     restcountries_client = RESTCountriesClient()
     eodhd_client = EODHDClient()
