@@ -5,6 +5,7 @@ from configuration.configuration import EODHD_EXCHANGES
 from manager.country.country_manager import CountryManager
 from manager.currency.currency_manager import CurrencyManager
 from manager.exchange.exchange_manager import ExchangeManager
+from manager.ticker.ticker_manager import TickerManager
 
 
 class EODHDSeeder:
@@ -14,13 +15,14 @@ class EODHDSeeder:
     _country_manager: CountryManager
     _currency_manager: CurrencyManager
     _exchange_manager: ExchangeManager
+    _ticker_manager: TickerManager
 
     _prefer_cached: bool = True
 
     def __init__(self, eodhd_client: EODHDClient, eodhd_exchange_adapter: ExchangeAdapter,
                  eodhd_ticker_adapter: TickerAdapter,
                  country_manager: CountryManager, currency_manager: CurrencyManager,
-                 exchange_manager: ExchangeManager, *, prefer_cached: bool = True):
+                 exchange_manager: ExchangeManager, ticker_manager: TickerManager, *, prefer_cached: bool = True):
         self._eodhd_client = eodhd_client
 
         self._eodhd_exchange_adapter = eodhd_exchange_adapter
@@ -29,6 +31,7 @@ class EODHDSeeder:
         self._country_manager = country_manager
         self._currency_manager = currency_manager
         self._exchange_manager = exchange_manager
+        self._ticker_manager = ticker_manager
 
         self._prefer_cached = prefer_cached
 
@@ -49,7 +52,7 @@ class EODHDSeeder:
         schema_list_ = self._eodhd_ticker_adapter.adapt_many(dict_list_)
 
         for ticker_schema_, exchange_schema_, currency_schema_ in schema_list_:
-            print(ticker_schema_)
-            print(exchange_schema_)
-            print(currency_schema_)
-            print()
+            exchange_ = self._exchange_manager.by_code(exchange_schema_.code)
+            currency_ = self._currency_manager.by_code(currency_schema_.code)
+
+            self._ticker_manager.persist(ticker_schema_, {'exchange_id': exchange_.id, 'currency_id': currency_.id})
