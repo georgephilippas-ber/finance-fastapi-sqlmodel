@@ -14,9 +14,9 @@ class Ticker(SQLModel, table=True):
     isin: Optional[str] = Field(nullable=True, unique=True)
 
     exchange_id: int = Field(foreign_key="exchange.id")
-    exchange: Exchange = Relationship(back_populates="tickers")
+    exchange: Exchange = Relationship(back_populates="ticker_list")
 
     currency_id: int = Field(foreign_key="currency.id")
-    currency: Currency = Relationship(back_populates="tickers")
+    currency: Currency = Relationship(back_populates="ticker_list")
 
     instrument_type: InstrumentType = Field(nullable=False)

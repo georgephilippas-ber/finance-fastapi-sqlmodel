@@ -12,6 +12,7 @@ from manager.continent.continent_manager import ContinentManager
 from manager.country.country_manager import CountryManager
 from manager.currency.currency_manager import CurrencyManager
 from manager.exchange.exchange_manager import ExchangeManager
+from manager.ticker.ticker_manager import TickerManager
 from seeder.eodhd.eodhd_seeder import EODHDSeeder
 from seeder.restcountries.restcountries_seeder import RESTCountriesSeeder
 
@@ -32,6 +33,7 @@ async def seed():
         currency_manager_ = CurrencyManager(session)
         continent_manager_ = ContinentManager(session)
         exchange_manager_ = ExchangeManager(session)
+        ticker_manager_ = TickerManager(session)
 
         restcountries_seeder_ = RESTCountriesSeeder(restcountries_client, restcountries_adapter, country_manager_,
                                                     currency_manager_,
@@ -39,7 +41,7 @@ async def seed():
 
         eodhd_seeder_ = EODHDSeeder(eodhd_client, eodhd_exchange_adapter, eodhd_ticker_adapter, country_manager_,
                                     currency_manager_,
-                                    exchange_manager_)
+                                    exchange_manager_, ticker_manager_)
 
         await restcountries_seeder_.seed()
 

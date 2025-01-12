@@ -17,3 +17,5 @@ class Exchange(SQLModel, table=True):
 
     currency_id: int = Field(foreign_key="currency.id")
     currency: Currency = Relationship(back_populates="exchange_list")
+
+    ticker_list: list["Ticker"] = Relationship(back_populates="exchange")

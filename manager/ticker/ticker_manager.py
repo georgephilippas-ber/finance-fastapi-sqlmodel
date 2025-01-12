@@ -24,7 +24,7 @@ class TickerManager(Manager):
         if existing_ is not None:
             return existing_
 
-        ticker_ = Ticker(code=schema.code, exchange_id=foreign_keys['exchange_id'],
+        ticker_ = Ticker(code=schema.code, exchange_id=foreign_keys['exchange_id'], isin=schema.isin,
                          currency_id=foreign_keys['currency_id'], instrument_type=InstrumentType.from_str(schema.type))
 
         try:
