@@ -42,7 +42,7 @@ async def seed(drop_all: bool = False):
         currency_manager_ = CurrencyManager(session)
         continent_manager_ = ContinentManager(session)
         exchange_manager_ = ExchangeManager(session)
-        ticker_manager_ = TickerManager(session)
+        ticker_manager_ = TickerManager(session, exchange_manager_)
 
         restcountries_seeder_ = RESTCountriesSeeder(restcountries_client, restcountries_adapter, country_manager_,
                                                     currency_manager_,
@@ -72,7 +72,9 @@ async def seed(drop_all: bool = False):
         resolver_.add_callback(ModelSliceEnum.EXCHANGE.value, eodhd_seeder_.seed_exchange)
         resolver_.add_callback(ModelSliceEnum.TICKER.value, eodhd_seeder_.seed_ticker)
 
-        await resolver_.process()
+        # await resolver_.process()
+
+        print(ticker_manager_.all())
 
         session.commit()
 

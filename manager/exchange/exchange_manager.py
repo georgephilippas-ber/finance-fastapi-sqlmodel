@@ -12,6 +12,11 @@ class ExchangeManager(Manager):
     def __init__(self, session: Session):
         super().__init__(session)
 
+    def by_id(self, id: int) -> Optional[Exchange]:
+        query_ = select(Exchange).where(Exchange.id == id)
+
+        return self._session.exec(query_).first()
+
     def by_code(self, code: str) -> Optional[Exchange]:
         query_ = select(Exchange).where(Exchange.code == code)
 

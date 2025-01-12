@@ -1,17 +1,22 @@
-from typing import Optional
+from typing import Optional, Tuple
 
 from sqlalchemy.exc import SQLAlchemyError
 from sqlmodel import Session
 from sqlmodel import select
 
 from abstract.manager.manager import Manager
+from manager.exchange.exchange_manager import ExchangeManager
 from model.ticker.ticker import Ticker
 from schema.ticker.ticker import TickerSchema, InstrumentType
 
 
 class TickerManager(Manager):
-    def __init__(self, session: Session):
+    _exchange_manager: ExchangeManager
+
+    def __init__(self, session: Session, exchange_manager: ExchangeManager):
         super().__init__(session)
+
+        self._exchange_manager = exchange_manager
 
     def retrieve_unique(self, schema: TickerSchema) -> Optional[Ticker]:
         query_ = select(Ticker).where(Ticker.isin == schema.isin)
@@ -46,3 +51,20 @@ class TickerManager(Manager):
             self._session.rollback()
 
             return None
+
+    def all(self) -> list[Tuple[str, str]]:
+        try:
+            query_ = select(Ticker)
+
+            results = self._session.exec(query_).all()
+
+            return [(ticker_.code, ticker_.exchange.code) for ticker_ in results]
+        except SQLAlchemyError as e:
+            print(e)
+            self._session.rollback()
+
+            return []
+
+
+if __name__ == '__main__':
+    pass

@@ -60,3 +60,7 @@ class EODHDSeeder:
             currency_ = self._currency_manager.by_code(currency_schema_.code)
 
             self._ticker_manager.persist(ticker_schema_, {'exchange_id': exchange_.id, 'currency_id': currency_.id})
+
+    async def seed_company(self):
+        print("SEEDING - Company")
+
