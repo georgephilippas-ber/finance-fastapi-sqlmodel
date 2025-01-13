@@ -108,7 +108,7 @@ class EODHDSeeder:
         print("SEEDING - Company, CompanySnapshotMetrics", end='')
 
         for symbol_, exchange_code_, ticker_id_ in self._ticker_manager.all(COMPANY_SAMPLE_SIZE):
-            dict_ = await self._eodhd_client.fundamentals(symbol_, exchange_code_, debug=True)
+            dict_ = await self._eodhd_client.fundamentals(symbol_, exchange_code_, debug=False)
             company_and_gics_schema_ = self._eodhd_company_adapter.adapt(dict_)
             company_snapshot_metrics_schema_ = self._eodhd_company_snapshot_metrics_adapter.adapt(dict_)
 
