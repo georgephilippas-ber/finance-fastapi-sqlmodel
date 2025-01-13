@@ -64,6 +64,5 @@ class EODHDSeeder:
     async def seed_company(self):
         print("SEEDING - Company")
 
-        for symbol_, exchange_ in self._ticker_manager.all():
-            pass
-            # print(symbol_, exchange_)
+        for symbol_, exchange_ in self._ticker_manager.all(10):
+            print(symbol_, exchange_)

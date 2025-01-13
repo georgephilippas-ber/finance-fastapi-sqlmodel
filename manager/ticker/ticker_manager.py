@@ -9,6 +9,8 @@ from manager.exchange.exchange_manager import ExchangeManager
 from model.ticker.ticker import Ticker
 from schema.ticker.ticker import TickerSchema, InstrumentType
 
+from random import sample
+
 
 class TickerManager(Manager):
     _exchange_manager: ExchangeManager
@@ -52,13 +54,16 @@ class TickerManager(Manager):
 
             return None
 
-    def all(self) -> list[Tuple[str, str]]:
+    def all(self, sample_size: Optional[int] = None) -> list[Tuple[str, str]]:
         try:
             query_ = select(Ticker)
 
-            results = self._session.exec(query_).all()
+            population_ = [(ticker_.code, ticker_.exchange.code) for ticker_ in self._session.exec(query_).all()]
 
-            return [(ticker_.code, ticker_.exchange.code) for ticker_ in results]
+            if sample_size is not None and sample_size < len(population_):
+                return sample(population_, sample_size)
+            else:
+                return population_
         except SQLAlchemyError as e:
             print(e)
             self._session.rollback()

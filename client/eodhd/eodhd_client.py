@@ -3,7 +3,7 @@ import json
 from http import HTTPStatus
 from os import environ
 from os.path import join
-from typing import Optional, List, Dict
+from typing import Optional, List, Dict, Tuple
 from urllib.parse import urljoin
 
 import httpx
@@ -113,6 +113,14 @@ class EODHDClient(Client):
 
     async def fundamentals(self, symbol: str, exchange_code: str, *, prefer_cached: bool = True) -> Optional[Dict]:
         return await self._fundamentals(symbol, to_eodhd_exchange_code(exchange_code), prefer_cached=prefer_cached)
+
+    async def fundamentals_many(self, ticker_list: List[Tuple[str, str]], *, prefer_cached: bool = True) -> List[Dict]:
+        fundamentals_list_ = []
+
+        for ticker_ in ticker_list:
+            fundamentals_list_.append(await self.fundamentals(ticker_[0], ticker_[1], prefer_cached=prefer_cached))
+
+        return fundamentals_list_
 
 
 if __name__ == '__main__':
