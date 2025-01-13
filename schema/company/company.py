@@ -17,7 +17,7 @@ class CompanySchema(BaseModel):
     fiscal_year_end: str
 
 
-class CompanySnapshotMetricsSchema:
+class CompanySnapshotMetricsSchema(BaseModel):
     market_capitalization: Decimal
     enterprise_value: Decimal
 

@@ -1,6 +1,7 @@
 from sqlmodel import Session
 
 from adapter.eodhd.company_adapter import CompanyAdapter
+from adapter.eodhd.company_snapshot_metrics_adapter import CompanySnapshotMetricsAdapter
 from adapter.eodhd.exchange_adapter import ExchangeAdapter
 from adapter.eodhd.ticker_adapter import TickerAdapter
 from client.eodhd.eodhd_client import EODHDClient
@@ -21,6 +22,7 @@ class EODHDSeeder:
     _eodhd_exchange_adapter: ExchangeAdapter
     _eodhd_ticker_adapter: TickerAdapter
     _eodhd_company_adapter: CompanyAdapter
+    _eodhd_company_snapshot_metrics_adapter: CompanySnapshotMetricsAdapter
 
     _country_manager: CountryManager
     _currency_manager: CurrencyManager
@@ -38,6 +40,7 @@ class EODHDSeeder:
 
     def __init__(self, eodhd_client: EODHDClient, eodhd_exchange_adapter: ExchangeAdapter,
                  eodhd_ticker_adapter: TickerAdapter, eodhd_company_adapter: CompanyAdapter,
+                 eodhd_company_snapshot_metrics_adapter: CompanySnapshotMetricsAdapter,
                  country_manager: CountryManager, currency_manager: CurrencyManager,
                  exchange_manager: ExchangeManager, ticker_manager: TickerManager, company_manager: CompanyManager,
                  gics_sector_manager: GICSSectorManager, gics_industry_group_manager: GICSIndustryGroupManager,
@@ -49,6 +52,7 @@ class EODHDSeeder:
         self._eodhd_exchange_adapter = eodhd_exchange_adapter
         self._eodhd_ticker_adapter = eodhd_ticker_adapter
         self._eodhd_company_adapter = eodhd_company_adapter
+        self._eodhd_company_snapshot_metrics_adapter = eodhd_company_snapshot_metrics_adapter
 
         self._country_manager = country_manager
         self._currency_manager = currency_manager

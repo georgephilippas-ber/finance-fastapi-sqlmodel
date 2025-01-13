@@ -9,7 +9,22 @@ class CompanySnapshotMetricsAdapter(Adapter):
         super().__init__()
 
     def adapt(self, json_: Dict) -> Optional[CompanySnapshotMetricsSchema]:
-        pass
+        try:
+            if json_.get('General', {}).get('Type') == 'Common Stock':
+                return CompanySnapshotMetricsSchema(
+                    market_capitalization=json_['Highlights']['MarketCapitalization'],
+                    enterprise_value=json_['Valuation']['EnterpriseValue'],
+                    return_on_assets=json_['Highlights']['ReturnOnAssetsTTM'],
+                    operating_profit_margin=json_['Highlights']['OperatingMarginTTM'],
+                    net_profit_margin=json_['Highlights']['ProfitMargin'],
+                    updated_at=json_['General']['UpdatedAt']
+                )
+        except KeyError as e:
+            print(e)
+
+            return None
+        else:
+            return None
 
     def adapt_many(self, json_list_: List[Dict]) -> List[CompanySnapshotMetricsSchema]:
-        pass
+        return [self.adapt(json_) for json_ in json_list_]
