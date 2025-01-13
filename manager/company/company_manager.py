@@ -1,7 +1,7 @@
 from typing import Optional
 
 from sqlalchemy.exc import SQLAlchemyError
-from sqlmodel import select
+from sqlmodel import select, Session
 
 from abstract.manager.manager import Manager, BaseModelBound, SQLModelBound
 from model.company.company import Company
@@ -9,8 +9,8 @@ from schema.company.company import CompanySchema
 
 
 class CompanyManager(Manager):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, session: Session):
+        super().__init__(session)
 
     def retrieve_unique(self, schema: CompanySchema) -> Optional[Company]:
         query_ = select(Company).where(Company.isin == schema.isin)
@@ -32,6 +32,7 @@ class CompanyManager(Manager):
                            homepage=schema.homepage, logo_url=schema.logo_url, employees=schema.employees,
                            description=schema.description,
                            fiscal_year_end=schema.fiscal_year_end,
+                           ticker_id=foreign_keys['ticker_id'],
                            gics_sector_id=foreign_keys['gics_sector_id'],
                            gics_industry_group_id=foreign_keys['gics_industry_group_id'],
                            gics_industry_id=foreign_keys['gics_industry_id'],

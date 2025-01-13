@@ -2,6 +2,7 @@ import asyncio
 
 from sqlmodel import Session
 
+from adapter.eodhd.company_adapter import CompanyAdapter
 from adapter.eodhd.exchange_adapter import ExchangeAdapter
 from adapter.eodhd.ticker_adapter import TickerAdapter
 from adapter.kaggle.gics_adapter import GICSAdapter
@@ -14,6 +15,7 @@ from core.dependency.resolvers.compile import compile_resolver
 from database.database import Database
 from manager.GICS.GICS_manager import GICSSectorManager, GICSIndustryGroupManager, GICSIndustryManager, \
     GICSSubIndustryManager
+from manager.company.company_manager import CompanyManager
 from manager.continent.continent_manager import ContinentManager
 from manager.country.country_manager import CountryManager
 from manager.currency.currency_manager import CurrencyManager
@@ -33,9 +35,10 @@ async def seed(drop_all: bool = False):
     restcountries_client = RESTCountriesClient()
     eodhd_client = EODHDClient()
 
-    restcountries_adapter = RESTCountriesAdapter()
-    eodhd_exchange_adapter = ExchangeAdapter()
-    eodhd_ticker_adapter = TickerAdapter()
+    restcountries_adapter_ = RESTCountriesAdapter()
+    eodhd_exchange_adapter_ = ExchangeAdapter()
+    eodhd_ticker_adapter_ = TickerAdapter()
+    eodhd_company_adapter_ = CompanyAdapter()
 
     with Session(database_.get_engine()) as session:
         country_manager_ = CountryManager(session)
@@ -43,14 +46,25 @@ async def seed(drop_all: bool = False):
         continent_manager_ = ContinentManager(session)
         exchange_manager_ = ExchangeManager(session)
         ticker_manager_ = TickerManager(session, exchange_manager_)
+        company_manager_ = CompanyManager(session)
 
-        restcountries_seeder_ = RESTCountriesSeeder(restcountries_client, restcountries_adapter, country_manager_,
+        gics_sector_manager_ = GICSSectorManager(session)
+        gics_industry_group_manager_ = GICSIndustryGroupManager(session, gics_sector_manager_)
+        gics_industry_manager_ = GICSIndustryManager(session, gics_sector_manager_, gics_industry_group_manager_)
+        gics_sub_industry_manager = GICSSubIndustryManager(session, gics_sector_manager_,
+                                                           gics_industry_group_manager_, gics_industry_manager_)
+
+        restcountries_seeder_ = RESTCountriesSeeder(restcountries_client, restcountries_adapter_, country_manager_,
                                                     currency_manager_,
                                                     continent_manager_)
 
-        eodhd_seeder_ = EODHDSeeder(eodhd_client, eodhd_exchange_adapter, eodhd_ticker_adapter, country_manager_,
+        eodhd_seeder_ = EODHDSeeder(eodhd_client, eodhd_exchange_adapter_, eodhd_ticker_adapter_,
+                                    eodhd_company_adapter_,
+                                    country_manager_,
                                     currency_manager_,
-                                    exchange_manager_, ticker_manager_)
+                                    exchange_manager_, ticker_manager_, company_manager_,
+                                    gics_sector_manager_, gics_industry_group_manager_, gics_industry_manager_,
+                                    gics_sub_industry_manager, session=session)
 
         kaggle_gics_adapter_ = GICSAdapter()
 

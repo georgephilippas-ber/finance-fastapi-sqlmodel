@@ -1,4 +1,4 @@
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple, Iterable
 
 from abstract.adapter.adapter import Adapter
 from schema.GICS.gics import GICSSchema
@@ -10,18 +10,27 @@ class CompanyAdapter(Adapter):
         super().__init__()
 
     def adapt(self, json_: Dict) -> Optional[Tuple[CompanySchema, GICSSchema]]:
-        return CompanySchema(
-            name=json_['General']['Name'],
-            isin=json_['General']['ISIN'],
-            address=json_['General']['Address'],
-            primary_ticker=json_['General']['PrimaryTicker'],
-            homepage=json_['General']['WebURL'],
-            logo_url=json_['General']['LogoURL'],
-            employees=json_['General']['FullTimeEmployees'],
-            description=json_['General']['Description'],
-            fiscal_year_end=json_['General']['FiscalYearEnd'],
-        ), GICSSchema(sector=json_['General']['GICSector'], industry=json_['General']['GICIndustry'],
-                      industry_group=json_['General']['GICGroup'], sub_industry=json_['General']['GICSubIndustry'])
+        try:
+            if json_.get('General', {}).get('Type') == 'Common Stock':
+                return CompanySchema(
+                    name=json_['General']['Name'],
+                    isin=json_['General']['ISIN'],
+                    address=json_['General']['Address'],
+                    primary_ticker=json_['General']['PrimaryTicker'],
+                    homepage=json_['General']['WebURL'],
+                    logo_url=json_['General']['LogoURL'],
+                    employees=json_['General']['FullTimeEmployees'],
+                    description=json_['General']['Description'],
+                    fiscal_year_end=json_['General']['FiscalYearEnd'],
+                ), GICSSchema(sector=json_['General']['GicSector'], industry=json_['General']['GicIndustry'],
+                              industry_group=json_['General']['GicGroup'],
+                              sub_industry=json_['General']['GicSubIndustry'])
+        except KeyError as e:
+            print(e)
 
-    def adapt_many(self, json_list_: List[Dict]) -> List[Tuple[CompanySchema, GICSSchema]]:
-        return [self.adapt(json_) for json_ in json_list_]
+            return None
+        else:
+            return None
+
+    def adapt_many(self, json_list_: List[Dict]) -> Iterable[Tuple[CompanySchema, GICSSchema]]:
+        return filter(lambda schema_tuple_: schema_tuple_ is not None, [self.adapt(json_) for json_ in json_list_])

@@ -54,11 +54,12 @@ class TickerManager(Manager):
 
             return None
 
-    def all(self, sample_size: Optional[int] = None) -> list[Tuple[str, str]]:
+    def all(self, sample_size: Optional[int] = None) -> list[Tuple[str, str, int]]:
         try:
             query_ = select(Ticker)
 
-            population_ = [(ticker_.code, ticker_.exchange.code) for ticker_ in self._session.exec(query_).all()]
+            population_ = [(ticker_.code, ticker_.exchange.code, ticker_.id) for ticker_ in
+                           self._session.exec(query_).all()]
 
             if sample_size is not None and sample_size < len(population_):
                 return sample(population_, sample_size)

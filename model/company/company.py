@@ -1,5 +1,6 @@
 from typing import Optional
 
+from sqlalchemy import String, Column
 from sqlmodel import SQLModel, Field, Relationship
 from model.GICS.GICS import GICSSector, GICSIndustryGroup, GICSIndustry, GICSSubIndustry
 from model.ticker.ticker import Ticker
@@ -11,11 +12,11 @@ class Company(SQLModel, table=True):
     name: str = Field(nullable=False)
     isin: str = Field(nullable=False, unique=True)
     address: str = Field(nullable=False)
-    primary_ticker: str = Field(nullable=False, unique=True)
+    primary_ticker: Optional[str] = Field(nullable=True, unique=True)
     homepage: Optional[str] = Field(nullable=True)
     logo_url: Optional[str] = Field(nullable=True)
     employees: Optional[int] = Field(nullable=True)
-    description: str = Field(nullable=False)
+    description: str = Field(sa_column=Column(String(length=0x1000), nullable=False))
     fiscal_year_end: str = Field(nullable=False)
 
     ticker_id: Optional[int] = Field(foreign_key="ticker.id")

@@ -13,7 +13,7 @@ class ModelSliceEnum(str, Enum):
 SEED_ENTITIES: Dict[ModelSliceEnum, Tuple[bool, List[ModelSliceEnum]]] = {
     ModelSliceEnum.COUNTRY_CURRENCY: (True, []),
     ModelSliceEnum.GICS: (True, []),
-    ModelSliceEnum.EXCHANGE: (True, [ModelSliceEnum.COUNTRY_CURRENCY]),
+    ModelSliceEnum.EXCHANGE: (False, [ModelSliceEnum.COUNTRY_CURRENCY]),
     ModelSliceEnum.TICKER: (False, [ModelSliceEnum.EXCHANGE]),
     ModelSliceEnum.COMPANY: (
         True, [ModelSliceEnum.TICKER, ModelSliceEnum.COUNTRY_CURRENCY, ModelSliceEnum.GICS, ModelSliceEnum.EXCHANGE])

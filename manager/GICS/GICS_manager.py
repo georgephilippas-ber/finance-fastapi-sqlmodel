@@ -20,12 +20,12 @@ class GICSSectorManager(Manager):
         existing_ = self.retrieve_unique(schema)
 
         if existing_ is not None:
-            existing_.name = schema.sector
+            existing_.name = schema.sector.strip()
 
             self._session.flush()
             return existing_
 
-        sector_ = GICSSector(name=schema.sector)
+        sector_ = GICSSector(name=schema.sector.strip())
 
         try:
             self._session.add(sector_)
@@ -65,13 +65,13 @@ class GICSIndustryGroupManager(Manager):
         existing_ = self.retrieve_unique(schema)
 
         if existing_ is not None:
-            existing_.name = schema.industry_group
+            existing_.name = schema.industry_group.strip()
             existing_.sector_id = foreign_keys['sector_id']
 
             self._session.flush()
             return existing_
 
-        industry_group_ = GICSIndustryGroup(name=schema.industry_group, sector_id=foreign_keys['sector_id'])
+        industry_group_ = GICSIndustryGroup(name=schema.industry_group.strip(), sector_id=foreign_keys['sector_id'])
 
         try:
             self._session.add(industry_group_)
@@ -115,14 +115,14 @@ class GICSIndustryManager(Manager):
         existing_ = self.retrieve_unique(schema)
 
         if existing_ is not None:
-            existing_.name = schema.industry
+            existing_.name = schema.industry.strip()
             existing_.sector_id = foreign_keys['sector_id']
             existing_.industry_group_id = foreign_keys['industry_group_id']
 
             self._session.flush()
             return existing_
 
-        industry_ = GICSIndustry(name=schema.industry, sector_id=foreign_keys['sector_id'],
+        industry_ = GICSIndustry(name=schema.industry.strip(), sector_id=foreign_keys['sector_id'],
                                  industry_group_id=foreign_keys['industry_group_id'])
 
         try:
@@ -171,7 +171,7 @@ class GICSSubIndustryManager(Manager):
         existing_ = self.retrieve_unique(schema)
 
         if existing_ is not None:
-            existing_.name = schema.sub_industry
+            existing_.name = schema.sub_industry.strip()
             existing_.sector_id = foreign_keys['sector_id']
             existing_.industry_group_id = foreign_keys['industry_group_id']
             existing_.industry_id = foreign_keys['industry_id']
@@ -179,7 +179,7 @@ class GICSSubIndustryManager(Manager):
             self._session.flush()
             return existing_
 
-        sub_industry_ = GICSSubIndustry(name=schema.sub_industry, sector_id=foreign_keys['sector_id'],
+        sub_industry_ = GICSSubIndustry(name=schema.sub_industry.strip(), sector_id=foreign_keys['sector_id'],
                                         industry_group_id=foreign_keys['industry_group_id'],
                                         industry_id=foreign_keys['industry_id'])
 

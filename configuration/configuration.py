@@ -13,5 +13,7 @@ def project_root() -> str:
 
 DATABASE_URL: str = f"mysql://root:development@localhost:3306/{PROJECT_NAME.replace('-', '_')}"
 
+COMPANY_SAMPLE_SIZE: int = 10
+
 if __name__ == "__main__":
     print(project_root())
