@@ -111,25 +111,30 @@ class EODHDSeeder:
 
         for symbol_, exchange_code_, ticker_id_ in self._ticker_manager.all(COMPANY_SAMPLE_SIZE):
             dict_ = await self._eodhd_client.fundamentals(symbol_, exchange_code_, debug=False)
-            company_and_gics_schema_ = self._eodhd_company_adapter.adapt(dict_)
+            company_and_gics_and_currency_schema_ = self._eodhd_company_adapter.adapt(dict_)
             company_snapshot_metrics_schema_ = self._eodhd_company_snapshot_metrics_adapter.adapt(dict_)
 
-            if company_and_gics_schema_ is not None and company_snapshot_metrics_schema_ is not None:
-                sector_ = self._gics_sector_manager.by_name(company_and_gics_schema_[1].sector)
-                industry_group_ = self._gics_industry_group_manager.by_name(company_and_gics_schema_[1].industry_group)
-                industry_ = self._gics_industry_manager.by_name(company_and_gics_schema_[1].industry)
-                sub_industry_ = self._gics_sub_industry_manager.by_name(company_and_gics_schema_[1].sub_industry)
+            if company_and_gics_and_currency_schema_ is not None and company_snapshot_metrics_schema_ is not None:
+                sector_ = self._gics_sector_manager.by_name(company_and_gics_and_currency_schema_[1].sector)
+                industry_group_ = self._gics_industry_group_manager.by_name(
+                    company_and_gics_and_currency_schema_[1].industry_group)
+                industry_ = self._gics_industry_manager.by_name(company_and_gics_and_currency_schema_[1].industry)
+                sub_industry_ = self._gics_sub_industry_manager.by_name(
+                    company_and_gics_and_currency_schema_[1].sub_industry)
 
-                if sector_ is not None and industry_group_ is not None and industry_ is not None and sub_industry_ is not None:
-                    company_ = self._company_manager.persist(company_and_gics_schema_[0],
+                currency_ = self._currency_manager.by_code(company_and_gics_and_currency_schema_[2].code)
+
+                if sector_ is not None and industry_group_ is not None and industry_ is not None and sub_industry_ is not None and currency_ is not None:
+                    company_ = self._company_manager.persist(company_and_gics_and_currency_schema_[0],
                                                              {'gics_sector_id': sector_.id, 'ticker_id': ticker_id_,
                                                               'gics_industry_group_id': industry_group_.id,
                                                               'gics_industry_id': industry_.id,
-                                                              'gics_subindustry_id': sub_industry_.id})
+                                                              'gics_subindustry_id': sub_industry_.id,
+                                                              'currency_id': currency_.id})
 
                     if company_ is not None:
                         company_snapshot_metrics_ = self._company_snapshot_metrics_manager.persist(
-                            (company_and_gics_schema_[0], company_snapshot_metrics_schema_),
+                            (company_and_gics_and_currency_schema_[0], company_snapshot_metrics_schema_),
                             {'company_id': company_.id})
                 else:
                     return None

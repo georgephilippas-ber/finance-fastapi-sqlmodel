@@ -37,11 +37,13 @@ class CompanyManager(Manager):
                            homepage=schema.homepage, logo_url=schema.logo_url, employees=schema.employees,
                            description=schema.description,
                            fiscal_year_end=schema.fiscal_year_end,
-                           ticker_id=foreign_keys['ticker_id'],
                            gics_sector_id=foreign_keys['gics_sector_id'],
                            gics_industry_group_id=foreign_keys['gics_industry_group_id'],
                            gics_industry_id=foreign_keys['gics_industry_id'],
-                           gics_subindustry_id=foreign_keys['gics_subindustry_id'])
+                           gics_subindustry_id=foreign_keys['gics_subindustry_id'],
+                           ticker_id=foreign_keys['ticker_id'],
+                           currency_id=foreign_keys['currency_id']
+                           )
 
         try:
             self._session.add(company_)
