@@ -1,5 +1,6 @@
 from typing import Optional, Tuple
 
+from sqlalchemy.exc import SQLAlchemyError
 from sqlmodel import Session, select
 
 from abstract.manager.manager import Manager
@@ -34,4 +35,32 @@ class CompanySnapshotMetricsManager(Manager):
 
     def persist(self, schema_tuple: Tuple[CompanySchema, CompanySnapshotMetricsSchema],
                 foreign_keys: Optional[dict] = None) -> Optional[CompanySnapshotMetrics]:
-        pass
+        existing_ = self.retrieve_unique(schema_tuple)
+
+        if existing_ is not None:
+            self._session.flush()
+            return existing_
+
+        company_schema_, company_snapshot_metrics_schema_ = schema_tuple
+
+        company_snapshot_metrics_ = CompanySnapshotMetrics(
+            market_capitalization=company_snapshot_metrics_schema_.market_capitalization,
+            enterprise_value=company_snapshot_metrics_schema_.enterprise_value,
+            return_on_assets=company_snapshot_metrics_schema_.return_on_assets,
+            operating_profit_margin=company_snapshot_metrics_schema_.operating_profit_margin,
+            net_profit_margin=company_snapshot_metrics_schema_.net_profit_margin,
+            updated_at=company_snapshot_metrics_schema_.updated_at,
+            company_id=foreign_keys['company_id']
+        )
+
+        try:
+            self._session.add(company_snapshot_metrics_)
+
+            self._session.flush()
+
+            return company_snapshot_metrics_
+        except SQLAlchemyError as e:
+            print(e)
+            self._session.rollback()
+
+            return None

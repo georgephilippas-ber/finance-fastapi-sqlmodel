@@ -33,3 +33,5 @@ class Company(SQLModel, table=True):
 
     gics_subindustry_id: Optional[int] = Field(foreign_key="GICSSubIndustry.id")
     gics_subindustry: Optional[GICSSubIndustry] = Relationship(back_populates="companies")
+
+    company_snapshot_metrics: "CompanySnapshotMetrics" = Relationship(back_populates="company")

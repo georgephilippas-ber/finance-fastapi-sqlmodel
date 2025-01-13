@@ -1,8 +1,10 @@
 from typing import Optional
-from sqlmodel import SQLModel, Field
+from sqlmodel import SQLModel, Field, Relationship
 
 from decimal import Decimal
 from datetime import date
+
+from model.company.company import Company
 
 
 class CompanySnapshotMetrics(SQLModel, table=True):
@@ -17,3 +19,6 @@ class CompanySnapshotMetrics(SQLModel, table=True):
     net_profit_margin: float = Field(nullable=False)
 
     updated_at: date = Field(nullable=False)
+
+    company_id: int = Field(foreign_key="company.id")
+    company: Company = Relationship(back_populates="snapshot_metrics")
