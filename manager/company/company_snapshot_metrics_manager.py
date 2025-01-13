@@ -27,7 +27,7 @@ class CompanySnapshotMetricsManager(Manager):
         if existing_company_ is not None:
             query_ = select(CompanySnapshotMetrics).where(
                 (and_(CompanySnapshotMetrics.company_id == existing_company_.id,
-                      CompanySnapshotMetrics.updated_at == company_snapshot_metrics_schema_.date)))
+                      CompanySnapshotMetrics.updated_at == company_snapshot_metrics_schema_.updated_at)))
 
             return self._session.exec(query_).first()
         else:

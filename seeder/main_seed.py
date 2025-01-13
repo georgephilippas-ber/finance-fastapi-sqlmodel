@@ -3,6 +3,7 @@ import asyncio
 from sqlmodel import Session
 
 from adapter.eodhd.company_adapter import CompanyAdapter
+from adapter.eodhd.company_snapshot_metrics_adapter import CompanySnapshotMetricsAdapter
 from adapter.eodhd.exchange_adapter import ExchangeAdapter
 from adapter.eodhd.ticker_adapter import TickerAdapter
 from adapter.kaggle.gics_adapter import GICSAdapter
@@ -16,6 +17,7 @@ from database.database import Database
 from manager.GICS.GICS_manager import GICSSectorManager, GICSIndustryGroupManager, GICSIndustryManager, \
     GICSSubIndustryManager
 from manager.company.company_manager import CompanyManager
+from manager.company.company_snapshot_metrics_manager import CompanySnapshotMetricsManager
 from manager.continent.continent_manager import ContinentManager
 from manager.country.country_manager import CountryManager
 from manager.currency.currency_manager import CurrencyManager
@@ -39,6 +41,7 @@ async def seed(drop_all: bool = False):
     eodhd_exchange_adapter_ = ExchangeAdapter()
     eodhd_ticker_adapter_ = TickerAdapter()
     eodhd_company_adapter_ = CompanyAdapter()
+    eodhd_company_snapshot_metrics_adapter_ = CompanySnapshotMetricsAdapter()
 
     with Session(database_.get_engine()) as session:
         country_manager_ = CountryManager(session)
@@ -46,7 +49,9 @@ async def seed(drop_all: bool = False):
         continent_manager_ = ContinentManager(session)
         exchange_manager_ = ExchangeManager(session)
         ticker_manager_ = TickerManager(session, exchange_manager_)
+
         company_manager_ = CompanyManager(session)
+        company_snapshot_metrics_manager_ = CompanySnapshotMetricsManager(session, company_manager_)
 
         gics_sector_manager_ = GICSSectorManager(session)
         gics_industry_group_manager_ = GICSIndustryGroupManager(session, gics_sector_manager_)
@@ -59,10 +64,11 @@ async def seed(drop_all: bool = False):
                                                     continent_manager_)
 
         eodhd_seeder_ = EODHDSeeder(eodhd_client, eodhd_exchange_adapter_, eodhd_ticker_adapter_,
-                                    eodhd_company_adapter_,
+                                    eodhd_company_adapter_, eodhd_company_snapshot_metrics_adapter_,
                                     country_manager_,
                                     currency_manager_,
                                     exchange_manager_, ticker_manager_, company_manager_,
+                                    company_snapshot_metrics_manager_,
                                     gics_sector_manager_, gics_industry_group_manager_, gics_industry_manager_,
                                     gics_sub_industry_manager, session=session)
 
@@ -85,7 +91,8 @@ async def seed(drop_all: bool = False):
         resolver_.add_callback(ModelSliceEnum.GICS, kaggle_seeder_.seed_gics)
         resolver_.add_callback(ModelSliceEnum.EXCHANGE.value, eodhd_seeder_.seed_exchange)
         resolver_.add_callback(ModelSliceEnum.TICKER.value, eodhd_seeder_.seed_ticker)
-        resolver_.add_callback(ModelSliceEnum.COMPANY.value, eodhd_seeder_.seed_company)
+        resolver_.add_callback(ModelSliceEnum.COMPANY_AND_COMPANY_SNAPSHOT_METRICS.value,
+                               eodhd_seeder_.seed_company_and_company_snapshot_metrics)
 
         await resolver_.process()
 

@@ -21,4 +21,4 @@ class CompanySnapshotMetrics(SQLModel, table=True):
     updated_at: date = Field(nullable=False)
 
     company_id: int = Field(foreign_key="company.id")
-    company: Company = Relationship(back_populates="snapshot_metrics")
+    company: Company = Relationship(back_populates="company_snapshot_metrics")

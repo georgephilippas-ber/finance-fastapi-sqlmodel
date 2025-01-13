@@ -1,5 +1,7 @@
 from typing import Dict, List, Optional, Tuple, Iterable
 
+from pydantic import ValidationError
+
 from abstract.adapter.adapter import Adapter
 from schema.GICS.gics import GICSSchema
 from schema.company.company import CompanySchema
@@ -25,7 +27,7 @@ class CompanyAdapter(Adapter):
                 ), GICSSchema(sector=json_['General']['GicSector'], industry=json_['General']['GicIndustry'],
                               industry_group=json_['General']['GicGroup'],
                               sub_industry=json_['General']['GicSubIndustry'])
-        except KeyError as e:
+        except (KeyError, ValidationError) as e:
             print(e)
 
             return None

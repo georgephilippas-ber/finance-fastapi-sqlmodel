@@ -10,6 +10,7 @@ from configuration.eodhd.eodhd import EODHD_EXCHANGES
 from manager.GICS.GICS_manager import GICSSectorManager, GICSIndustryGroupManager, GICSIndustryManager, \
     GICSSubIndustryManager
 from manager.company.company_manager import CompanyManager
+from manager.company.company_snapshot_metrics_manager import CompanySnapshotMetricsManager
 from manager.country.country_manager import CountryManager
 from manager.currency.currency_manager import CurrencyManager
 from manager.exchange.exchange_manager import ExchangeManager
@@ -28,7 +29,9 @@ class EODHDSeeder:
     _currency_manager: CurrencyManager
     _exchange_manager: ExchangeManager
     _ticker_manager: TickerManager
+
     _company_manager: CompanyManager
+    _company_snapshot_metrics_manager: CompanySnapshotMetricsManager
 
     _gics_sector_manager: GICSSectorManager
     _gics_industry_group_manager: GICSIndustryGroupManager
@@ -42,7 +45,8 @@ class EODHDSeeder:
                  eodhd_ticker_adapter: TickerAdapter, eodhd_company_adapter: CompanyAdapter,
                  eodhd_company_snapshot_metrics_adapter: CompanySnapshotMetricsAdapter,
                  country_manager: CountryManager, currency_manager: CurrencyManager,
-                 exchange_manager: ExchangeManager, ticker_manager: TickerManager, company_manager: CompanyManager,
+                 exchange_manager: ExchangeManager, ticker_manager: TickerManager,
+                 company_manager: CompanyManager, company_snapshot_metrics_manager: CompanySnapshotMetricsManager,
                  gics_sector_manager: GICSSectorManager, gics_industry_group_manager: GICSIndustryGroupManager,
                  gics_industry_manager: GICSIndustryManager, gics_sub_industry_manager: GICSSubIndustryManager, *,
                  session: Session,
@@ -58,7 +62,9 @@ class EODHDSeeder:
         self._currency_manager = currency_manager
         self._exchange_manager = exchange_manager
         self._ticker_manager = ticker_manager
+
         self._company_manager = company_manager
+        self._company_snapshot_metrics_manager = company_snapshot_metrics_manager
 
         self._gics_sector_manager = gics_sector_manager
         self._gics_industry_group_manager = gics_industry_group_manager
@@ -98,23 +104,33 @@ class EODHDSeeder:
         self._session.commit()
         print(' - Done')
 
-    async def seed_company(self):
-        print("SEEDING - Company", end='')
+    async def seed_company_and_company_snapshot_metrics(self):
+        print("SEEDING - Company, CompanySnapshotMetrics", end='')
 
         for symbol_, exchange_code_, ticker_id_ in self._ticker_manager.all(COMPANY_SAMPLE_SIZE):
             dict_ = await self._eodhd_client.fundamentals(symbol_, exchange_code_, debug=False)
             company_and_gics_schema_ = self._eodhd_company_adapter.adapt(dict_)
+            company_snapshot_metrics_schema_ = self._eodhd_company_snapshot_metrics_adapter.adapt(dict_)
 
-            if company_and_gics_schema_ is not None:
+            if company_and_gics_schema_ is not None and company_snapshot_metrics_schema_ is not None:
                 sector_ = self._gics_sector_manager.by_name(company_and_gics_schema_[1].sector)
                 industry_group_ = self._gics_industry_group_manager.by_name(company_and_gics_schema_[1].industry_group)
                 industry_ = self._gics_industry_manager.by_name(company_and_gics_schema_[1].industry)
                 sub_industry_ = self._gics_sub_industry_manager.by_name(company_and_gics_schema_[1].sub_industry)
 
-                self._company_manager.persist(company_and_gics_schema_[0],
-                                              {'gics_sector_id': sector_.id, 'ticker_id': ticker_id_,
-                                               'gics_industry_group_id': industry_group_.id,
-                                               'gics_industry_id': industry_.id,
-                                               'gics_subindustry_id': sub_industry_.id})
+                if sector_ is not None and industry_group_ is not None and industry_ is not None and sub_industry_ is not None:
+                    company_ = self._company_manager.persist(company_and_gics_schema_[0],
+                                                             {'gics_sector_id': sector_.id, 'ticker_id': ticker_id_,
+                                                              'gics_industry_group_id': industry_group_.id,
+                                                              'gics_industry_id': industry_.id,
+                                                              'gics_subindustry_id': sub_industry_.id})
+
+                    if company_ is not None:
+                        company_snapshot_metrics_ = self._company_snapshot_metrics_manager.persist(
+                            (company_and_gics_schema_[0], company_snapshot_metrics_schema_),
+                            {'company_id': company_.id})
+                else:
+                    return None
+
         self._session.commit()
         print(' - Done')
