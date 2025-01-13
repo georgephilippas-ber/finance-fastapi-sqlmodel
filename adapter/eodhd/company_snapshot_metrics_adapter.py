@@ -1,5 +1,7 @@
 from typing import List, Dict, Optional
 
+from pydantic import ValidationError
+
 from abstract.adapter.adapter import Adapter
 from schema.company.company import CompanySnapshotMetricsSchema
 
@@ -19,7 +21,7 @@ class CompanySnapshotMetricsAdapter(Adapter):
                     net_profit_margin=json_['Highlights']['ProfitMargin'],
                     updated_at=json_['General']['UpdatedAt']
                 )
-        except KeyError as e:
+        except (KeyError, ValidationError) as e:
             print(e)
 
             return None
