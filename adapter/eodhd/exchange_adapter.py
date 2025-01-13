@@ -1,7 +1,7 @@
 from typing import Dict, List
 
 from abstract.adapter.adapter import Adapter
-from configuration.eodhd.eodhd import UNITED_STATES_EXCHANGE_LIST
+from configuration.client.eodhd import UNITED_STATES_EXCHANGE_LIST
 from schema.exchange.exchange import ExchangeSchema
 
 

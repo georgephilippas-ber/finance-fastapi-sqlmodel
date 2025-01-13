@@ -5,13 +5,14 @@ from pydantic import ValidationError
 from abstract.adapter.adapter import Adapter
 from schema.GICS.gics import GICSSchema
 from schema.company.company import CompanySchema
+from schema.currency.currency import CurrencySchema
 
 
 class CompanyAdapter(Adapter):
     def __init__(self, ):
         super().__init__()
 
-    def adapt(self, json_: Dict) -> Optional[Tuple[CompanySchema, GICSSchema]]:
+    def adapt(self, json_: Dict) -> Optional[Tuple[CompanySchema, GICSSchema, CurrencySchema]]:
         try:
             if json_.get('General', {}).get('Type') == 'Common Stock':
                 return CompanySchema(
@@ -26,7 +27,8 @@ class CompanyAdapter(Adapter):
                     fiscal_year_end=json_['General']['FiscalYearEnd'],
                 ), GICSSchema(sector=json_['General']['GicSector'], industry=json_['General']['GicIndustry'],
                               industry_group=json_['General']['GicGroup'],
-                              sub_industry=json_['General']['GicSubIndustry'])
+                              sub_industry=json_['General']['GicSubIndustry']), CurrencySchema(
+                    code=json_['General']['CurrencyCode'])
         except (KeyError, ValidationError) as e:
             print(e)
 
@@ -34,5 +36,5 @@ class CompanyAdapter(Adapter):
         else:
             return None
 
-    def adapt_many(self, json_list_: List[Dict]) -> Iterable[Tuple[CompanySchema, GICSSchema]]:
+    def adapt_many(self, json_list_: List[Dict]) -> Iterable[Tuple[CompanySchema, GICSSchema, CurrencySchema]]:
         return filter(lambda schema_tuple_: schema_tuple_ is not None, [self.adapt(json_) for json_ in json_list_])

@@ -3,6 +3,7 @@ from typing import Optional
 from sqlalchemy import String, Column
 from sqlmodel import SQLModel, Field, Relationship
 from model.GICS.GICS import GICSSector, GICSIndustryGroup, GICSIndustry, GICSSubIndustry
+from model.currency.currency import Currency
 from model.ticker.ticker import Ticker
 
 
@@ -33,5 +34,8 @@ class Company(SQLModel, table=True):
 
     gics_subindustry_id: Optional[int] = Field(foreign_key="GICSSubIndustry.id")
     gics_subindustry: Optional[GICSSubIndustry] = Relationship(back_populates="companies")
+
+    currency_id: Optional[int] = Field(foreign_key="currency.id")
+    currency: Optional[Currency] = Relationship(back_populates="company_list")
 
     company_snapshot_metrics: "CompanySnapshotMetrics" = Relationship(back_populates="company")

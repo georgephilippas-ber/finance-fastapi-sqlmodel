@@ -16,3 +16,5 @@ class Currency(SQLModel, table=True):
 
     exchange_list: List["Exchange"] = Relationship(back_populates="currency")
     ticker_list: list["Ticker"] = Relationship(back_populates="currency")
+
+    company_list: list["Company"] = Relationship(back_populates="currency")

@@ -10,7 +10,7 @@ from adapter.kaggle.gics_adapter import GICSAdapter
 from adapter.restcountries.restcountries_adapter import RESTCountriesAdapter
 from client.eodhd.eodhd_client import EODHDClient
 from client.restcountries.restcountries_client import RESTCountriesClient
-from configuration.dependency import SEED_ENTITIES, ModelSliceEnum
+from configuration.seed import SEED_ENTITIES, ModelSliceEnum, DROP_ALL_TABLES_BEFORE_SEEDING
 from core.dependency.dependency import Resolver
 from core.dependency.resolvers.compile import compile_resolver
 from database.database import Database
@@ -26,8 +26,6 @@ from manager.ticker.ticker_manager import TickerManager
 from seeder.eodhd.eodhd_seeder import EODHDSeeder
 from seeder.kaggle.kaggle_seeder import KaggleSeeder
 from seeder.restcountries.restcountries_seeder import RESTCountriesSeeder
-
-from model.company.company import Company
 
 
 async def seed(drop_all: bool = False):
@@ -100,4 +98,4 @@ async def seed(drop_all: bool = False):
 
 
 if __name__ == '__main__':
-    asyncio.run(seed(drop_all=False))
+    asyncio.run(seed(drop_all=DROP_ALL_TABLES_BEFORE_SEEDING))

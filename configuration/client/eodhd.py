@@ -1,4 +1,4 @@
-from typing import Iterable, List
+from typing import List
 
 UNITED_STATES_EXCHANGE_LIST = [
     {
@@ -48,18 +48,6 @@ UNITED_STATES_EXCHANGE_LIST = [
     }
 ]
 
-
-def supported_united_states_exchange_code_list() -> Iterable[str]:
-    return map(lambda exchange: exchange['Code'], UNITED_STATES_EXCHANGE_LIST)
-
-
-def to_eodhd_exchange_code(exchange_code: str) -> str:
-    if exchange_code in supported_united_states_exchange_code_list():
-        return 'US'
-    else:
-        return exchange_code
-
-
 EODHD_DEMO: bool = False
-EODHD_EXCHANGES: List[str] = ["XETRA", "F"]
+EODHD_EXCHANGES: List[str] = ["US", ]
 EODHD_OVERRIDE_TICKERS = [("AAPL", "NASDAQ"), ("AMZN", "NASDAQ"), ("MSFT", "NASDAQ"), ("TSLA", "NASDAQ")]

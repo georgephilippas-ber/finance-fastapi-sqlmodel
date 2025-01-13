@@ -5,8 +5,8 @@ from adapter.eodhd.company_snapshot_metrics_adapter import CompanySnapshotMetric
 from adapter.eodhd.exchange_adapter import ExchangeAdapter
 from adapter.eodhd.ticker_adapter import TickerAdapter
 from client.eodhd.eodhd_client import EODHDClient
-from configuration.configuration import COMPANY_SAMPLE_SIZE
-from configuration.eodhd.eodhd import EODHD_EXCHANGES
+from configuration.seed import COMPANY_SAMPLE_SIZE
+from configuration.client.eodhd import EODHD_EXCHANGES
 from manager.GICS.GICS_manager import GICSSectorManager, GICSIndustryGroupManager, GICSIndustryManager, \
     GICSSubIndustryManager
 from manager.company.company_manager import CompanyManager
@@ -100,7 +100,9 @@ class EODHDSeeder:
             exchange_ = self._exchange_manager.by_code(exchange_schema_.code)
             currency_ = self._currency_manager.by_code(currency_schema_.code)
 
-            self._ticker_manager.persist(ticker_schema_, {'exchange_id': exchange_.id, 'currency_id': currency_.id})
+            if exchange_ is not None and currency_ is not None:
+                self._ticker_manager.persist(ticker_schema_, {'exchange_id': exchange_.id, 'currency_id': currency_.id})
+
         self._session.commit()
         print(' - Done')
 

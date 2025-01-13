@@ -10,11 +10,15 @@ class ModelSliceEnum(str, Enum):
     COMPANY_AND_COMPANY_SNAPSHOT_METRICS = "company_and_company_snapshot_metrics"
 
 
+DROP_ALL_TABLES_BEFORE_SEEDING: bool = True
+
 SEED_ENTITIES: Dict[ModelSliceEnum, Tuple[bool, List[ModelSliceEnum]]] = {
     ModelSliceEnum.COUNTRY_CURRENCY: (True, []),
     ModelSliceEnum.GICS: (True, []),
-    ModelSliceEnum.EXCHANGE: (False, [ModelSliceEnum.COUNTRY_CURRENCY]),
-    ModelSliceEnum.TICKER: (False, [ModelSliceEnum.EXCHANGE]),
+    ModelSliceEnum.EXCHANGE: (True, [ModelSliceEnum.COUNTRY_CURRENCY]),
+    ModelSliceEnum.TICKER: (True, [ModelSliceEnum.EXCHANGE]),
     ModelSliceEnum.COMPANY_AND_COMPANY_SNAPSHOT_METRICS: (
         True, [ModelSliceEnum.TICKER, ModelSliceEnum.COUNTRY_CURRENCY, ModelSliceEnum.GICS, ModelSliceEnum.EXCHANGE])
 }
+
+COMPANY_SAMPLE_SIZE: int = 20
