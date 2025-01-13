@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Optional, TypeVar, TypedDict, Dict, Any
+from typing import Optional, TypeVar, TypedDict, Dict, Any, Iterable
 
 from pydantic import BaseModel
 from sqlmodel import SQLModel, Session
@@ -15,7 +15,7 @@ class Manager(ABC):
         self._session = session
 
     @abstractmethod
-    async def retrieve_unique(self, schema: BaseModelBound) -> Optional[SQLModelBound]:
+    async def retrieve_unique(self, schema: BaseModelBound | Iterable[BaseModelBound]) -> Optional[SQLModelBound]:
         return None
 
     @abstractmethod

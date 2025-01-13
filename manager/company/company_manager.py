@@ -12,10 +12,15 @@ class CompanyManager(Manager):
     def __init__(self, session: Session):
         super().__init__(session)
 
+    def by_isin(self, isin: str) -> Optional[Company]:
+        query_ = select(Company).where(Company.isin == isin)
+
+        return (self._session.exec(query_)).first()
+
     def retrieve_unique(self, schema: CompanySchema) -> Optional[Company]:
         query_ = select(Company).where(Company.isin == schema.isin)
 
-        return (self._session.exec(query_)).first()
+        return self._session.exec(query_).first()
 
     def persist(self, schema: CompanySchema, foreign_keys: Optional[dict] = None) -> Optional[Company]:
         existing_ = self.retrieve_unique(schema)
