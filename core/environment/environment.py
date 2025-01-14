@@ -1,3 +1,4 @@
+from enum import Enum
 from os.path import join
 
 from dotenv import load_dotenv
@@ -18,5 +19,6 @@ def load_environment() -> bool:
         return load_dotenv(join(project_root(), 'secret', '.env'))
 
 
-if __name__ == '__main__':
-    pass
+class EnvironmentType(Enum):
+    DEVELOPMENT = "development"
+    PRODUCTION = "production"

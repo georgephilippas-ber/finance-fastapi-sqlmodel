@@ -1,4 +1,4 @@
-from configuration.root import EnvironmentType
+from core.environment.environment import EnvironmentType
 from configuration.root import ENVIRONMENT
 
 NEXUS_DEVELOPMENT_SERVER: str = "http://localhost:3000"

@@ -1,7 +1,8 @@
 from enum import Enum
 from typing import Dict, Tuple, List, Optional
 
-from configuration.root import EnvironmentType, ENVIRONMENT
+from configuration.root import ENVIRONMENT
+from core.environment.environment import EnvironmentType
 
 
 class ModelSliceEnum(str, Enum):
