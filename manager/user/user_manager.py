@@ -13,7 +13,8 @@ class UserManager(Manager):
     def __init__(self, session: Session):
         super().__init__(session)
 
-    def retrieve_unique(self, schema: UserSchema) -> Optional[Tuple[User, Literal["by_username", "by_email"]]]:
+    def retrieve_unique(self, schema: UserSchema) -> Optional[
+        Tuple[User, Literal["exists_by_username", "exists_by_email"]]]:
         query_ = select(User).where(
             or_(User.username == schema.username, User.email == schema.email)
         )
@@ -22,14 +23,14 @@ class UserManager(Manager):
 
         if query_result_ is not None:
             if query_result_.username == schema.username:
-                return query_result_, "by_username"
+                return query_result_, "exists_by_username"
             elif query_result_.email == schema.email:
-                return query_result_, "by_email"
+                return query_result_, "exists_by_email"
 
         return None
 
     def persist(self, schema: UserSchema, foreign_keys: Optional[dict] = None) -> Tuple[
-        Optional[User], Optional[Literal["by_username", "by_email", "error"]]]:
+        Optional[User], Optional[Literal["exists_by_username", "exists_by_email", "other_error"]]]:
         existing_and_criteria_ = self.retrieve_unique(schema)
 
         if existing_and_criteria_ is not None:
@@ -47,4 +48,4 @@ class UserManager(Manager):
                 print(e)
                 self._session.rollback()
 
-                return None, "error"
+                return None, "other_error"
