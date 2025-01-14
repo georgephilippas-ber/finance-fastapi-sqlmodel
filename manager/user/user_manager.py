@@ -1,4 +1,4 @@
-from typing import Optional, Literal, Tuple
+from typing import Optional, Literal, Tuple, List
 
 from sqlalchemy import or_, and_
 from sqlmodel import Session, select
@@ -37,6 +37,9 @@ class UserManager(Manager):
                 return query_result_, "exists_by_email"
 
         return None
+
+    def all(self) -> List[User]:
+        return list(self._session.exec(select(User)).all())
 
     def persist(self, schema: UserSchema, foreign_keys: Optional[dict] = None) -> Tuple[
         Optional[User], Optional[Literal["exists_by_username", "exists_by_email", "other_error"]]]:

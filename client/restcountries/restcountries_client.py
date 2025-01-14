@@ -9,7 +9,7 @@ import httpx
 from abstract.client.client import Client
 from typing import List, Dict, Optional
 
-from configuration.root import project_root
+from core.utilities.root import project_root
 
 BASE_URL: str = 'https://restcountries.com'
 
