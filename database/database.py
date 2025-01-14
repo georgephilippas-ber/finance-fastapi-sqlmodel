@@ -1,5 +1,5 @@
 from sqlalchemy import Engine
-from sqlmodel import create_engine, SQLModel
+from sqlmodel import create_engine, SQLModel, Session
 from configuration.root import DATABASE_URL
 
 
@@ -20,3 +20,6 @@ class Database:
             SQLModel.metadata.drop_all(self._engine)
 
         SQLModel.metadata.create_all(self._engine)
+
+    def create_session(self) -> Session:
+        return Session(self._engine)
