@@ -7,5 +7,5 @@ class User(SQLModel, table=True):
 
     username: str = Field(nullable=False, unique=True)
     password: str = Field(nullable=False)
-
     email: str = Field(nullable=False, unique=True)
+    avatar_url: Optional[str] = Field(nullable=True)
