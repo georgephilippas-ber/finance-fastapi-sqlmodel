@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Dict, Tuple, List
+from typing import Dict, Tuple, List, Optional
 
 
 class ModelSliceEnum(str, Enum):
@@ -21,4 +21,4 @@ SEED_ENTITIES: Dict[ModelSliceEnum, Tuple[bool, List[ModelSliceEnum]]] = {
         True, [ModelSliceEnum.TICKER, ModelSliceEnum.COUNTRY_CURRENCY, ModelSliceEnum.GICS, ModelSliceEnum.EXCHANGE])
 }
 
-COMPANY_SAMPLE_SIZE: int = 20
+COMPANY_SAMPLE_SIZE: Optional[int] = 20
