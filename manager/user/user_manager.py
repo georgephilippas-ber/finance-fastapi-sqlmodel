@@ -1,6 +1,6 @@
 from typing import Optional, Literal, Tuple
 
-from sqlalchemy import or_
+from sqlalchemy import or_, and_
 from sqlmodel import Session, select
 
 from abstract.manager.manager import Manager
@@ -12,6 +12,15 @@ from schema.user.user import UserSchema
 class UserManager(Manager):
     def __init__(self, session: Session):
         super().__init__(session)
+
+    def verify_and_retrieve(self, identifier: str, password: str) -> Optional[User]:
+        query_ = select(User).where(
+            or_(User.username == identifier, User.email == identifier)
+        )
+
+        user_ = self._session.exec(query_).first()
+
+        return user_ if user_ is not None and hash_password(password) == user_.password else None
 
     def retrieve_unique(self, schema: UserSchema) -> Optional[
         Tuple[User, Literal["exists_by_username", "exists_by_email"]]]:
