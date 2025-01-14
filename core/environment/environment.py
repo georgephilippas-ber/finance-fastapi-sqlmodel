@@ -2,7 +2,7 @@ from os.path import join
 
 from dotenv import load_dotenv
 
-from configuration.configuration import project_root
+from configuration.root import project_root
 
 ENVIRONMENT_LOADED: bool = False
 

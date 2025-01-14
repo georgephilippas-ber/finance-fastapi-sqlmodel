@@ -1,9 +1,22 @@
 import uvicorn
 from fastapi import FastAPI
 
+from configuration.server import NEXUS_SERVER
 from core.environment.environment import load_environment
+from router.router import authentication_router
+
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[NEXUS_SERVER],
+    allow_credentials=True,
+    allow_headers=["*"],
+)
+
+app.include_router(authentication_router)
 
 
 @app.get("/")

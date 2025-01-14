@@ -9,7 +9,7 @@ from urllib.parse import urljoin
 import httpx
 
 from abstract.client.client import Client
-from configuration.configuration import project_root
+from configuration.root import project_root
 from configuration.client.eodhd import EODHD_DEMO
 from core.client.eodhd import to_eodhd_exchange_code
 from core.environment.environment import load_environment

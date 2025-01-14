@@ -1,7 +1,14 @@
 from os import sep
 from os.path import abspath
 
+from enum import Enum
+
 PROJECT_NAME: str = "finance-fastapi-sqlmodel"
+
+
+class EnvironmentType(Enum):
+    DEVELOPMENT = "development"
+    PRODUCTION = "production"
 
 
 def project_root() -> str:
@@ -12,6 +19,7 @@ def project_root() -> str:
 
 
 DATABASE_URL: str = f"mysql://root:development@localhost:3306/{PROJECT_NAME.replace('-', '_')}"
+ENVIRONMENT: EnvironmentType = EnvironmentType.DEVELOPMENT
 
 if __name__ == "__main__":
     print(project_root())

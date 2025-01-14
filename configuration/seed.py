@@ -1,6 +1,8 @@
 from enum import Enum
 from typing import Dict, Tuple, List, Optional
 
+from configuration.root import EnvironmentType, ENVIRONMENT
+
 
 class ModelSliceEnum(str, Enum):
     COUNTRY_CURRENCY = "country_currency"
@@ -21,4 +23,4 @@ SEED_ENTITIES: Dict[ModelSliceEnum, Tuple[bool, List[ModelSliceEnum]]] = {
         True, [ModelSliceEnum.TICKER, ModelSliceEnum.COUNTRY_CURRENCY, ModelSliceEnum.GICS, ModelSliceEnum.EXCHANGE])
 }
 
-COMPANY_SAMPLE_SIZE: Optional[int] = 20
+COMPANY_SAMPLE_SIZE: Optional[int] = 20 if ENVIRONMENT == EnvironmentType.DEVELOPMENT else None

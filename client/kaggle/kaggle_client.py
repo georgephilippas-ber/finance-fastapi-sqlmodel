@@ -3,7 +3,7 @@ from typing import List, Dict, Any, Literal
 from pandas import DataFrame, read_csv
 from os.path import join
 
-from configuration.configuration import project_root
+from configuration.root import project_root
 
 
 class KaggleGICSClient:
