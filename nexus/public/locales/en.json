@@ -1,3 +1,10 @@
 {
-  "greeting": "Hello, {{name}}!"
+  "forms": {
+    "login": {
+      "title": "Sign in to your account",
+      "validation": {
+        "identifier_too_short": "username or e-mail is too short"
+      }
+    }
+  }
 }
