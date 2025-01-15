@@ -21,9 +21,9 @@ class JSONWebToken:
             'exp': datetime.now() + timedelta(minutes=expiration_time_minutes)
         }
 
-        jwt.encode(payload_, self._secret_key, algorithm=self._algorithm)
+        access_token_ = jwt.encode(payload_, self._secret_key, algorithm=self._algorithm)
 
-        return payload_
+        return access_token_
 
     def verify(self, token: str):
         try:

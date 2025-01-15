@@ -1,17 +1,11 @@
-from typing import List
-
 import uvicorn
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from configuration.server import NEXUS_SERVER
 from core.environment.environment import load_environment
-from manager.user.user_manager import UserManager
-from model.user.user import User
-from router.router import authentication_router
-
-from instances.dependencies.dependencies import get_user_manager
 from instances.shared import database
+from router.authentication.authentication import authentication_router
 
 app = FastAPI()
 
