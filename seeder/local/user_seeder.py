@@ -9,5 +9,7 @@ class UserSeeder:
         self._user_manager = user_manager
 
     def seed(self):
+        print('SEEDING - User', end='')
         for user_ in USERS:
-            print(user_)
+            self._user_manager.persist(user_)
+        print(' - Done')

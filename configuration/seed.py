@@ -1,9 +1,10 @@
 from enum import Enum
-from typing import Dict, Tuple, List, Optional
+from typing import Dict, Tuple, List, Optional, TypeAlias
 
 from pydantic.v1 import EmailStr
 
 from configuration.environment import ENVIRONMENT
+from configuration.project import PROJECT_NAME
 from core.environment.environment import EnvironmentType
 from schema.user.user import UserSchema
 
@@ -19,7 +20,9 @@ class ModelSliceEnum(str, Enum):
 
 DROP_ALL_TABLES_BEFORE_SEEDING: bool = True
 
-SEED_ENTITIES: Dict[ModelSliceEnum, Tuple[bool, List[ModelSliceEnum]]] = {
+SeedSpecificationDict: TypeAlias = Dict[ModelSliceEnum, Tuple[bool, List[ModelSliceEnum]]]
+
+SEED_ENTITIES_SPECIFICATION: SeedSpecificationDict = {
     ModelSliceEnum.COUNTRY_CURRENCY: (True, []),
     ModelSliceEnum.GICS: (True, []),
     ModelSliceEnum.EXCHANGE: (True, [ModelSliceEnum.COUNTRY_CURRENCY]),
@@ -29,17 +32,27 @@ SEED_ENTITIES: Dict[ModelSliceEnum, Tuple[bool, List[ModelSliceEnum]]] = {
     ModelSliceEnum.USER: (True, [])
 }
 
+
+def just_user_seed_specification(spec: SeedSpecificationDict) -> SeedSpecificationDict:
+    for entry_ in spec.keys():
+        if entry_ == ModelSliceEnum.USER:
+            spec[entry_] = (True, spec[entry_][1])
+        else:
+            spec[entry_] = (False, spec[entry_][1])
+    return spec
+
+
 COMPANY_SAMPLE_SIZE: Optional[int] = 20 if ENVIRONMENT == EnvironmentType.DEVELOPMENT else None
 
 USERS: List[UserSchema] = [
     UserSchema(
         username="root",
-        password="root",
-        email=EmailStr("root@localhost"),
+        password="root!1A",
+        email=EmailStr(f"root@{PROJECT_NAME}.org"),
     ),
     UserSchema(
         username="user",
-        password="user",
-        email=EmailStr("user@localhost"),
+        password="user!1A",
+        email=EmailStr(f"user@{PROJECT_NAME}.org"),
     )
 ]
