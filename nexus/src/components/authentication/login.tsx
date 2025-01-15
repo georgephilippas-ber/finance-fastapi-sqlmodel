@@ -1,7 +1,7 @@
 import {useTranslation} from "react-i18next";
 
 import i18n from "../../i18n/i18n";
-import {MouseEventHandler, useMemo, useState} from "react";
+import {MouseEventHandler, useEffect, useMemo, useState} from "react";
 import {createLoginValidationSchema} from "@/core/validation/login";
 import {ZodError} from "zod";
 
@@ -14,7 +14,25 @@ export function Login()
 
     const {t} = useTranslation('authentication');
 
+    const [errors, setErrors] = useState<{ identifier?: string; password?: string }>({});
+
     const validationSchema = useMemo(() => createLoginValidationSchema(t), [t]);
+
+    useEffect(() =>
+    {
+        setErrors(prevState =>
+        {
+            return {...prevState, identifier: undefined};
+        });
+    }, [identifier])
+
+    useEffect(() =>
+    {
+        setErrors(prevState =>
+        {
+            return {...prevState, password: undefined};
+        });
+    }, [password])
 
     const handler: MouseEventHandler<HTMLButtonElement> = (event) =>
     {
@@ -26,7 +44,16 @@ export function Login()
         {
             const error = e as ZodError;
 
-            console.log(error);
+            for (const fieldError of error.errors)
+            {
+                if ((fieldError.path.length === 1) && (fieldError.path[0] === "identifier"))
+                    setErrors(prevState => ({...prevState, identifier: fieldError.message}));
+
+                if ((fieldError.path.length === 1) && (fieldError.path[0] === "password"))
+                    setErrors(prevState => ({...prevState, password: fieldError.message}));
+
+                console.log(errors);
+            }
         }
     }
 
@@ -40,17 +67,23 @@ export function Login()
                     </h1>
                     <div className="space-y-4 md:space-y-6 flex flex-col items-center w-full">
                         <div className={"w-full"}>
+                            {errors.identifier ?
+                                <p className={"w-full text-xs text-red-500 mb-1"}>{errors.identifier}</p> : null}
                             <input value={identifier} onChange={event => setIdentifier(event.target.value)}
                                    id={"identifier"} name={"identifier"} autoComplete={"username"} type="text"
                                    className="input w-full"
                                    placeholder={t("forms.login.placeholder.identifier")} required/>
                         </div>
+
                         <div className={"w-full"}>
+                            {errors.password ?
+                                <p className={"w-full text-xs text-red-500 mb-1"}>{errors.password}</p> : null}
                             <input value={password} onChange={event => setPassword(event.target.value)} id={"password"}
                                    name={"password"} autoComplete={"new-password"} type="password"
                                    placeholder={t("forms.login.placeholder.password")} className="input w-full"
                                    required/>
                         </div>
+
                         <div className="flex justify-between flex-col items-start gap-3 w-full">
                             <div className="flex items-start">
                                 <div className="flex items-center h-5">
