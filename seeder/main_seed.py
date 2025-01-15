@@ -23,8 +23,10 @@ from manager.country.country_manager import CountryManager
 from manager.currency.currency_manager import CurrencyManager
 from manager.exchange.exchange_manager import ExchangeManager
 from manager.ticker.ticker_manager import TickerManager
+from manager.user.user_manager import UserManager
 from seeder.eodhd.eodhd_seeder import EODHDSeeder
 from seeder.kaggle.kaggle_seeder import KaggleSeeder
+from seeder.local.user_seeder import UserSeeder
 from seeder.restcountries.restcountries_seeder import RESTCountriesSeeder
 
 
@@ -50,6 +52,8 @@ async def seed(drop_all: bool = False):
 
         company_manager_ = CompanyManager(session)
         company_snapshot_metrics_manager_ = CompanySnapshotMetricsManager(session, company_manager_)
+
+        user_manager_ = UserManager(session)
 
         gics_sector_manager_ = GICSSectorManager(session)
         gics_industry_group_manager_ = GICSIndustryGroupManager(session, gics_sector_manager_)
@@ -83,6 +87,8 @@ async def seed(drop_all: bool = False):
             gics_sector_manager_,
             gics_industry_group_manager_, gics_industry_manager_, gics_sub_industry_manager)
 
+        user_seeder_ = UserSeeder(user_manager_)
+
         resolver_: Resolver = compile_resolver(SEED_ENTITIES)
 
         resolver_.add_callback(ModelSliceEnum.COUNTRY_CURRENCY.value, restcountries_seeder_.seed)
@@ -91,6 +97,7 @@ async def seed(drop_all: bool = False):
         resolver_.add_callback(ModelSliceEnum.TICKER.value, eodhd_seeder_.seed_ticker)
         resolver_.add_callback(ModelSliceEnum.COMPANY_AND_COMPANY_SNAPSHOT_METRICS.value,
                                eodhd_seeder_.seed_company_and_company_snapshot_metrics)
+        resolver_.add_callback(ModelSliceEnum.USER.value, user_seeder_.seed)
 
         await resolver_.process()
 
