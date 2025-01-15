@@ -37,11 +37,6 @@ async def say_hello(name: str):
     return {"message": f"Hello {name}"}
 
 
-@app.get("/users")
-async def users(user_manager: UserManager = Depends(get_user_manager)) -> List[User]:
-    return user_manager.all()
-
-
 if __name__ == "__main__":
     load_environment()
 

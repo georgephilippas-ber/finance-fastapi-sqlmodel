@@ -9,3 +9,12 @@ GET http://127.0.0.1:8000/hello/User
 Accept: application/json
 
 ###
+
+### Send POST request with json body
+POST http://localhost:8080/authentication/login
+Content-Type: application/json
+
+{
+  "username": "root",
+  "password": "root!1A"
+}

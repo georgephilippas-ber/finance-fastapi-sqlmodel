@@ -9,10 +9,11 @@ from configuration.security import PASSWORD_MINIMUM_LENGTH, PASSWORD_MAXIMUM_LEN
 
 
 class UserSchema(BaseModel):
-    username: str = Field(min_length=3, max_length=30)
+    username: Optional[str] = Field(min_length=3, max_length=30)
+
     password: str = Field(min_length=PASSWORD_MINIMUM_LENGTH, max_length=PASSWORD_MAXIMUM_LENGTH)
     password_confirm: Optional[str] = Field(default=None)
-    email: EmailStr()
+    email: Optional[str] = EmailStr()
 
     first_name: Optional[str] = Field(default=None, min_length=1, max_length=50)
     last_name: Optional[str] = Field(default=None, min_length=1, max_length=50)
