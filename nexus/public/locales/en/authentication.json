@@ -1,0 +1,18 @@
+{
+  "forms": {
+    "login": {
+      "title": "Sign in to your account",
+      "placeholder": {
+        "identifier": "username or e-mail",
+        "password": "password"
+      },
+      "remember_me": "Remember me",
+      "sign_in_button": "Sign in",
+      "create_account_prompt": "Don't have an account yet?",
+      "create_account_sign_up_link": "Sign up",
+      "validation": {
+        "identifier_too_short": "username or e-mail is too short"
+      }
+    }
+  }
+}
