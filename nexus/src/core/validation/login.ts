@@ -1,8 +1,9 @@
 import {z} from 'zod';
 
-function getLoginValidationSchema(t: (key: string) => string)
+export function createLoginValidationSchema(t: (key: string) => string)
 {
-    const loginSchema = z.object({
-        username: z.string().min(3, t("forms.login.validation.identifier_too_short")),
+    return z.object({
+        identifier: z.string().min(3, t("forms.login.validation.identifier_too_short")),
+        password: z.string().nonempty(t("forms.login.validation.password_empty"))
     });
 }

@@ -1,12 +1,34 @@
 import {useTranslation} from "react-i18next";
 
 import i18n from "../../i18n/i18n";
+import {MouseEventHandler, useMemo, useState} from "react";
+import {createLoginValidationSchema} from "@/core/validation/login";
+import {ZodError} from "zod";
 
 console.log(i18n);
 
 export function Login()
 {
+    const [identifier, setIdentifier] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+
     const {t} = useTranslation('authentication');
+
+    const validationSchema = useMemo(() => createLoginValidationSchema(t), [t]);
+
+    const handler: MouseEventHandler<HTMLButtonElement> = (event) =>
+    {
+        try
+        {
+            validationSchema.parse({identifier, password});
+        }
+        catch (e)
+        {
+            const error = e as ZodError;
+
+            console.log(error);
+        }
+    }
 
     return (
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -18,12 +40,14 @@ export function Login()
                     </h1>
                     <div className="space-y-4 md:space-y-6 flex flex-col items-center w-full">
                         <div className={"w-full"}>
-                            <input id={"identifier"} name={"identifier"} autoComplete={"username"} type="text"
+                            <input value={identifier} onChange={event => setIdentifier(event.target.value)}
+                                   id={"identifier"} name={"identifier"} autoComplete={"username"} type="text"
                                    className="input w-full"
                                    placeholder={t("forms.login.placeholder.identifier")} required/>
                         </div>
                         <div className={"w-full"}>
-                            <input id={"password"} name={"password"} autoComplete={"new-password"} type="password"
+                            <input value={password} onChange={event => setPassword(event.target.value)} id={"password"}
+                                   name={"password"} autoComplete={"new-password"} type="password"
                                    placeholder={t("forms.login.placeholder.password")} className="input w-full"
                                    required/>
                         </div>
@@ -44,7 +68,7 @@ export function Login()
                                className="hidden text-sm font-medium text-primary-600 hover:underline dark:text-primary-500 mt-4">Forgot
                                 password?</a>
                         </div>
-                        <button className={"btn btn-primary w-fit mx-auto"}>Sign in</button>
+                        <button onClick={handler} className={"btn btn-primary w-fit mx-auto"}>Sign in</button>
                         <div className="text-sm font-light text-gray-500 dark:text-gray-400">
                             <span className={"mr-1"}>{t("forms.login.create_account_prompt")}</span>
                             <a href="#" className="font-medium text-primary-600 hover:underline dark:text-primary-500">
