@@ -4,7 +4,7 @@ from sqlalchemy import or_, and_
 from sqlmodel import Session, select
 
 from abstract.manager.manager import Manager
-from core.encryption.encryption import hash_password
+from core.encryption.encryption import hash_password, verify_password
 from model.user.user import User
 from schema.user.user import UserSchema
 
@@ -20,7 +20,7 @@ class UserManager(Manager):
 
         user_ = self._session.exec(query_).first()
 
-        return user_ if user_ is not None and hash_password(password) == user_.password else None
+        return user_ if user_ is not None and verify_password(password, user_.password) else None
 
     def retrieve_unique(self, schema: UserSchema) -> Optional[
         Tuple[User, Literal["exists_by_username", "exists_by_email"]]]:

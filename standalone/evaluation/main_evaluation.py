@@ -1,14 +1,10 @@
-import asyncio
-
-from adapter.restcountries.restcountries_adapter import RESTCountriesAdapter
-from client.restcountries.restcountries_client import RESTCountriesClient
+from database.database import Database
+from manager.user.user_manager import UserManager
 
 if __name__ == '__main__':
-    async def ex():
-        f = await RESTCountriesClient().get_all()
-        g = RESTCountriesAdapter().adapt_many(f)
-        for s in g:
-            print(s[0].location)
+    db = Database()
 
+    with db.create_session() as session:
+        user_manager = UserManager(session)
 
-    asyncio.run(ex())
+        print(user_manager.verify_and_retrieve("root", "root!1A"))
