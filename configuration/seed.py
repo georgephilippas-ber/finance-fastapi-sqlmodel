@@ -1,7 +1,7 @@
 from enum import Enum
 from typing import Dict, Tuple, List, Optional
 
-from configuration.root import ENVIRONMENT
+from configuration.environment import ENVIRONMENT
 from core.environment.environment import EnvironmentType
 
 

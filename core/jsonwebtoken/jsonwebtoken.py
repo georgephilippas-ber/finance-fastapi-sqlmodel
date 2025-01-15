@@ -3,7 +3,7 @@ from jwt import ExpiredSignatureError, InvalidTokenError
 from typing import Dict, Optional
 from datetime import datetime, timedelta
 
-from configuration.encryption import JSON_WEB_TOKEN_SECRET_KEY, JSON_WEB_TOKEN_EXPIRATION_TIME_MINUTES
+from configuration.security import JSON_WEB_TOKEN_SECRET_KEY, JSON_WEB_TOKEN_EXPIRATION_TIME_MINUTES
 
 
 class JSONWebToken:

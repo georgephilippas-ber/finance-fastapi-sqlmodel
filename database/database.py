@@ -1,6 +1,6 @@
 from sqlalchemy import Engine
 from sqlmodel import create_engine, SQLModel, Session
-from configuration.root import DATABASE_URL
+from configuration.database import DATABASE_URL
 
 
 class Database:
