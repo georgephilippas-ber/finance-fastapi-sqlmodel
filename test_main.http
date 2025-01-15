@@ -18,3 +18,7 @@ Content-Type: application/json
   "username": "root",
   "password": "root!1A"
 }
+
+### Send POST request with json body
+POST http://localhost:8000/authentication/logout
+Content-Type: application/json
