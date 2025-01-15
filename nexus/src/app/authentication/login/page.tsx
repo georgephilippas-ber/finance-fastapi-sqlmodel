@@ -1,8 +1,10 @@
+import {Login} from "@/components/authentication/login";
+
 export default function ()
 {
     return (
-        <div>
-            LOGIN
-        </div>
+        <section className={"font-sans"}>
+            <Login/>
+        </section>
     );
 }
