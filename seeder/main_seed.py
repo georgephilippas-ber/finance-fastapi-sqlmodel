@@ -10,8 +10,7 @@ from adapter.kaggle.gics_adapter import GICSAdapter
 from adapter.restcountries.restcountries_adapter import RESTCountriesAdapter
 from client.eodhd.eodhd_client import EODHDClient
 from client.restcountries.restcountries_client import RESTCountriesClient
-from configuration.seed import SEED_ENTITIES_SPECIFICATION, ModelSliceEnum, DROP_ALL_TABLES_BEFORE_SEEDING, \
-    just_user_seed_specification
+from configuration.seed import SEED_ENTITIES_SPECIFICATION, ModelSliceEnum, DROP_ALL_TABLES_BEFORE_SEEDING
 from core.dependency.dependency import Resolver
 from core.dependency.resolvers.compile import compile_resolver
 from database.database import Database
@@ -90,7 +89,7 @@ async def seed(drop_all: bool = False):
 
         user_seeder_ = UserSeeder(user_manager_)
 
-        resolver_: Resolver = compile_resolver(just_user_seed_specification(SEED_ENTITIES_SPECIFICATION))
+        resolver_: Resolver = compile_resolver(SEED_ENTITIES_SPECIFICATION)
 
         resolver_.add_callback(ModelSliceEnum.COUNTRY_CURRENCY.value, restcountries_seeder_.seed)
         resolver_.add_callback(ModelSliceEnum.GICS, kaggle_seeder_.seed_gics)
