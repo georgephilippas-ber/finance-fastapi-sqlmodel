@@ -27,6 +27,8 @@ class CompanyService:
 
 
 if __name__ == '__main__':
+    import model.comprehensive
+
     db = Database()
     db.create_tables(drop_all=False)
 
