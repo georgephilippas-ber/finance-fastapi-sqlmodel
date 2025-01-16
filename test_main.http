@@ -22,3 +22,6 @@ Content-Type: application/json
 ### Send POST request with json body
 POST http://localhost:8000/authentication/logout
 Content-Type: application/json
+
+###
+GET http://localhost:8000/company/overview?id_param=1&id_param=3

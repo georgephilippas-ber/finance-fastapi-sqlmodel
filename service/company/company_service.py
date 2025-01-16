@@ -2,7 +2,7 @@ from typing import List
 
 from sqlmodel import select, Session
 
-from database.database import Database
+from configuration.client.eodhd import EODHD_BASE_URL
 from model.GICS.GICS import GICSSector, GICSIndustry
 from model.company.company import Company
 from model.country.country import Country
@@ -10,13 +10,14 @@ from model.currency.currency import Currency
 from model.exchange.exchange import Exchange
 from model.ticker.ticker import Ticker
 from schema.company.company import CompanyOverviewSchema
+from urllib.parse import urljoin
 
 
 class CompanyService:
     _session: Session
     _company_logo_base_url: str
 
-    def __init__(self, session: Session, company_logo_base_url: str = "https://eodhd.com"):
+    def __init__(self, session: Session, company_logo_base_url: str = EODHD_BASE_URL):
         self._session = session
 
         self._company_logo_base_url = company_logo_base_url
@@ -42,7 +43,8 @@ class CompanyService:
                                   ticker_code=query_result_[2], exchange_code=query_result_[3],
                                   currency_symbol=query_result_[4], gics_sector_name=query_result_[5],
                                   gics_industry_name=query_result_[6],
-                                  company_logo_url=query_result_[7], country_flag_url=query_result_[8])
+                                  company_logo_url=urljoin(self._company_logo_base_url, query_result_[7]),
+                                  country_flag_url=query_result_[8])
             for query_result_ in query_result_list_]
 
 

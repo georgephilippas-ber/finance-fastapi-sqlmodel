@@ -1,14 +1,12 @@
-from fastapi import Depends, HTTPException, APIRouter, Response
 from http import HTTPStatus
 
+from fastapi import Depends, HTTPException, APIRouter, Response
 from pydantic import BaseModel
 
 from configuration.security import JSON_WEB_TOKEN_EXPIRATION_TIME_MINUTES
 from instance.dependency.dependency import get_user_manager
 from instance.shared import json_web_token
 from manager.user.user_manager import UserManager
-
-from schema.user.user import UserSchema
 
 authentication_router = APIRouter(prefix="/authentication")
 

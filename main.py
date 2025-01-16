@@ -6,6 +6,9 @@ from configuration.server import NEXUS_SERVER
 from core.environment.environment import load_environment
 from instance.shared import database_instance
 from router.authentication.authentication import authentication_router
+from router.company.company import company_router
+
+import model.comprehensive
 
 app = FastAPI()
 
@@ -20,6 +23,7 @@ app.add_middleware(
 )
 
 app.include_router(authentication_router)
+app.include_router(company_router)
 
 
 @app.get("/")
