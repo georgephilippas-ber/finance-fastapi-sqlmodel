@@ -1,6 +1,6 @@
 'use client'
 
-import {Login} from "@/components/authentication/login";
+import {Login} from "@/components/client/authentication/login";
 
 export default function ()
 {
