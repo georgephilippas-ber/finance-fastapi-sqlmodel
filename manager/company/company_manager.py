@@ -42,7 +42,8 @@ class CompanyManager(Manager):
                            gics_industry_id=foreign_keys['gics_industry_id'],
                            gics_subindustry_id=foreign_keys['gics_subindustry_id'],
                            ticker_id=foreign_keys['ticker_id'],
-                           currency_id=foreign_keys['currency_id']
+                           currency_id=foreign_keys['currency_id'],
+                           country_id=foreign_keys['country_id']
                            )
 
         try:

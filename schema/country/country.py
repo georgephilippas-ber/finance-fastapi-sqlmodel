@@ -1,6 +1,7 @@
 from typing import Optional
 
 from pydantic import BaseModel
+from pydantic import Field
 
 
 class CountryNameSchema(BaseModel):
@@ -9,8 +10,8 @@ class CountryNameSchema(BaseModel):
 
 
 class CountryISOCodeSchema(BaseModel):
-    cca2: str
-    cca3: str
+    cca2: Optional[str] = Field(default=None)
+    cca3: Optional[str] = Field(default=None)
 
 
 class LocationSchema(BaseModel):
@@ -19,10 +20,10 @@ class LocationSchema(BaseModel):
 
 
 class CountrySchema(BaseModel):
-    name: CountryNameSchema
+    name: Optional[CountryNameSchema] = Field(default=None)
     iso_code: CountryISOCodeSchema
-    location: LocationSchema
+    location: Optional[LocationSchema] = Field(default=None)
 
-    capital: Optional[str]
-    population: int
-    flag_url: str
+    capital: Optional[str] = Field(default=None)
+    population: Optional[int] = Field(default=None)
+    flag_url: Optional[str] = Field(default=None)

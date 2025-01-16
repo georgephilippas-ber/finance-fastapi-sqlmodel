@@ -1,10 +1,11 @@
-from typing import Optional
+from typing import Optional, Annotated
 
 from sqlalchemy import String, Column
 from sqlmodel import SQLModel, Field, Relationship
 from model.GICS.GICS import GICSSector, GICSIndustryGroup, GICSIndustry, GICSSubIndustry
 from model.currency.currency import Currency
 from model.ticker.ticker import Ticker
+from model.country.country import Country
 
 
 class Company(SQLModel, table=True):
@@ -39,3 +40,6 @@ class Company(SQLModel, table=True):
     currency: Optional[Currency] = Relationship(back_populates="company_list")
 
     company_snapshot_metrics: "CompanySnapshotMetrics" = Relationship(back_populates="company")
+
+    country_id: int = Field(foreign_key="country.id")
+    country: Country = Relationship(back_populates="company_list")
