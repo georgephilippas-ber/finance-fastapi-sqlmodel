@@ -27,3 +27,15 @@ class CompanySnapshotMetricsSchema(BaseModel):
     net_profit_margin: float
 
     updated_at: date
+
+
+class CompanyOverviewSchema(BaseModel):
+    company_id: int
+    company_name: str
+    ticker_code: str
+    exchange_code: str
+    currency_symbol: str
+    gics_sector_name: str
+    gics_industry_name: str
+    company_logo_url: str
+    country_flag_url: str
