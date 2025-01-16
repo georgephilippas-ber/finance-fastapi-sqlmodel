@@ -1,11 +1,15 @@
 import {useTranslation} from "react-i18next";
 
-import i18n from "../../i18n/i18n";
 import {MouseEventHandler, useEffect, useMemo, useState} from "react";
 import {createLoginValidationSchema} from "@/core/validation/login";
 import {ZodError} from "zod";
 
+import i18n from "../../i18n/i18n";
+import {login} from "@/actions/authentication/login";
+import {useRouter} from "next/navigation";
+
 console.log(i18n);
+
 
 export function Login()
 {
@@ -17,6 +21,8 @@ export function Login()
     const [errors, setErrors] = useState<{ identifier?: string; password?: string }>({});
 
     const validationSchema = useMemo(() => createLoginValidationSchema(t), [t]);
+
+    const router = useRouter();
 
     useEffect(() =>
     {
@@ -34,11 +40,20 @@ export function Login()
         });
     }, [password])
 
-    const handler: MouseEventHandler<HTMLButtonElement> = (event) =>
+    const handler: MouseEventHandler<HTMLButtonElement> = async (event) =>
     {
         try
         {
             validationSchema.parse({identifier, password});
+
+            const success_ = await login(identifier, password);
+
+            if (success_)
+                router.push("http://www.google.com");
+            else
+            {
+                console.log("failed");
+            }
         }
         catch (e)
         {
@@ -58,7 +73,7 @@ export function Login()
     }
 
     return (
-        <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+        <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 font-sans">
             <div
                 className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                 <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -82,24 +97,6 @@ export function Login()
                                    name={"password"} autoComplete={"new-password"} type="password"
                                    placeholder={t("forms.login.placeholder.password")} className="input w-full"
                                    required/>
-                        </div>
-
-                        <div className="flex justify-between flex-col items-start gap-3 w-full">
-                            <div className="flex items-start">
-                                <div className="flex items-center h-5">
-                                    <input id="remember" aria-describedby="remember" type="checkbox"
-                                           className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
-                                           required/>
-                                </div>
-                                <div className="ml-3 text-sm">
-                                    <label htmlFor="remember" className="text-gray-500 dark:text-gray-300">
-                                        {t("forms.login.remember_me")}
-                                    </label>
-                                </div>
-                            </div>
-                            <a href="#"
-                               className="hidden text-sm font-medium text-primary-600 hover:underline dark:text-primary-500 mt-4">Forgot
-                                password?</a>
                         </div>
                         <button onClick={handler} className={"btn btn-primary w-fit mx-auto"}>Sign in</button>
                         <div className="text-sm font-light text-gray-500 dark:text-gray-400">

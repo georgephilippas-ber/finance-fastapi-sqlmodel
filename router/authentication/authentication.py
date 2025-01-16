@@ -1,6 +1,8 @@
 from fastapi import Depends, HTTPException, APIRouter, Response
 from http import HTTPStatus
 
+from pydantic import BaseModel
+
 from configuration.security import JSON_WEB_TOKEN_EXPIRATION_TIME_MINUTES
 from instances.dependencies.dependencies import get_user_manager
 from instances.shared import json_web_token
@@ -11,9 +13,15 @@ from schema.user.user import UserSchema
 authentication_router = APIRouter(prefix="/authentication")
 
 
+class UserLoginSchema(BaseModel):
+    identifier: str
+    password: str
+
+
 @authentication_router.post("/login")
-async def login(user_schema: UserSchema, response: Response, user_manager: UserManager = Depends(get_user_manager)):
-    user_ = user_manager.verify_and_retrieve(user_schema.username, user_schema.password)
+async def login(user_schema: UserLoginSchema, response: Response,
+                user_manager: UserManager = Depends(get_user_manager)):
+    user_ = user_manager.verify_and_retrieve(user_schema.identifier, user_schema.password)
 
     if user_ is not None:
         token_ = json_web_token.encode(user_.model_dump(exclude={"password", "id"}))

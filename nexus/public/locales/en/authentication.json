@@ -12,7 +12,7 @@
       "create_account_sign_up_link": "Sign up",
       "validation": {
         "identifier_too_short": "username or e-mail is too short or is empty",
-        "password_empty": "password cannot be empty"
+        "password_empty": "password is empty"
       }
     }
   }

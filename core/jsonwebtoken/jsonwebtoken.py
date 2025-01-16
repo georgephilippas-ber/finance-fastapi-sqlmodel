@@ -15,7 +15,7 @@ class JSONWebToken:
 
         self._algorithm = algorithm
 
-    def encode(self, payload: Dict, expiration_time_minutes: Optional[int] = JSON_WEB_TOKEN_EXPIRATION_TIME_MINUTES):
+    def encode(self, payload: Dict, *, expiration_time_minutes: Optional[int] = JSON_WEB_TOKEN_EXPIRATION_TIME_MINUTES):
         payload_ = {
             **payload,
             'exp': datetime.now() + timedelta(minutes=expiration_time_minutes)
