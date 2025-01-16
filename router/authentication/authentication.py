@@ -19,9 +19,9 @@ class UserLoginSchema(BaseModel):
 
 
 @authentication_router.post("/login")
-async def login(user_schema: UserLoginSchema, response: Response,
+async def login(user_login_schema: UserLoginSchema, response: Response,
                 user_manager: UserManager = Depends(get_user_manager)):
-    user_ = user_manager.verify_and_retrieve(user_schema.identifier, user_schema.password)
+    user_ = user_manager.verify_and_retrieve(user_login_schema.identifier, user_login_schema.password)
 
     if user_ is not None:
         token_ = json_web_token.encode(user_.model_dump(exclude={"password", "id"}))

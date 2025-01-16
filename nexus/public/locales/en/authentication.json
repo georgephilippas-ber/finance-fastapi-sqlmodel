@@ -12,7 +12,11 @@
       "create_account_sign_up_link": "Sign up",
       "validation": {
         "identifier_too_short": "username or e-mail is too short or is empty",
-        "password_empty": "password is empty"
+        "password_empty": "password is empty",
+        "modal": {
+          "header": "Invalid Credentials",
+          "content": "The credentials you provided are incorrect or couldn't be validated at the moment. Please verify your username and password, and try again later."
+        }
       }
     }
   }
