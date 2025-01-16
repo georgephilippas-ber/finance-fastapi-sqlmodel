@@ -4,8 +4,8 @@ from http import HTTPStatus
 from pydantic import BaseModel
 
 from configuration.security import JSON_WEB_TOKEN_EXPIRATION_TIME_MINUTES
-from instances.dependencies.dependencies import get_user_manager
-from instances.shared import json_web_token
+from instance.dependency.dependency import get_user_manager
+from instance.shared import json_web_token
 from manager.user.user_manager import UserManager
 
 from schema.user.user import UserSchema

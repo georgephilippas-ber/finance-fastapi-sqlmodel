@@ -2,11 +2,11 @@ from fastapi import Depends
 from sqlmodel import Session
 
 from database.database import Database
-from instances.shared import database
+from instance.shared import database_instance
 from manager.user.user_manager import UserManager
 
 
-def get_session(database_: Database = Depends(lambda: database)) -> Session:
+def get_session(database_: Database = Depends(lambda: database_instance)) -> Session:
     return database_.create_session()
 
 

@@ -4,12 +4,12 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from configuration.server import NEXUS_SERVER
 from core.environment.environment import load_environment
-from instances.shared import database
+from instance.shared import database_instance
 from router.authentication.authentication import authentication_router
 
 app = FastAPI()
 
-database.create_tables(drop_all=False)
+database_instance.create_tables(drop_all=False)
 
 app.add_middleware(
     CORSMiddleware,
