@@ -27,4 +27,4 @@ class Country(SQLModel, table=True):
 
     exchange_list: List["Exchange"] = Relationship(back_populates="country")
 
-    company_list: list["Company"] = Relationship(back_populates="country")
+    company_list: List["Company"] = Relationship(back_populates="country")

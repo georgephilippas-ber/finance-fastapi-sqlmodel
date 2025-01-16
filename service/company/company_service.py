@@ -27,7 +27,10 @@ class CompanyService:
 
 
 if __name__ == '__main__':
-    with Database().create_session() as session:
+    db = Database()
+    db.create_tables(drop_all=False)
+
+    with db.create_session() as session:
         cs = CompanyService(session)
 
         print(cs.get_company_overview(1))

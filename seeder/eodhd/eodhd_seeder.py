@@ -140,8 +140,6 @@ class EODHDSeeder:
                         company_snapshot_metrics_ = self._company_snapshot_metrics_manager.persist(
                             (company_and_gics_and_currency_and_country_schema_[0], company_snapshot_metrics_schema_),
                             {'company_id': company_.id})
-                else:
-                    return None
 
         self._session.commit()
         print(' - Done')
