@@ -124,7 +124,7 @@ class EODHDClient(Client):
                                         debug=debug)
 
     async def eod(self, symbol: str, exchange_code: str, date_: Optional[date] = None, *, prefer_cached: bool = True,
-                  debug: bool = False):
+                  debug: bool = False) -> Optional[List[Dict]]:
         if date_ is None:
             date_ = date.today()
 

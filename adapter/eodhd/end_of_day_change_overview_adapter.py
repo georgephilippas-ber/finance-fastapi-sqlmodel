@@ -6,7 +6,7 @@ from core.utilities.date import closest_past_date_index, beginning_of_month
 from schema.end_of_day_change_overview.end_of_day_change_overview import EndOfDayChangeOverviewSchema
 
 
-class EndOfDayChangeOverview(Adapter):
+class EndOfDayChangeOverviewAdapter(Adapter):
     def __init__(self, ):
         super().__init__()
 

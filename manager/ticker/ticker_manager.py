@@ -20,6 +20,11 @@ class TickerManager(Manager):
 
         self._exchange_manager = exchange_manager
 
+    def by_id(self, id_: int) -> Optional[Ticker]:
+        query_ = select(Ticker).where(Ticker.id == id_)
+
+        return self._session.exec(query_).first()
+
     def retrieve_unique(self, schema: TickerSchema) -> Optional[Ticker]:
         query_ = select(Ticker).where(Ticker.isin == schema.isin)
 
