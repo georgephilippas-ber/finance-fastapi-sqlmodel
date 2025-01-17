@@ -23,7 +23,7 @@ class EndOfDayChangeOverviewAdapter(Adapter):
                                         beginning_of_month(yesterday_))]
 
             return EndOfDayChangeOverviewSchema(
-                latest_date=date.fromisoformat(latest_['date']),
+                latest_date=date_,
                 latest=latest_['close'],
                 latest_adjusted=latest_['adjusted_close'],
                 beginning_of_month_adjusted=beginning_of_month_['adjusted_close'],

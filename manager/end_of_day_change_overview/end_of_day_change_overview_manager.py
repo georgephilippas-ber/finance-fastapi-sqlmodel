@@ -38,7 +38,7 @@ class EndOfDayChangeOverviewManager(Manager):
             existing_.beginning_of_month_adjusted = schema.beginning_of_month_adjusted
             existing_.beginning_of_year_adjusted = schema.beginning_of_year_adjusted
 
-            self._session.flush()
+            self._session.commit()
             return existing_
 
         end_of_day_change_overview_ = EndOfDayChangeOverview(
@@ -53,7 +53,7 @@ class EndOfDayChangeOverviewManager(Manager):
         try:
             self._session.add(end_of_day_change_overview_)
 
-            self._session.flush()
+            self._session.commit()
 
             return existing_
         except SQLAlchemyError as e:

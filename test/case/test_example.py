@@ -1,5 +1,7 @@
 import asyncio
 
+import model.comprehensive
+
 from adapter.eodhd.end_of_day_change_overview_adapter import EndOfDayChangeOverviewAdapter
 from client.eodhd.eodhd_client import EODHDClient
 from database.database import Database
@@ -34,7 +36,7 @@ async def test_case():
             exchange_manager
         )
 
-        print(await orchestrator_.by_ticker_id(1))
+        assert await orchestrator_.by_ticker_id(1) is not None
 
 
 if __name__ == '__main__':
