@@ -15,7 +15,8 @@ class Manager(ABC):
         self._session = session
 
     @abstractmethod
-    async def retrieve_unique(self, schema: BaseModelBound | Iterable[BaseModelBound]) -> Optional[SQLModelBound]:
+    async def retrieve_unique(self, schema: BaseModelBound | Iterable[BaseModelBound], **kwargs) -> Optional[
+        SQLModelBound]:
         return None
 
     @abstractmethod

@@ -31,6 +31,7 @@ class CompanySnapshotMetricsSchema(BaseModel):
 
 class CompanyOverviewSchema(BaseModel):
     company_id: int
+    ticker_id: int
     company_name: str
     ticker_code: str
     exchange_code: str

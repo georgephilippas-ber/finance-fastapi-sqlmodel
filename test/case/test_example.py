@@ -8,6 +8,7 @@ from database.database import Database
 from manager.end_of_day_change_overview.end_of_day_change_overview_manager import EndOfDayChangeOverviewManager
 from manager.exchange.exchange_manager import ExchangeManager
 from manager.ticker.ticker_manager import TickerManager
+from model.end_of_day_change_overview.end_of_day_change_overview import EndOfDayChangeOverview
 from orchestrator.end_of_day_change_overview.end_of_day_change_overview_orchestrator import \
     EndOfDayChangeOverviewOrchestrator
 
@@ -36,7 +37,8 @@ async def test_case():
             exchange_manager
         )
 
-        assert await orchestrator_.by_ticker_id(1) is not None
+        assert await orchestrator_.by_ticker_id(15) is not None
+        # assert await orchestrator_.by_ticker_id(2) is not None
 
 
 if __name__ == '__main__':

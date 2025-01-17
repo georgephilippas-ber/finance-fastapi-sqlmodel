@@ -26,7 +26,7 @@ class CompanyService:
         query_ = select(
             Company.id, Company.name, Ticker.code, Exchange.code, Currency.symbol,
             GICSSector.name, GICSIndustry.name,
-            Company.logo_url, Country.flag_url).select_from(
+            Company.logo_url, Country.flag_url, Ticker.id).select_from(
             Company).join(Country,
                           Company.country_id == Country.id).join(
             Currency, Currency.id == Company.currency_id).join(GICSSector,
@@ -44,7 +44,7 @@ class CompanyService:
                                   currency_symbol=query_result_[4], gics_sector_name=query_result_[5],
                                   gics_industry_name=query_result_[6],
                                   company_logo_url=urljoin(self._company_logo_base_url, query_result_[7]),
-                                  country_flag_url=query_result_[8])
+                                  country_flag_url=query_result_[8], ticker_id=query_result_[9])
             for query_result_ in query_result_list_]
 
 

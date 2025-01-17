@@ -20,8 +20,9 @@ class EndOfDayChangeOverviewManager(Manager):
 
         return self._session.exec(query_).first()
 
-    def retrieve_unique(self, schema: EndOfDayChangeOverviewSchema) -> Optional[EndOfDayChangeOverview]:
-        query_ = select(EndOfDayChangeOverview).where(EndOfDayChangeOverview.latest_date == schema.latest_date)
+    def retrieve_unique(self, schema: EndOfDayChangeOverviewSchema, **kwargs) -> Optional[EndOfDayChangeOverview]:
+        query_ = select(EndOfDayChangeOverview).where(and_(EndOfDayChangeOverview.latest_date == schema.latest_date,
+                                                           EndOfDayChangeOverview.ticker_id == kwargs.get('ticker_id')))
 
         return self._session.exec(query_).first()
 
