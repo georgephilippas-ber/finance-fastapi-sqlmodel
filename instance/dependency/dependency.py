@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Optional
+from typing import Optional, Tuple
 
 from fastapi import Depends, Request, HTTPException
 from sqlmodel import Session
@@ -56,7 +56,7 @@ def get_end_of_day_change_overview_orchestrator_dependencies(session: Session = 
 
 
 def get_end_of_day_change_overview_orchestrator(
-        dependencies: (EndOfDayChangeOverviewManager, TickerManager, ExchangeManager) = Depends(
+        dependencies: Tuple[EndOfDayChangeOverviewManager, TickerManager, ExchangeManager] = Depends(
             get_end_of_day_change_overview_orchestrator_dependencies)) -> EndOfDayChangeOverviewOrchestrator:
     return EndOfDayChangeOverviewOrchestrator(eodhd_client_instance, eodhd_end_of_day_change_overview_adapter_instance,
                                               dependencies[0], dependencies[1], dependencies[2])

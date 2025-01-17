@@ -25,3 +25,6 @@ Content-Type: application/json
 
 ###
 GET http://localhost:8000/company/overview?id_param=1&id_param=3&id_param=5
+
+###
+GET http://localhost:8000/company/end-of-day-change-overview?ticker_id=44
