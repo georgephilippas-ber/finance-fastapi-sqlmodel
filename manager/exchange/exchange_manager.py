@@ -4,7 +4,6 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlmodel import Session, select
 
 from abstract.manager.manager import Manager
-from core.client.eodhd import to_eodhd_exchange_code
 from model.exchange.exchange import Exchange
 from schema.exchange.exchange import ExchangeSchema
 
