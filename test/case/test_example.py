@@ -1,15 +1,12 @@
 import asyncio
 
-import model.comprehensive
-
 from adapter.eodhd.end_of_day_change_overview_adapter import EndOfDayChangeOverviewAdapter
 from client.eodhd.eodhd_client import EODHDClient
 from database.database import Database
 from manager.end_of_day_change_overview.end_of_day_change_overview_manager import EndOfDayChangeOverviewManager
 from manager.exchange.exchange_manager import ExchangeManager
 from manager.ticker.ticker_manager import TickerManager
-from model.end_of_day_change_overview.end_of_day_change_overview import EndOfDayChangeOverview
-from orchestrator.end_of_day_change_overview.end_of_day_change_overview_orchestrator import \
+from orchestrator.eodhd.end_of_day_change_overview_orchestrator import \
     EndOfDayChangeOverviewOrchestrator
 
 import pytest

@@ -1,4 +1,4 @@
-import {getCompanyOverview} from "@/actions/company/company";
+import {getCompanyOverview} from "@/actions/financial/company";
 import {CompanyOverview} from "@/components/server/company/company-overview";
 
 export default async function ()
