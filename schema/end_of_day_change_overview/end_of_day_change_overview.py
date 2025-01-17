@@ -4,7 +4,7 @@ from datetime import date
 from pydantic import BaseModel, Field
 
 
-class EndOfDayChangeOverview(BaseModel):
+class EndOfDayChangeOverviewSchema(BaseModel):
     latest: Optional[float] = Field(default=None)
     latest_date: Optional[date] = Field(default=None)
 
