@@ -1,5 +1,3 @@
-from typing import List
-
 from fastapi import APIRouter, Query, Depends
 
 from instance.dependency.dependency import get_company_service, api_security

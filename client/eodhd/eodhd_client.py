@@ -5,14 +5,16 @@ from os import environ
 from os.path import join
 from typing import Optional, List, Dict
 from urllib.parse import urljoin
+from datetime import date
 
 import httpx
 
 from abstract.client.client import Client
-from core.utilities.root import project_root
 from configuration.client.eodhd import EODHD_DEMO
 from core.client.eodhd import to_eodhd_exchange_code
 from core.environment.environment import load_environment
+from core.utilities.date import day_before, beginning_of_month
+from core.utilities.root import project_root
 from exception.exception import APISecurityException
 
 load_environment()
@@ -121,11 +123,48 @@ class EODHDClient(Client):
         return await self._fundamentals(symbol, to_eodhd_exchange_code(exchange_code), prefer_cached=prefer_cached,
                                         debug=debug)
 
+    async def eod(self, symbol: str, exchange_code: str, date_: Optional[date] = None, *, prefer_cached: bool = True,
+                  debug: bool = False):
+        if date_ is None:
+            date_ = date.today()
+
+        url_ = urljoin(self._base_url, f'/api/eod/{symbol.upper()}.{to_eodhd_exchange_code(exchange_code.upper())}')
+        cache_file_path_ = join(project_root(), "client", "cache", "eodhd", "end-of-day",
+                                f"{symbol.upper()}-{exchange_code.upper()}_{date.today()}.json")
+
+        if prefer_cached:
+            try:
+                with open(cache_file_path_, 'r') as cache_file:
+                    return json.load(cache_file)
+            except FileNotFoundError:
+                pass
+
+        async with httpx.AsyncClient() as client:
+            yesterday_ = day_before(date_)
+            beginning_of_month_ = beginning_of_month(yesterday_)
+
+            response_ = await client.get(url_,
+                                         params={'api_token': self._api_token, 'fmt': 'json', 'period': 'd',
+                                                 'from': beginning_of_month_.isoformat(), 'to': yesterday_.isoformat()})
+
+            if debug:
+                print(response_.status_code)
+
+            if response_.status_code == HTTPStatus.OK:
+                with open(cache_file_path_, 'w') as cache_file:
+                    json.dump(response_.json(), cache_file, indent=4)
+
+                return response_.json()
+            else:
+                return None
+
 
 if __name__ == '__main__':
     async def execute():
-        s = await EODHDClient().fundamentals('CAR', 'F')
-        print(s)
+        client_ = EODHDClient()
+
+        f = await client_.eod("MSFT", "NASDAQ", debug=True)
+        print(f)
 
 
     asyncio.run(execute())
