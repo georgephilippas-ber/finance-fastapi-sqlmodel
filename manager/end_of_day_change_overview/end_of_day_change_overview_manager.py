@@ -6,11 +6,19 @@ from sqlmodel import Session, select
 from abstract.manager.manager import Manager
 from model.end_of_day_change_overview.end_of_day_change_overview import EndOfDayChangeOverview
 from schema.end_of_day_change_overview.end_of_day_change_overview import EndOfDayChangeOverviewSchema
+from datetime import date
+from sqlalchemy import and_
 
 
 class EndOfDayChangeOverviewManager(Manager):
     def __init__(self, session: Session):
         super().__init__(session)
+
+    def by_ticker_id_and_date(self, ticker_id: int, date_: date) -> Optional[EndOfDayChangeOverview]:
+        query_ = select(EndOfDayChangeOverview).where(
+            and_(EndOfDayChangeOverview.ticker_id == ticker_id, EndOfDayChangeOverview.date == date_)).where()
+
+        return self._session.exec(query_).first()
 
     def retrieve_unique(self, schema: EndOfDayChangeOverviewSchema) -> Optional[EndOfDayChangeOverview]:
         query_ = select(EndOfDayChangeOverview).where(EndOfDayChangeOverview.latest_date == schema.latest_date)
