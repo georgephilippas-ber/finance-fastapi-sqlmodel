@@ -16,7 +16,7 @@ class EndOfDayChangeOverviewManager(Manager):
 
     def by_ticker_id_and_date(self, ticker_id: int, date_: date) -> Optional[EndOfDayChangeOverview]:
         query_ = select(EndOfDayChangeOverview).where(
-            and_(EndOfDayChangeOverview.ticker_id == ticker_id, EndOfDayChangeOverview.date == date_)).where()
+            and_(EndOfDayChangeOverview.ticker_id == ticker_id, EndOfDayChangeOverview.latest_date == date_)).where()
 
         return self._session.exec(query_).first()
 
