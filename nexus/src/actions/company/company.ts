@@ -8,7 +8,7 @@ export async function getCompanyOverview(ids: number[]): Promise<company_overvie
         const response_ = await fastApiClient.get<company_overview_type[]>("/company/overview", {
             params:
                 {
-                    ids
+                    ids: ids.join(','),
                 },
         });
 
