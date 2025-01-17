@@ -25,7 +25,7 @@ class JSONWebToken:
 
         return access_token_
 
-    def verify(self, token: str):
+    def verify(self, token: str) -> Optional[Dict]:
         try:
             return jwt.decode(token, self._secret_key, algorithms=[self._algorithm])
         except (ExpiredSignatureError, InvalidTokenError) as e:

@@ -1,10 +1,10 @@
-import {fastapiClient} from "@/instances/axios-instance";
+import {fastApiClient} from "@/instance/axios-instance";
 
 export async function login(identifier: string, password: string): Promise<boolean>
 {
     try
     {
-        await fastapiClient.post('/authentication/login', {
+        await fastApiClient.post('/authentication/login', {
             identifier,
             password,
         });
