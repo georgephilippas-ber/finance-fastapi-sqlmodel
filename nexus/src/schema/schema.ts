@@ -1,5 +1,6 @@
 export type company_overview_type =
     {
+        ticker_id: number,
         company_id: number,
         company_name: string,
         ticker_code: string,
