@@ -3,10 +3,14 @@ from typing import Tuple
 
 from langchain_community.llms.llamacpp import LlamaCpp
 from time import time
-
+from os import sep
 from core.utilities.root import project_root
+from configuration.environment import EnvironmentType, ENVIRONMENT
 
-MODEL_PATH_AND_FILENAME = join(project_root(), "core", "ai", "models", "granite-3.1-8b-instruct-Q4_K_M.gguf")
+if ENVIRONMENT == EnvironmentType.PRODUCTION:
+    MODEL_PATH_AND_FILENAME: str = join(project_root(), "core", "ai", "models", "granite-3.1-8b-instruct-Q4_K_M.gguf")
+else:
+    MODEL_PATH_AND_FILENAME: str = join(project_root(), "core", "ai", "models", "qwen2-0_5b-instruct-q4_0.gguf")
 
 
 class LargeLanguageModel:
@@ -15,15 +19,19 @@ class LargeLanguageModel:
 
     def __init__(self, model_path_and_filename: str = MODEL_PATH_AND_FILENAME):
         self._model_path_and_filename = model_path_and_filename
-
+        print("LOADING LargeLanguageModel", self._model_path_and_filename.split(sep)[-1], end='')
+        beginning_ = time()
         self._instance = LlamaCpp(
             model_path=self._model_path_and_filename,
             temperature=0.75,
             max_tokens=2000,
-            n_ctx=2048,
+            n_ctx=131072,
             top_p=1,
             verbose=False,
+            n_batch=32,
         )
+        end_ = time()
+        print(f" - DONE - {end_ - beginning_:.2f}s")
 
     def query(self, query_: str) -> Tuple[str, float]:
         beginning_: float = time()
@@ -34,9 +42,4 @@ class LargeLanguageModel:
 
 
 if __name__ == '__main__':
-    llm = LargeLanguageModel()
-
-    r, p = llm.query(
-        "Just say hello in 9 ways of increasing politeness. Just a JSON array of strings as a response with no special characters or escape sequences.")
-
-    print(r.replace("\n", ""))
+    pass

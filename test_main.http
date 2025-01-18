@@ -28,3 +28,9 @@ GET http://localhost:8000/company/overview?id_param=1&id_param=3&id_param=5
 
 ###
 GET http://localhost:8000/company/end-of-day-change-overview?ticker_id=44
+
+###
+GET http://localhost:8000/ai/query?query=Say hello
+
+###
+GET http://localhost:8000/ai/poll-result?task_id=4a43b423-01b7-44d6-8d65-c2e8d4c2225e
