@@ -1,5 +1,6 @@
-# pip install --upgrade --quiet  llama-cpp-python
 # https://model.lmstudio.ai/download/lmstudio-community/granite-3.1-8b-instruct-GGUF
+
+from llama_cpp import llama_token
 
 from langchain_community.llms import LlamaCpp
 from langchain_core.callbacks import CallbackManager, StreamingStdOutCallbackHandler
