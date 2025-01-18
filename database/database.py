@@ -1,4 +1,7 @@
+from typing import List
+
 from sqlalchemy import Engine
+from sqlalchemy.sql.ddl import CreateTable
 from sqlmodel import create_engine, SQLModel, Session
 from configuration.database import DATABASE_URL
 
@@ -23,3 +26,19 @@ class Database:
 
     def create_session(self) -> Session:
         return Session(self._engine)
+
+    def get_create_tables_sql_query(self) -> str:
+        models_ = SQLModel.metadata.tables.values()
+
+        statements_: List[str] = []
+
+        for model_ in models_:
+            model_create_sql_statement_ = str(CreateTable(model_).compile(self.get_engine())).replace("\n", "").replace(
+                "\t", "").strip()
+            statements_.append(model_create_sql_statement_)
+
+        return "; ".join(statements_)
+
+
+if __name__ == '__main__':
+    pass

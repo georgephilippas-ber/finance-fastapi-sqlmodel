@@ -22,7 +22,7 @@ class CompanyService:
 
         self._company_logo_base_url = company_logo_base_url
 
-    def get_company_overview(self, company_id_list: List[int]) -> List[CompanyOverviewSchema]:
+    def company_overview(self, company_id_list: List[int]) -> List[CompanyOverviewSchema]:
         query_ = select(
             Company.id, Company.name, Ticker.code, Exchange.code, Currency.symbol,
             GICSSector.name, GICSIndustry.name,
