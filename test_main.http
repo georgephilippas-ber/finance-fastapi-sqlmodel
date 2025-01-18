@@ -33,4 +33,4 @@ GET http://localhost:8000/company/end-of-day-change-overview?ticker_id=44
 GET http://localhost:8000/ai/query?query=The death is not imminent but
 
 ###
-GET http://localhost:8000/ai/poll-result?task_id=01e77830-abb3-464e-ab28-08ac21745cf5
+GET http://localhost:8000/ai/poll-result?task_id=db619921-0464-489f-ae17-fd4535a3dfd8
