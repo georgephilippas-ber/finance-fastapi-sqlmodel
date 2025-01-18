@@ -9,23 +9,26 @@ from configuration.environment import EnvironmentType, ENVIRONMENT
 
 if ENVIRONMENT == EnvironmentType.PRODUCTION:
     MODEL_PATH_AND_FILENAME: str = join(project_root(), "core", "ai", "models", "granite-3.1-8b-instruct-Q4_K_M.gguf")
+    N_CTX: int = 131072
 else:
     MODEL_PATH_AND_FILENAME: str = join(project_root(), "core", "ai", "models", "qwen2-0_5b-instruct-q4_0.gguf")
+    N_CTX: int = 32768
 
 
 class LargeLanguageModel:
     _model_path_and_filename: str
     _instance: LlamaCpp
 
-    def __init__(self, model_path_and_filename: str = MODEL_PATH_AND_FILENAME):
+    def __init__(self, model_path_and_filename: str = MODEL_PATH_AND_FILENAME, *, n_ctx: int = N_CTX,
+                 max_tokens: int = 2048):
         self._model_path_and_filename = model_path_and_filename
         print("LOADING LargeLanguageModel", self._model_path_and_filename.split(sep)[-1], end='')
         beginning_ = time()
         self._instance = LlamaCpp(
             model_path=self._model_path_and_filename,
             temperature=0.75,
-            max_tokens=2000,
-            n_ctx=131072,
+            max_tokens=max_tokens,
+            n_ctx=n_ctx,
             top_p=1,
             verbose=False,
             n_batch=32,
