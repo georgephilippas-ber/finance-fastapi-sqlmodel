@@ -9,7 +9,7 @@ from configuration.project import PROJECT_NAME
 from core.ai.ai import LargeLanguageModel
 from core.environment.environment import EnvironmentType
 
-celery = Celery(PROJECT_NAME, broker="memory://")
+celery = Celery(PROJECT_NAME, broker="memory://", backend="cache+memory://")
 
 if ENVIRONMENT == EnvironmentType.DEVELOPMENT:
     celery.conf.task_always_eager = True
@@ -29,7 +29,7 @@ def init_worker(**kwargs):
 
 
 @celery.task
-def infer(query: str) -> Tuple[str, float]:
+def infer(query: str) -> Tuple[str, Tuple[str, float]]:
     global large_language_moder_worker_instance
 
-    return large_language_moder_worker_instance.query(query)
+    return query, *large_language_moder_worker_instance.query(query)

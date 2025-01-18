@@ -8,7 +8,6 @@ ai_router = APIRouter(prefix="/ai")
 @ai_router.get("/query")
 async def get_ai(query: str = Query(...)):
     task = infer.delay(query)
-    print(task)
     return {"task_id": task.id}
 
 
