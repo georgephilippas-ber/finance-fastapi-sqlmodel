@@ -22,7 +22,7 @@ class UserManager(Manager):
 
         return user_ if user_ is not None and verify_password(password, user_.password) else None
 
-    def retrieve_unique(self, schema: UserSchema) -> Optional[
+    def retrieve_unique(self, schema: UserSchema, **kwargs) -> Optional[
         Tuple[User, Literal["exists_by_username", "exists_by_email"]]]:
         query_ = select(User).where(
             or_(User.username == schema.username, User.email == schema.email)

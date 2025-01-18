@@ -12,7 +12,7 @@ class CurrencyManager(Manager):
     def __init__(self, session: Session):
         super().__init__(session)
 
-    def retrieve_unique(self, schema: CurrencySchema) -> Optional[Currency]:
+    def retrieve_unique(self, schema: CurrencySchema, **kwargs) -> Optional[Currency]:
         query_ = select(Currency).where(Currency.code == schema.code)
 
         return self._session.exec(query_).first()

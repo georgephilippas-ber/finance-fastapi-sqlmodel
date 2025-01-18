@@ -25,7 +25,7 @@ class TickerManager(Manager):
 
         return self._session.exec(query_).first()
 
-    def retrieve_unique(self, schema: TickerSchema) -> Optional[Ticker]:
+    def retrieve_unique(self, schema: TickerSchema, **kwargs) -> Optional[Ticker]:
         query_ = select(Ticker).where(Ticker.isin == schema.isin)
 
         return (self._session.exec(query_)).first()

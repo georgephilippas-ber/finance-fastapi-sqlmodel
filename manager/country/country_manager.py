@@ -22,7 +22,7 @@ class CountryManager(Manager):
 
         return (self._session.exec(query_)).first()
 
-    def retrieve_unique(self, schema: CountrySchema) -> Optional[Country]:
+    def retrieve_unique(self, schema: CountrySchema, **kwargs) -> Optional[Country]:
         query_ = select(Country).where(Country.cca2 == schema.iso_code.cca2)
 
         return (self._session.exec(query_)).first()

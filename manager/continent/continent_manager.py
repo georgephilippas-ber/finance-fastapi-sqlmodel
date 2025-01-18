@@ -12,7 +12,7 @@ class ContinentManager(Manager):
     def __init__(self, session: Session):
         super().__init__(session)
 
-    def retrieve_unique(self, schema: ContinentSchema) -> Optional[Continent]:
+    def retrieve_unique(self, schema: ContinentSchema, **kwargs) -> Optional[Continent]:
         query_ = select(Continent).where(Continent.name == schema.name)
 
         return (self._session.exec(query_)).first()

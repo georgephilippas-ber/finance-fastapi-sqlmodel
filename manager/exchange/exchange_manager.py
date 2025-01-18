@@ -22,7 +22,7 @@ class ExchangeManager(Manager):
 
         return self._session.exec(query_).first()
 
-    def retrieve_unique(self, schema: ExchangeSchema) -> Optional[Exchange]:
+    def retrieve_unique(self, schema: ExchangeSchema, **kwargs) -> Optional[Exchange]:
         query_ = select(Exchange).where(Exchange.code == schema.code)
 
         return self._session.exec(query_).first()

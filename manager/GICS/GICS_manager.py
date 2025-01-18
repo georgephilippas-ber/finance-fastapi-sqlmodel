@@ -11,7 +11,7 @@ class GICSSectorManager(Manager):
     def __init__(self, session: Session):
         super().__init__(session)
 
-    def retrieve_unique(self, schema: GICSSchema) -> Optional[GICSSector]:
+    def retrieve_unique(self, schema: GICSSchema, **kwargs) -> Optional[GICSSector]:
         query_ = select(GICSSector).where(GICSSector.name == schema.sector)
 
         return self._session.exec(query_).first()

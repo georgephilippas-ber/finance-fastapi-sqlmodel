@@ -18,7 +18,7 @@ class CompanySnapshotMetricsManager(Manager):
 
         self._company_manager = company_manager
 
-    def retrieve_unique(self, schema_tuple: Tuple[CompanySchema, CompanySnapshotMetricsSchema]) -> Optional[
+    def retrieve_unique(self, schema_tuple: Tuple[CompanySchema, CompanySnapshotMetricsSchema], **kwargs) -> Optional[
         CompanySnapshotMetrics]:
         company_schema_, company_snapshot_metrics_schema_ = schema_tuple
 

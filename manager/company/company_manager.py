@@ -17,7 +17,7 @@ class CompanyManager(Manager):
 
         return (self._session.exec(query_)).first()
 
-    def retrieve_unique(self, schema: CompanySchema) -> Optional[Company]:
+    def retrieve_unique(self, schema: CompanySchema, **kwargs) -> Optional[Company]:
         query_ = select(Company).where(Company.isin == schema.isin)
 
         return self._session.exec(query_).first()
