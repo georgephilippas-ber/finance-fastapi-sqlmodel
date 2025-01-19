@@ -15,8 +15,6 @@ if __name__ == '__main__':
         seeder = MeilisearchSeeder(mclient_, c_service)
 
         print(seeder.seed())
-        sleep(3)
 
         print(mclient_.all("company"))
-
         print(mclient_.search("company", "Woodward"))
