@@ -4,7 +4,7 @@ from sqlalchemy import or_
 from sqlmodel import Session, select
 
 from abstract.manager.manager import Manager
-from service.security.encryption.encryption import hash_password, verify_password
+from core.security.encryption.encryption import hash_password, verify_password
 from model.user.user import User
 from schema.user.user import UserSchema
 

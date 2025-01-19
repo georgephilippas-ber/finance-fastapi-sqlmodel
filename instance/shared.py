@@ -1,6 +1,6 @@
 from adapter.eodhd.end_of_day_change_overview_adapter import EndOfDayChangeOverviewAdapter
 from client.eodhd.eodhd_client import EODHDClient
-from service.security.jsonwebtoken.jsonwebtoken import JSONWebToken
+from core.security.jsonwebtoken.jsonwebtoken import JSONWebToken
 from database.database import Database
 
 json_web_token_instance = JSONWebToken()
