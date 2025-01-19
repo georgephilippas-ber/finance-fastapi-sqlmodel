@@ -48,7 +48,8 @@ class CompanyService:
                                   currency_code=query_result_[10], description=query_result_[11],
                                   country_common_name=query_result_[12], country_official_name=query_result_[13],
                                   country_cca2=query_result_[14], country_cca3=query_result_[15],
-                                  continents=','.join([c.name for c in query_result_[16].continent_list]))
+                                  continents=','.join(
+                                      [continent_.name for continent_ in query_result_[16].continent_list]))
             for query_result_ in query_result_list_]
 
 
