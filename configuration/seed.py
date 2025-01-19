@@ -16,6 +16,7 @@ class ModelSliceEnum(str, Enum):
     TICKER = "ticker"
     COMPANY_AND_COMPANY_SNAPSHOT_METRICS = "company_and_company_snapshot_metrics",
     USER = "user"
+    MEILISEARCH_COMPANY_SEEDER = "meilisearch_company_seeder"
 
 
 DROP_ALL_TABLES_BEFORE_SEEDING: bool = True
@@ -29,7 +30,8 @@ SEED_ENTITIES_SPECIFICATION: SeedSpecificationDict = {
     ModelSliceEnum.TICKER: (True, [ModelSliceEnum.EXCHANGE]),
     ModelSliceEnum.COMPANY_AND_COMPANY_SNAPSHOT_METRICS: (
         True, [ModelSliceEnum.TICKER, ModelSliceEnum.COUNTRY_CURRENCY, ModelSliceEnum.GICS, ModelSliceEnum.EXCHANGE]),
-    ModelSliceEnum.USER: (True, [])
+    ModelSliceEnum.USER: (True, []),
+    ModelSliceEnum.MEILISEARCH_COMPANY_SEEDER: (True, [ModelSliceEnum.COMPANY_AND_COMPANY_SNAPSHOT_METRICS])
 }
 
 

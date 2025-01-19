@@ -15,8 +15,8 @@ class MeilisearchCompanySeeder:
 
         self._index_name = index_name
 
-    def seed(self) -> bool:
-        return self._meilisearch_client.seed_index(self._index_name,
-                                                   [company_overview_.model_dump() for company_overview_ in
-                                                    self._company_service.company_overview()],
-                                                   primary_key='_'.join([self._index_name, "id"]))
+    async def seed(self):
+        self._meilisearch_client.seed_index(self._index_name,
+                                            [company_overview_.model_dump() for company_overview_ in
+                                             self._company_service.company_overview()],
+                                            primary_key='_'.join([self._index_name, "id"]))

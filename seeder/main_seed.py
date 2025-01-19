@@ -11,6 +11,8 @@ from adapter.restcountries.restcountries_adapter import RESTCountriesAdapter
 from client.eodhd.eodhd_client import EODHDClient
 from client.restcountries.restcountries_client import RESTCountriesClient
 from configuration.seed import SEED_ENTITIES_SPECIFICATION, ModelSliceEnum, DROP_ALL_TABLES_BEFORE_SEEDING
+from seeder.meilisearch.company_seeder import MeilisearchCompanySeeder
+from service.company.company_service import CompanyService
 from service.dependency.dependency import Resolver
 from service.dependency.resolvers.compile import compile_resolver
 from database.database import Database
@@ -28,6 +30,7 @@ from seeder.eodhd.eodhd_seeder import EODHDSeeder
 from seeder.kaggle.kaggle_seeder import KaggleSeeder
 from seeder.local.user_seeder import UserSeeder
 from seeder.restcountries.restcountries_seeder import RESTCountriesSeeder
+from service.search.meilisearch.meilisearch_client import MeilisearchClient
 
 
 async def seed(drop_all: bool = False):
@@ -42,6 +45,8 @@ async def seed(drop_all: bool = False):
     eodhd_ticker_adapter_ = TickerAdapter()
     eodhd_company_adapter_ = CompanyAdapter()
     eodhd_company_snapshot_metrics_adapter_ = CompanySnapshotMetricsAdapter()
+
+    meilisearch_client = MeilisearchClient()
 
     with Session(database_.get_engine()) as session:
         country_manager_ = CountryManager(session)
@@ -60,6 +65,8 @@ async def seed(drop_all: bool = False):
         gics_industry_manager_ = GICSIndustryManager(session, gics_sector_manager_, gics_industry_group_manager_)
         gics_sub_industry_manager = GICSSubIndustryManager(session, gics_sector_manager_,
                                                            gics_industry_group_manager_, gics_industry_manager_)
+
+        company_service_ = CompanyService(session)
 
         restcountries_seeder_ = RESTCountriesSeeder(restcountries_client, restcountries_adapter_, country_manager_,
                                                     currency_manager_,
@@ -89,6 +96,8 @@ async def seed(drop_all: bool = False):
 
         user_seeder_ = UserSeeder(user_manager_)
 
+        meilisearch_company_seeder_ = MeilisearchCompanySeeder(meilisearch_client, company_service_)
+
         resolver_: Resolver = compile_resolver(SEED_ENTITIES_SPECIFICATION)
 
         resolver_.add_callback(ModelSliceEnum.COUNTRY_CURRENCY.value, restcountries_seeder_.seed)
@@ -98,6 +107,7 @@ async def seed(drop_all: bool = False):
         resolver_.add_callback(ModelSliceEnum.COMPANY_AND_COMPANY_SNAPSHOT_METRICS.value,
                                eodhd_seeder_.seed_company_and_company_snapshot_metrics)
         resolver_.add_callback(ModelSliceEnum.USER.value, user_seeder_.seed)
+        resolver_.add_callback(ModelSliceEnum.MEILISEARCH_COMPANY_SEEDER, meilisearch_company_seeder_.seed)
 
         await resolver_.process()
 
