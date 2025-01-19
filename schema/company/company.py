@@ -42,3 +42,8 @@ class CompanyOverviewSchema(BaseModel):
     company_logo_url: str
     country_flag_url: str
     description: str
+    country_common_name: str
+    country_official_name: str
+    country_cca2: str
+    country_cca3: str
+    continents: str

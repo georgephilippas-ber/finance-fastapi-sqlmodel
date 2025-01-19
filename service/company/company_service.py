@@ -5,6 +5,7 @@ from sqlmodel import select, Session
 from configuration.client.eodhd import EODHD_BASE_URL
 from model.GICS.GICS import GICSSector, GICSIndustry
 from model.company.company import Company
+from model.continent.continent import Continent
 from model.country.country import Country
 from model.currency.currency import Currency
 from model.exchange.exchange import Exchange
@@ -25,7 +26,8 @@ class CompanyService:
     def company_overview(self, company_id_list: Optional[List[int]] = None) -> List[CompanyOverviewSchema]:
         query_ = select(Company.id, Company.name, Ticker.code, Exchange.code, Currency.symbol,
                         GICSSector.name, GICSIndustry.name,
-                        Company.logo_url, Country.flag_url, Ticker.id, Currency.code, Company.description).select_from(
+                        Company.logo_url, Country.flag_url, Ticker.id, Currency.code, Company.description,
+                        Country.common_name, Country.official_name, Country.cca2, Country.cca3, Country).select_from(
             Company).join(Country,
                           Company.country_id == Country.id).join(
             Currency, Currency.id == Company.currency_id).join(GICSSector,
@@ -45,7 +47,10 @@ class CompanyService:
                                   gics_industry_name=query_result_[6],
                                   company_logo_url=urljoin(self._company_logo_base_url, query_result_[7]),
                                   country_flag_url=query_result_[8], ticker_id=query_result_[9],
-                                  currency_code=query_result_[10], description=query_result_[11])
+                                  currency_code=query_result_[10], description=query_result_[11],
+                                  country_common_name=query_result_[12], country_official_name=query_result_[13],
+                                  country_cca2=query_result_[14], country_cca3=query_result_[15],
+                                  continents=','.join([c.name for c in query_result_[16].continent_list]))
             for query_result_ in query_result_list_]
 
 
