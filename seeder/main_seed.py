@@ -10,11 +10,8 @@ from adapter.kaggle.gics_adapter import GICSAdapter
 from adapter.restcountries.restcountries_adapter import RESTCountriesAdapter
 from client.eodhd.eodhd_client import EODHDClient
 from client.restcountries.restcountries_client import RESTCountriesClient
-from configuration.seed import SEED_ENTITIES_SPECIFICATION, ModelSliceEnum, DROP_ALL_TABLES_BEFORE_SEEDING
-from seeder.meilisearch.company_seeder import MeilisearchCompanySeeder
-from service.company.company_service import CompanyService
-from service.dependency.dependency import Resolver
-from service.dependency.resolvers.compile import compile_resolver
+from configuration.seed import SEED_ENTITIES_SPECIFICATION, ModelSliceEnum, DROP_ALL_TABLES_BEFORE_SEEDING, \
+    SeedSpecificationDict
 from database.database import Database
 from manager.GICS.GICS_manager import GICSSectorManager, GICSIndustryGroupManager, GICSIndustryManager, \
     GICSSubIndustryManager
@@ -29,11 +26,15 @@ from manager.user.user_manager import UserManager
 from seeder.eodhd.eodhd_seeder import EODHDSeeder
 from seeder.kaggle.kaggle_seeder import KaggleSeeder
 from seeder.local.user_seeder import UserSeeder
+from seeder.meilisearch.company_seeder import MeilisearchCompanySeeder
 from seeder.restcountries.restcountries_seeder import RESTCountriesSeeder
+from service.company.company_service import CompanyService
+from service.dependency.dependency import Resolver
+from service.dependency.resolvers.compile import compile_resolver
 from service.search.meilisearch.meilisearch_client import MeilisearchClient
 
 
-async def seed(drop_all: bool = False):
+async def seed(seed_specification: SeedSpecificationDict, drop_all: bool = False, debug: bool = True):
     database_ = Database()
     database_.create_tables(drop_all=drop_all)
 
@@ -98,7 +99,7 @@ async def seed(drop_all: bool = False):
 
         meilisearch_company_seeder_ = MeilisearchCompanySeeder(meilisearch_client, company_service_)
 
-        resolver_: Resolver = compile_resolver(SEED_ENTITIES_SPECIFICATION)
+        resolver_: Resolver = compile_resolver(seed_specification, debug=debug)
 
         resolver_.add_callback(ModelSliceEnum.COUNTRY_CURRENCY.value, restcountries_seeder_.seed)
         resolver_.add_callback(ModelSliceEnum.GICS, kaggle_seeder_.seed_gics)
@@ -115,4 +116,4 @@ async def seed(drop_all: bool = False):
 
 
 if __name__ == '__main__':
-    asyncio.run(seed(drop_all=DROP_ALL_TABLES_BEFORE_SEEDING))
+    asyncio.run(seed(SEED_ENTITIES_SPECIFICATION, drop_all=DROP_ALL_TABLES_BEFORE_SEEDING, debug=True))

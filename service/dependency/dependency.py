@@ -58,11 +58,13 @@ class Resolver:
 
         if item.enabled:
             if self._debug:
-                print(f"executing {item.name}")
+                print("SEEDING - " + item.name, end='')
+
             if inspect.iscoroutinefunction(item.callback):
                 await item.callback()
             else:
                 item.callback()
+            print(' - Done')
 
         self._resolved_set.add(item.name)
 

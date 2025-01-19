@@ -23,8 +23,6 @@ class KaggleSeeder:
         self._gics_sub_industry_manager = gics_sub_industry_manager
 
     def seed_gics(self):
-        print('SEEDING - GICS')
-
         gics_client_ = KaggleGICSClient('2023')
 
         for record_ in gics_client_.get_records():

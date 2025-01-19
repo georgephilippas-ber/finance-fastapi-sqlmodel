@@ -75,8 +75,6 @@ class EODHDSeeder:
         self._prefer_cached = prefer_cached
 
     async def seed_exchange(self):
-        print("SEEDING - Exchange", end='')
-
         dict_list_ = await self._eodhd_client.exchanges_list()
         schema_list_ = self._eodhd_exchange_adapter.adapt_many(dict_list_)
 
@@ -88,11 +86,8 @@ class EODHDSeeder:
                 exchange_model_ = self._exchange_manager.persist(exchange_schema_, {'country_id': country_.id,
                                                                                     'currency_id': currency_.id})
         self._session.commit()
-        print(' - Done')
 
     async def seed_ticker(self):
-        print("SEEDING - Ticker", end='')
-
         dict_list_ = await self._eodhd_client.exchange_symbol_list_many(EODHD_EXCHANGES)
         schema_list_ = self._eodhd_ticker_adapter.adapt_many(dict_list_)
 
@@ -104,11 +99,8 @@ class EODHDSeeder:
                 self._ticker_manager.persist(ticker_schema_, {'exchange_id': exchange_.id, 'currency_id': currency_.id})
 
         self._session.commit()
-        print(' - Done')
 
     async def seed_company_and_company_snapshot_metrics(self):
-        print("SEEDING - Company, CompanySnapshotMetrics", end='')
-
         for symbol_, exchange_code_, ticker_id_ in self._ticker_manager.all(COMPANY_SAMPLE_SIZE):
             dict_ = await self._eodhd_client.fundamentals(symbol_, exchange_code_, debug=False)
             company_and_gics_and_currency_and_country_schema_ = self._eodhd_company_adapter.adapt(dict_)
@@ -142,4 +134,3 @@ class EODHDSeeder:
                             {'company_id': company_.id})
 
         self._session.commit()
-        print(' - Done')

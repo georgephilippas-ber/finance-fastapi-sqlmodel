@@ -28,7 +28,7 @@ class MeilisearchClient:
         index_ = self._client.index(index_name)
 
         try:
-            print(self._client.wait_for_task(index_.add_documents(documents, primary_key=primary_key).task_uid).status)
+            self._client.wait_for_task(index_.add_documents(documents, primary_key=primary_key).task_uid)
 
             return True
         except Exception as e:
