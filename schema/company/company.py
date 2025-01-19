@@ -36,7 +36,9 @@ class CompanyOverviewSchema(BaseModel):
     ticker_code: str
     exchange_code: str
     currency_symbol: str
+    currency_code: str
     gics_sector_name: str
     gics_industry_name: str
     company_logo_url: str
     country_flag_url: str
+    description: str
