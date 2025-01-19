@@ -2,7 +2,7 @@ from service.search.meilisearch.meilisearch_client import MeilisearchClient
 from service.company.company_service import CompanyService
 
 
-class MeilisearchSeeder:
+class MeilisearchCompanySeeder:
     _meilisearch_client: MeilisearchClient
     _company_service: CompanyService
 
