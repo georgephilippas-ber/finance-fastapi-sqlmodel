@@ -1,17 +1,16 @@
-from typing import List, Optional, Dict
+from typing import List, Optional
+from urllib.parse import urljoin
 
 from sqlmodel import select, Session
 
 from configuration.client.eodhd import EODHD_BASE_URL
 from model.GICS.GICS import GICSSector, GICSIndustry
 from model.company.company import Company
-from model.continent.continent import Continent
 from model.country.country import Country
 from model.currency.currency import Currency
 from model.exchange.exchange import Exchange
 from model.ticker.ticker import Ticker
 from schema.company.company import CompanyOverviewSchema
-from urllib.parse import urljoin
 
 
 class CompanyService:
