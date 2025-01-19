@@ -30,7 +30,11 @@ GET http://localhost:8000/company/overview?id_param=1&id_param=3&id_param=5
 GET http://localhost:8000/company/end-of-day-change-overview?ticker_id=44
 
 ###
-GET http://localhost:8000/ai/query?query=The death is not imminent but
+GET http://localhost:8000/company/search-query?query=retail USD
+
+
+###
+GET http://localhost:8000/ai/query?query=imminent
 
 ###
 GET http://localhost:8000/ai/poll-result?task_id=db619921-0464-489f-ae17-fd4535a3dfd8
