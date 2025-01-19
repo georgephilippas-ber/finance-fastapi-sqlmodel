@@ -11,8 +11,8 @@ from adapter.restcountries.restcountries_adapter import RESTCountriesAdapter
 from client.eodhd.eodhd_client import EODHDClient
 from client.restcountries.restcountries_client import RESTCountriesClient
 from configuration.seed import SEED_ENTITIES_SPECIFICATION, ModelSliceEnum, DROP_ALL_TABLES_BEFORE_SEEDING
-from core.dependency.dependency import Resolver
-from core.dependency.resolvers.compile import compile_resolver
+from service.dependency.dependency import Resolver
+from service.dependency.resolvers.compile import compile_resolver
 from database.database import Database
 from manager.GICS.GICS_manager import GICSSectorManager, GICSIndustryGroupManager, GICSIndustryManager, \
     GICSSubIndustryManager

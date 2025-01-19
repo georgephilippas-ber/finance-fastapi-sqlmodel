@@ -1,10 +1,10 @@
 from typing import Optional, Literal, Tuple, List
 
-from sqlalchemy import or_, and_
+from sqlalchemy import or_
 from sqlmodel import Session, select
 
 from abstract.manager.manager import Manager
-from core.encryption.encryption import hash_password, verify_password
+from service.security.encryption.encryption import hash_password, verify_password
 from model.user.user import User
 from schema.user.user import UserSchema
 

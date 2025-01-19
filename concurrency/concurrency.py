@@ -6,7 +6,7 @@ from celery.signals import worker_process_init
 
 from configuration.environment import ENVIRONMENT
 from configuration.project import PROJECT_NAME
-from core.ai.ai import LargeLanguageModel
+from service.ai.ai import LargeLanguageModel
 from core.environment.environment import EnvironmentType
 
 celery = Celery(PROJECT_NAME, broker="memory://", backend="cache+memory://")

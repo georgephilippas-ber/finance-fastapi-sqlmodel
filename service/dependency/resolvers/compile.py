@@ -1,7 +1,7 @@
 from enum import Enum
 from typing import Dict, Tuple, List, Any
 
-from core.dependency.dependency import Resolver, Injectable
+from service.dependency.dependency import Resolver, Injectable
 
 
 def compile_resolver(entities_dict: Dict[Enum, Tuple[bool, List[Any]]]) -> Resolver:

@@ -5,6 +5,8 @@ from sqlalchemy.sql.ddl import CreateTable
 from sqlmodel import create_engine, SQLModel, Session
 from configuration.database import DATABASE_URL
 
+import model.comprehensive
+
 
 class Database:
     _connection_string: str
