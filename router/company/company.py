@@ -1,3 +1,4 @@
+from collections.abc import Callable
 from typing import List
 
 from fastapi import APIRouter, Query, Depends
@@ -15,7 +16,7 @@ company_router = APIRouter(prefix="/company")
 @company_router.get("/overview")
 async def get_company_overview(company_ids: str = Query(...),
                                company_service: CompanyService = Depends(get_company_service),
-                               security=Depends(api_security)) -> List[CompanyOverviewSchema]:
+                               security: Callable = Depends(api_security)) -> List[CompanyOverviewSchema]:
     return company_service.company_overview(list(map(lambda id_: int(id_), company_ids.split(','))))
 
 
@@ -23,11 +24,10 @@ async def get_company_overview(company_ids: str = Query(...),
 async def get_end_of_day_change_overview(ticker_id: int = Query(...),
                                          end_of_day_change_overview_orchestrator: EndOfDayChangeOverviewOrchestrator = Depends(
                                              get_end_of_day_change_overview_orchestrator),
-                                         security=Depends(api_security)) -> EndOfDayChangeOverview:
+                                         security: Callable = Depends(api_security)) -> EndOfDayChangeOverview:
     return await end_of_day_change_overview_orchestrator.by_ticker_id(ticker_id)
 
 
 @company_router.get("/search-query")
-async def search(query: str = Query(required=True)):
+async def search(query: str = Query(required=True), ):
     pass
-
