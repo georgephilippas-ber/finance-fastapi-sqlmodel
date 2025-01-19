@@ -23,12 +23,11 @@ class CompanyService:
         self._company_logo_base_url = company_logo_base_url
 
     def company_overview(self, company_id_list: Optional[List[int]] = None) -> List[CompanyOverviewSchema]:
-        query_ = select(Company.id, Company.name, Ticker.code, Exchange.code, Currency.symbol,
-                        GICSSector.name, GICSIndustry.name,
-                        Company.logo_url, Country.flag_url, Ticker.id, Currency.code, Company.description,
-                        Country.common_name, Country.official_name, Country.cca2, Country.cca3, Country).select_from(
-            Company).join(Country,
-                          Company.country_id == Country.id).join(
+        query_ = select(Company.id, Company.name, Ticker.code, Exchange.code, Currency.symbol, GICSSector.name,
+                        GICSIndustry.name, Company.logo_url, Country.flag_url, Ticker.id, Currency.code,
+                        Company.description, Country.common_name, Country.official_name, Country.cca2, Country.cca3,
+                        Country).select_from(Company).join(Country,
+                                                           Company.country_id == Country.id).join(
             Currency, Currency.id == Company.currency_id).join(GICSSector,
                                                                GICSSector.id == Company.gics_sector_id).join(
             GICSIndustry,
