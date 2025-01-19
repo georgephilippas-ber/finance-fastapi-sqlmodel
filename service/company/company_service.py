@@ -22,7 +22,7 @@ class CompanyService:
 
         self._company_logo_base_url = company_logo_base_url
 
-    def company_overview(self, company_id_list: Optional[List[int]]) -> List[CompanyOverviewSchema]:
+    def company_overview(self, company_id_list: Optional[List[int]] = None) -> List[CompanyOverviewSchema]:
         query_ = select(Company.id, Company.name, Ticker.code, Exchange.code, Currency.symbol,
                         GICSSector.name, GICSIndustry.name,
                         Company.logo_url, Country.flag_url, Ticker.id, Currency.code).select_from(
@@ -48,7 +48,7 @@ class CompanyService:
                                   currency_code=query_result_[10], description=query_result_[11])
             for query_result_ in query_result_list_]
 
-    def company_overview_meilisearch(self, company_id_list: Optional[List[int]]) -> List[Dict]:
+    def company_overview_meilisearch(self, company_id_list: Optional[List[int]] = None) -> List[Dict]:
         company_overview_list_ = self.company_overview(company_id_list)
 
         return [{

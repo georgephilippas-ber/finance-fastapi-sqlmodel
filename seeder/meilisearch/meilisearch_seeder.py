@@ -11,4 +11,4 @@ class MeilisearchSeeder:
         self._company_service = company_service
 
     def seed(self):
-        pass
+        self._meilisearch_client.seed_index("company", self._company_service.company_overview_meilisearch())
