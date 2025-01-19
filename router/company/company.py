@@ -30,3 +30,4 @@ async def get_end_of_day_change_overview(ticker_id: int = Query(...),
 @company_router.get("/search-query")
 async def search(query: str = Query(required=True)):
     pass
+
