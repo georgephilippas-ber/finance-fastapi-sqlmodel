@@ -19,11 +19,13 @@ class GroupType(Enum):
     CONTINENT = Continent.__tablename__
 
 
-MetricsDictionaryType: TypeAlias = Dict[MetricType, Tuple[str, str]]
-
-MetricsDictionary: MetricsDictionaryType = {
+MetricsDictionary: Dict[MetricType, Tuple[str, str]] = {
     MetricType.MARKET_CAPITALIZATION: ("companysnapshotmetrics", "market_capitalization"),
     MetricType.RETURN_ON_ASSETS: ("companysnapshotmetrics", "return_on_assets")
+}
+
+GroupsDictionary = {
+    GroupType.GICS_INDUSTRY: ("gicsindustry", "gics_industry_id")  # (table name, foreign_key in company table)
 }
 
 
@@ -38,11 +40,3 @@ class CompanySearchSQL:
 
     def sql(self, metric: MetricType, ) -> List[int]:
         pass
-
-
-"""
-    SELECT 
-        company.id,
-        RANK() OVER (ORDER BY companysnapshotmetrics.market_capitalization) AS marker_capitalization_rank 
-    FROM company JOIN gicssector on company.gics_sector_id = gicssector.id JOIN companysnapshotmetrics ON company.id = companysnapshotmetrics.company_id
-"""

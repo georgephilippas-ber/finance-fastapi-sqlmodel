@@ -35,7 +35,6 @@ class CompanyOverviewSearchService:
             return None
 
     def sql_query(self, company_id_list: List[int]) -> Optional[List[CompanyOverviewSchema]]:
-
         return self._company_service.company_overview(company_id_list)
 
 
