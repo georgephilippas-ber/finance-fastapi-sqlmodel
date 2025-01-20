@@ -1,16 +1,20 @@
-from enum import Enum
+from enum import Enum, auto
 from typing import Dict, Tuple
 
 from typing import TypeAlias
 
 
 class MetricType(Enum):
-    MARKET_CAPITALIZATION = 1
+    MARKET_CAPITALIZATION = auto()
+    RETURN_ON_ASSETS = auto()
 
 
-MetricD: TypeAlias = Dict[MetricType, Tuple[str, str]]
+MetricsDictionaryType: TypeAlias = Dict[MetricType, Tuple[str, str]]
 
-a: MetricD = {MetricType.MARKET_CAPITALIZATION: ("", "")}
+MetricsDictionary: MetricsDictionaryType = {
+    MetricType.MARKET_CAPITALIZATION: ("companysnapshotmetrics", "market_capitalization"),
+    MetricType.RETURN_ON_ASSETS: ("companysnapshotmetrics", "return_on_assets")
+}
 
 
 class CompanySearchSQLProducer:
