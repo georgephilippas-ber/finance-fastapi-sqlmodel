@@ -1,7 +1,5 @@
-from enum import Enum, auto
+from enum import Enum
 from typing import Dict, Tuple, List
-
-from typing import TypeAlias
 
 from model.GICS.GICS import GICSIndustry
 from model.continent.continent import Continent
