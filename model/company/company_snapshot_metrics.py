@@ -1,6 +1,7 @@
 from typing import Optional
+from uuid import uuid4
 
-from sqlalchemy import Column, Numeric
+from sqlalchemy import Column, Numeric, Integer, Sequence
 from sqlmodel import SQLModel, Field, Relationship
 
 from decimal import Decimal
@@ -10,7 +11,7 @@ from model.company.company import Company
 
 
 class CompanySnapshotMetrics(SQLModel, table=True):
-    id: Optional[int] = Field(primary_key=True)
+    id: Optional[int] = Field(sa_column=Column(Integer, Sequence(uuid4().hex), primary_key=True))
 
     market_capitalization: Decimal = Field(sa_column=Column(Numeric(26, 2)))
     enterprise_value: Decimal = Field(sa_column=Column(Numeric(26, 2)))

@@ -65,8 +65,8 @@ class GICSIndustryGroupManager(Manager):
         existing_ = self.retrieve_unique(schema)
 
         if existing_ is not None:
-            existing_.name = schema.industry_group.strip()
-            existing_.sector_id = foreign_keys['sector_id']
+            # existing_.name = schema.industry_group.strip()
+            # existing_.sector_id = foreign_keys['sector_id']
 
             self._session.flush()
             return existing_

@@ -1,5 +1,7 @@
 from typing import Optional
+from uuid import uuid4
 
+from sqlalchemy import Column, Integer, Sequence
 from sqlmodel import SQLModel, Field, Relationship
 
 from model.country.country import Country
@@ -7,7 +9,7 @@ from model.currency.currency import Currency
 
 
 class Exchange(SQLModel, table=True):
-    id: Optional[int] = Field(primary_key=True)
+    id: Optional[int] = Field(sa_column=Column(Integer, Sequence(uuid4().hex), primary_key=True))
 
     code: str = Field(nullable=False, unique=True)
     name: str = Field(nullable=False)

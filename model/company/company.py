@@ -1,6 +1,7 @@
 from typing import Optional, Annotated
+from uuid import uuid4
 
-from sqlalchemy import String, Column
+from sqlalchemy import String, Column, Integer, Sequence
 from sqlmodel import SQLModel, Field, Relationship
 from model.GICS.GICS import GICSSector, GICSIndustryGroup, GICSIndustry, GICSSubIndustry
 from model.currency.currency import Currency
@@ -9,7 +10,7 @@ from model.country.country import Country
 
 
 class Company(SQLModel, table=True):
-    id: Optional[int] = Field(primary_key=True)
+    id: Optional[int] = Field(sa_column=Column(Integer, Sequence(uuid4().hex), primary_key=True))
 
     name: str = Field(nullable=False)
     isin: str = Field(nullable=False, unique=True)
