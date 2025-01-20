@@ -27,6 +27,9 @@ MetricsDictionary: MetricsDictionaryType = {
 }
 
 
+class CriterionType(Enum):
+    metric: MetricType
+    groups: List[Tuple[GroupType, float]]
 
 
 class CompanySearchSQLProducer:
