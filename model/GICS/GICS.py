@@ -1,12 +1,15 @@
-from typing import List, Optional
+from typing import List, Optional, Sequence
 
+from sqlalchemy import Column, Integer, Sequence
 from sqlmodel import SQLModel, Field, Relationship
+from uuid import uuid4
 
 
 class GICSSector(SQLModel, table=True):
     __tablename__ = 'GICSSector'
 
     id: Optional[int] = Field(default=None, primary_key=True)
+    # id: Optional[int] = Field(sa_column=Column(Integer, Sequence(uuid4().hex), primary_key=True))
     name: str = Field(nullable=False, unique=True)
 
     industry_groups: List["GICSIndustryGroup"] = Relationship(back_populates="sector")
@@ -52,6 +55,7 @@ class GICSSubIndustry(SQLModel, table=True):
     __tablename__ = 'GICSSubIndustry'
 
     id: Optional[int] = Field(default=None, primary_key=True)
+
     name: str = Field(nullable=False, unique=True)
 
     sector_id: int = Field(foreign_key="GICSSector.id")

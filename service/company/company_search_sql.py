@@ -32,9 +32,17 @@ class CriterionType(Enum):
     groups: List[Tuple[GroupType, float]]
 
 
-class CompanySearchSQLProducer:
+class CompanySearchSQL:
     def __init__(self):
         pass
 
     def sql(self, metric: MetricType, ) -> List[int]:
         pass
+
+
+"""
+    SELECT 
+        company.id,
+        RANK() OVER (ORDER BY companysnapshotmetrics.market_capitalization) AS marker_capitalization_rank 
+    FROM company JOIN gicssector on company.gics_sector_id = gicssector.id JOIN companysnapshotmetrics ON company.id = companysnapshotmetrics.company_id
+"""
