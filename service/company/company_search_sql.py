@@ -10,7 +10,7 @@ from model.company.company_snapshot_metrics import CompanySnapshotMetrics
 from model.country.country import Country
 
 
-class MetricDirection(Enum):
+class MetricDirectionType(Enum):
     HIGH_IS_BEST = 'DESC'
     LOW_IS_BEST = 'ASC'
 
@@ -39,9 +39,9 @@ groups_dictionary = {
 
 
 @dataclass
-class CriterionType:
+class Criterion:
     metric: MetricType
-    metric_direction: MetricDirection
+    metric_direction: MetricDirectionType
     groups: List[Tuple[Optional[GroupType], float]]
 
 
@@ -56,7 +56,7 @@ class CompanySearchSQL:
         return f"PARTITION BY company.{groups_dictionary[group][0]}" if group is not None else ""
 
     @staticmethod
-    def _query(metric: MetricType, metric_direction: MetricDirection,
+    def _query(metric: MetricType, metric_direction: MetricDirectionType,
                group_and_percentile: Tuple[GroupType, float]) -> str:
         query_ = f"""
             WITH ranking_table AS (
@@ -77,7 +77,7 @@ class CompanySearchSQL:
 
         return query_
 
-    def sql(self, criteria_list: List[CriterionType], operator: Literal["AND", "OR"]) -> List[int]:
+    def get_company_ids(self, criteria_list: List[Criterion], operator: Literal["AND", "OR"]) -> List[int]:
         query_list_: List[str] = []
 
         for criterion_ in criteria_list:
@@ -104,4 +104,5 @@ if __name__ == '__main__':
     db = Database()
 
     sql = CompanySearchSQL(db.get_engine())
-    print(sql.sql(example, "AND"))
+    print(sql.get_company_ids(
+        [Criterion(MetricType.MARKET_CAPITALIZATION, MetricDirectionType.HIGH_IS_BEST, [(None, 1)])], "AND"))
