@@ -32,7 +32,6 @@ metrics_dictionary: Dict[MetricType, Tuple[str, str]] = {
 
 groups_dictionary = {
     GroupType.GICS_INDUSTRY: ("gics_industry_id", GICSIndustry.__tablename__)
-    # (table name, foreign_key in company table)
 }
 
 
@@ -43,10 +42,31 @@ class CriterionType:
 
 
 example: List[CriterionType] = [
-    CriterionType(MetricType.MARKET_CAPITALIZATION, [(GroupType.GICS_INDUSTRY, 0.0001)]),
-    # CriterionType(MetricType.RETURN_ON_ASSETS, [(GroupType.GICS_INDUSTRY, 0.5)]),
-    # CriterionType(MetricType.OPERATING_PROFIT_MARGIN, [(GroupType.GICS_INDUSTRY, 0.1)])
+    CriterionType(MetricType.MARKET_CAPITALIZATION, [(GroupType.GICS_INDUSTRY, 0.1)]),
+    # CriterionType(MetricType.RETURN_ON_ASSETS, [(GroupType.GICS_INDUSTRY, 1)]),
+    # CriterionType(MetricType.OPERATING_PROFIT_MARGIN, [(GroupType.GICS_INDUSTRY, 1)])
 ]
+
+
+def query(metric: MetricType, group: Tuple[GroupType, float]) -> str:
+    query_ = f"""
+        WITH ranking_table AS (
+            SELECT
+                company.id AS company_id,
+                {metrics_dictionary[metric][0]}.{metrics_dictionary[metric][1]} AS {metrics_dictionary[metric][1]},
+                PERCENT_RANK() OVER 
+                (
+                    PARTITION BY company.{groups_dictionary[group[0]][0]} ORDER BY {metrics_dictionary[metric][0]}.{metrics_dictionary[metric][1]} DESC 
+                ) AS company_percentile
+            FROM
+                {metrics_dictionary[metric][0]}
+            JOIN
+                company ON {metrics_dictionary[metric][0]}.company_id = company.id
+        )
+        SELECT company_id FROM ranking_table WHERE company_percentile <= {group[1]}
+    """
+
+    return query_
 
 
 class CompanySearchSQL:
@@ -61,16 +81,18 @@ class CompanySearchSQL:
         for criterion_ in criteria_list:
             metric_ = criterion_.metric
             for group_ in criterion_.groups:
-                query_list_.append("(" + query(metric_, group_[0], group_[1]) + ")")
+                query_list_.append(query(metric_, group_))
+
+        query_ = ""
 
         if operator == "OR":
-            query_: str = ' UNION '.join(query_list_)
-            print(query_)
+            query_ = ' UNION '.join(map(lambda subquery: f"({subquery})", query_list_))
         elif operator == "AND":
-            pass
+            query_ = ' INTERSECT '.join(map(lambda subquery: f"({subquery})", query_list_))
 
         with self._engine.connect() as connection:
             query_results_ = connection.execute(text(query_)).all()
+            print(len(query_results_))
 
             return [query_result_[0] for query_result_ in query_results_]
 
