@@ -76,4 +76,4 @@ if __name__ == "__main__":
         co = CompanyOverviewSearchService(engine=db.get_engine(), meilisearch_client=MeilisearchClient(),
                                           company_service=cs, company_search_sql_service=cssql)
 
-        print(co.search(query='USD'))
+        print(co.search(query='furniture'))
