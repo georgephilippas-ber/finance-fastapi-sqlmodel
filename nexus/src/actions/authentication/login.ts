@@ -4,10 +4,12 @@ export async function login(identifier: string, password: string): Promise<boole
 {
     try
     {
-        await fastApiClient.post('/authentication/login', {
+        const response_ = await fastApiClient.post('/authentication/login', {
             identifier,
             password,
         });
+
+        fastApiClient.defaults.headers.common['Authorization'] = `Bearer ${response_.data.access_token}`;
 
         return true;
     }
