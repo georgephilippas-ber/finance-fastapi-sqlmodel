@@ -18,6 +18,7 @@ class Database:
         self._engine = create_engine(connection_string, echo=False)
 
     def get_engine(self) -> Engine:
+        print(self._engine.pool.status())
         return self._engine
 
     def create_tables(self, *, drop_all: bool = False):

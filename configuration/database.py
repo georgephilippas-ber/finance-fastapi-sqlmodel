@@ -13,7 +13,7 @@ class DBMSType(Enum):
     POSTGRESQL = auto()
 
 
-DBMS: DBMSType = DBMSType.MYSQL
+DBMS: DBMSType = DBMSType.DUCKDB_FILE
 
 if DBMS == DBMSType.MYSQL:
     DATABASE_URL: str = f"mysql://root:development@localhost:3306/{PROJECT_NAME.replace('-', '_')}"
