@@ -39,7 +39,7 @@ class CompanySearchSQL:
 
         return query_
 
-    def get_company_ids(self, criteria_list: List[Criterion], operator: Literal["AND", "OR"]) -> List[int]:
+    def get_company_ids(self, criteria_list: List[Criterion], operator: Literal["AND", "OR"] = "AND") -> List[int]:
         query_list_: List[str] = []
 
         for criterion_ in criteria_list:
@@ -68,4 +68,4 @@ if __name__ == '__main__':
     sql = CompanySearchSQL(db.get_engine())
     print(sql.get_company_ids(
         [Criterion(metric=MetricType.MARKET_CAPITALIZATION, metric_direction=MetricDirectionType.HIGH_IS_BEST,
-                   groups=[(None, 1)])], "AND"))
+                   groups=[(None, 1)])]))
