@@ -4,11 +4,12 @@ from typing import List
 from fastapi import APIRouter, Query, Depends, Body
 
 from instance.dependency.dependency import get_company_service, api_security, \
-    get_end_of_day_change_overview_orchestrator
+    get_end_of_day_change_overview_orchestrator, get_company_overview_search_service
 from model.end_of_day_change_overview.end_of_day_change_overview import EndOfDayChangeOverview
 from orchestrator.eodhd.end_of_day_change_overview_orchestrator import EndOfDayChangeOverviewOrchestrator
 from schema.company.company import CompanyOverviewSchema
 from schema.company.company_search.company_search_sql import Criterion
+from service.company.company_overview_search_service import CompanyOverviewSearchService
 from service.company.company_service import CompanyService
 
 company_router = APIRouter(prefix="/company")
@@ -30,5 +31,7 @@ async def get_end_of_day_change_overview(ticker_id: int = Query(...),
 
 
 @company_router.post("/search")
-async def search(query: str = Query(...), criteria: List[Criterion] = Body(...)):
-    pass
+async def search(query: str = Query(...), criteria: List[Criterion] = Body(...),
+                 company_overview_search_service: CompanyOverviewSearchService = Depends(
+                     get_company_overview_search_service)):
+    return company_overview_search_service.search(query=query, criteria=criteria)

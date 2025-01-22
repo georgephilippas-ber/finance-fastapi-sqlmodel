@@ -38,3 +38,6 @@ GET http://localhost:8000/ai/query?query=imminent
 
 ###
 GET http://localhost:8000/ai/poll-result?task_id=db619921-0464-489f-ae17-fd4535a3dfd8
+
+###
+POST http://localhost:8000/company/search?query=USD
