@@ -3,11 +3,17 @@ from database.database import Database
 from seeder.meilisearch.company_seeder import MeilisearchCompanySeeder
 from service.company.company_service import CompanyService
 
+import asyncio
+
 if __name__ == "__main__":
-    database_ = Database()
+    async def execute_async():
+        database_ = Database()
 
-    with database_.create_session() as session:
-        company_service_ = CompanyService(session)
-        meilisearch_client_ = MeilisearchClient()
+        with database_.create_session() as session:
+            company_service_ = CompanyService(session)
+            meilisearch_client_ = MeilisearchClient()
 
-        MeilisearchCompanySeeder(meilisearch_client_, company_service_).seed()
+            await MeilisearchCompanySeeder(meilisearch_client_, company_service_).seed()
+
+
+    asyncio.run(execute_async())
