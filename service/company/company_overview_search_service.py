@@ -59,12 +59,13 @@ class CompanyOverviewSearchService:
             criteria) if criteria is not None else None
 
         if meilisearch_query_results_ is None:
-            return sql_query_results_ or []
+            return_ = sql_query_results_ or []
         elif sql_query_results_ is None:
-            return meilisearch_query_results_ or []
+            return_ = meilisearch_query_results_ or []
         else:
-            return self._get_company_overview(
-                [company_id for company_id in meilisearch_query_results_ if company_id in sql_query_results_])
+            return_ = [company_id for company_id in meilisearch_query_results_ if company_id in sql_query_results_]
+
+        return self._get_company_overview(return_)
 
 
 if __name__ == "__main__":
@@ -76,4 +77,4 @@ if __name__ == "__main__":
         co = CompanyOverviewSearchService(engine=db.get_engine(), meilisearch_client=MeilisearchClient(),
                                           company_service=cs, company_search_sql_service=cssql)
 
-        print(co.search(query='furniture'))
+        print(co.search(query='building'))
