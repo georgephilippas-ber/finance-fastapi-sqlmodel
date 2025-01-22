@@ -31,7 +31,7 @@ from seeder.restcountries.restcountries_seeder import RESTCountriesSeeder
 from service.company.company_service import CompanyService
 from core.dependency.dependency import Resolver
 from core.dependency.resolvers.compile import compile_resolver
-from core.search.meilisearch.meilisearch_client import MeilisearchClient
+from client.search.meilisearch.meilisearch_client import MeilisearchClient
 
 
 async def seed(seed_specification: SeedSpecificationDict, drop_all: bool = False, debug: bool = True):

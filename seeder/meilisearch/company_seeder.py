@@ -1,4 +1,4 @@
-from core.search.meilisearch.meilisearch_client import MeilisearchClient
+from client.search.meilisearch.meilisearch_client import MeilisearchClient
 from service.company.company_service import CompanyService
 
 
