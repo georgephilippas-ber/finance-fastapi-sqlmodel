@@ -1,4 +1,4 @@
-type company_overview_type = {
+export type company_overview_type = {
     company_id: number;
     ticker_id: number;
     company_name: string;
@@ -18,17 +18,17 @@ type company_overview_type = {
     continents: string;
 };
 
-type MetricDirectionType = 'DESC' | 'ASC';
+export type metric_direction_type = 'DESC' | 'ASC';
 
-type MetricType =
+export type metric_type =
     | 'market_capitalization'
     | 'return_on_assets'
     | 'operating_profit_margin';
 
-type GroupType = 'GICSIndustry' | 'GICSSector' | 'country';
+export type group_type = 'GICSIndustry' | 'GICSSector' | 'country';
 
-type Criterion = {
-    metric: MetricType;
-    metric_direction: MetricDirectionType;
-    groups: Array<[GroupType | null, number]>;
+export type criterion_type = {
+    metric: metric_type;
+    metric_direction: metric_direction_type;
+    groups: Array<[group_type | null, number]>;
 };

@@ -1,14 +1,14 @@
-import {company_overview_type} from "@/schema/schema";
 import {fastApiClient} from "@/instance/axios-instance";
+import {company_overview_type, criterion_type} from "@/schema/schema";
 
-export async function getCompanyOverview(ids: number[]): Promise<company_overview_type[]>
+export async function search(query: string | undefined = undefined, criteria: criterion_type[] | undefined = undefined): Promise<company_overview_type[]>
 {
     try
     {
-        const response_ = await fastApiClient.get<company_overview_type[]>("/company/overview", {
+        const response_ = await fastApiClient.post<company_overview_type[]>("/company/search", criteria, {
             params:
                 {
-                    ids: ids.join(','),
+                    query: query,
                 },
         });
 
