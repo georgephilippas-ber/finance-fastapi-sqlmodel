@@ -3,7 +3,7 @@ from typing import List, Tuple, Optional
 
 from pydantic import BaseModel
 
-from model.GICS.GICS import GICSIndustry
+from model.GICS.GICS import GICSIndustry, GICSSector
 from model.country.country import Country
 
 
@@ -20,6 +20,7 @@ class MetricType(Enum):
 
 class GroupType(Enum):
     GICS_INDUSTRY = GICSIndustry.__tablename__
+    GICS_SECTOR = GICSSector.__tablename__
     COUNTRY = Country.__tablename__
 
 
