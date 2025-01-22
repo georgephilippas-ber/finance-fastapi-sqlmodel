@@ -1,48 +1,10 @@
-from dataclasses import dataclass
-from enum import Enum
-from typing import Dict, Tuple, List, Literal, Optional
+from typing import Tuple, List, Literal, Optional
 
-from pydantic import BaseModel
 from sqlalchemy import text, Engine
 
+from configuration.search.company.company_search_sql import METRICS_DICTIONARY, GROUPS_DICTIONARY
 from database.database import Database
-from model.GICS.GICS import GICSIndustry
-from model.company.company_snapshot_metrics import CompanySnapshotMetrics
-from model.country.country import Country
-
-
-class MetricDirectionType(Enum):
-    HIGH_IS_BEST = 'DESC'
-    LOW_IS_BEST = 'ASC'
-
-
-class MetricType(Enum):
-    MARKET_CAPITALIZATION = 'market_capitalization'
-    RETURN_ON_ASSETS = 'return_on_assets'
-    OPERATING_PROFIT_MARGIN = 'operating_profit_margin'
-
-
-class GroupType(Enum):
-    GICS_INDUSTRY = GICSIndustry.__tablename__
-    COUNTRY = Country.__tablename__
-
-
-metrics_dictionary: Dict[MetricType, Tuple[str, str]] = {
-    MetricType.MARKET_CAPITALIZATION: (CompanySnapshotMetrics.__tablename__, "market_capitalization"),
-    MetricType.RETURN_ON_ASSETS: (CompanySnapshotMetrics.__tablename__, "return_on_assets"),
-    MetricType.OPERATING_PROFIT_MARGIN: (CompanySnapshotMetrics.__tablename__, "operating_profit_margin"),
-}
-
-groups_dictionary = {
-    GroupType.GICS_INDUSTRY: ("gics_industry_id", GICSIndustry.__tablename__),
-    GroupType.COUNTRY: ("country_id", Country.__tablename__),
-}
-
-
-class Criterion(BaseModel):
-    metric: MetricType
-    metric_direction: MetricDirectionType
-    groups: List[Tuple[Optional[GroupType], float]]
+from schema.company.company_search.company_search_sql import MetricDirectionType, MetricType, GroupType, Criterion
 
 
 class CompanySearchSQL:
@@ -53,7 +15,7 @@ class CompanySearchSQL:
 
     @staticmethod
     def _get_partition(group: Optional[GroupType]):
-        return f"PARTITION BY company.{groups_dictionary[group][0]}" if group is not None else ""
+        return f"PARTITION BY company.{GROUPS_DICTIONARY[group][0]}" if group is not None else ""
 
     @staticmethod
     def _query(metric: MetricType, metric_direction: MetricDirectionType,
@@ -62,15 +24,15 @@ class CompanySearchSQL:
             WITH ranking_table AS (
                 SELECT
                     company.id AS company_id,
-                    {metrics_dictionary[metric][0]}.{metrics_dictionary[metric][1]} AS {metrics_dictionary[metric][1]},
+                    {METRICS_DICTIONARY[metric][0]}.{METRICS_DICTIONARY[metric][1]} AS {METRICS_DICTIONARY[metric][1]},
                     PERCENT_RANK() OVER 
                     (
-                        {CompanySearchSQL._get_partition(group_and_percentile[0])} ORDER BY {metrics_dictionary[metric][0]}.{metrics_dictionary[metric][1]} {metric_direction.value} 
+                        {CompanySearchSQL._get_partition(group_and_percentile[0])} ORDER BY {METRICS_DICTIONARY[metric][0]}.{METRICS_DICTIONARY[metric][1]} {metric_direction.value} 
                     ) AS company_percentile
                 FROM
-                    {metrics_dictionary[metric][0]}
+                    {METRICS_DICTIONARY[metric][0]}
                 JOIN
-                    company ON {metrics_dictionary[metric][0]}.company_id = company.id
+                    company ON {METRICS_DICTIONARY[metric][0]}.company_id = company.id
             )
             SELECT company_id, company_percentile FROM ranking_table WHERE company_percentile <= {group_and_percentile[1]}
         """
