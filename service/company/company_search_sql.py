@@ -7,7 +7,7 @@ from database.database import Database
 from schema.company.company_search.company_search_sql import MetricDirectionType, MetricType, GroupType, Criterion
 
 
-class CompanySearchSQL:
+class CompanySearchSQLService:
     _session: Engine
 
     def __init__(self, engine: Engine):
@@ -27,7 +27,7 @@ class CompanySearchSQL:
                     {METRICS_DICTIONARY[metric][0]}.{METRICS_DICTIONARY[metric][1]} AS {METRICS_DICTIONARY[metric][1]},
                     PERCENT_RANK() OVER 
                     (
-                        {CompanySearchSQL._get_partition(group_and_percentile[0])} ORDER BY {METRICS_DICTIONARY[metric][0]}.{METRICS_DICTIONARY[metric][1]} {metric_direction.value} 
+                        {CompanySearchSQLService._get_partition(group_and_percentile[0])} ORDER BY {METRICS_DICTIONARY[metric][0]}.{METRICS_DICTIONARY[metric][1]} {metric_direction.value} 
                     ) AS company_percentile
                 FROM
                     {METRICS_DICTIONARY[metric][0]}
@@ -46,7 +46,7 @@ class CompanySearchSQL:
             metric_ = criterion_.metric
             metric_direction_ = criterion_.metric_direction
             for group_ in criterion_.groups:
-                query_list_.append(CompanySearchSQL._query(metric_, metric_direction_, group_))
+                query_list_.append(CompanySearchSQLService._query(metric_, metric_direction_, group_))
 
         match operator:
             case "AND":
@@ -65,7 +65,7 @@ class CompanySearchSQL:
 if __name__ == '__main__':
     db = Database()
 
-    sql = CompanySearchSQL(db.get_engine())
+    sql = CompanySearchSQLService(db.get_engine())
     print(sql.get_company_ids(
         [Criterion(metric=MetricType.MARKET_CAPITALIZATION, metric_direction=MetricDirectionType.HIGH_IS_BEST,
                    groups=[(None, 1)])]))
