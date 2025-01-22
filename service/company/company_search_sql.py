@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Dict, Tuple, List, Literal, Optional
 
+from pydantic import BaseModel
 from sqlalchemy import text, Engine
 
 from database.database import Database
@@ -38,8 +39,7 @@ groups_dictionary = {
 }
 
 
-@dataclass
-class Criterion:
+class Criterion(BaseModel):
     metric: MetricType
     metric_direction: MetricDirectionType
     groups: List[Tuple[Optional[GroupType], float]]
@@ -105,4 +105,5 @@ if __name__ == '__main__':
 
     sql = CompanySearchSQL(db.get_engine())
     print(sql.get_company_ids(
-        [Criterion(MetricType.MARKET_CAPITALIZATION, MetricDirectionType.HIGH_IS_BEST, [(None, 1)])], "AND"))
+        [Criterion(metric=MetricType.MARKET_CAPITALIZATION, metric_direction=MetricDirectionType.HIGH_IS_BEST,
+                   groups=[(None, 1)])], "AND"))
