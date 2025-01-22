@@ -51,15 +51,20 @@ class CompanyOverviewSearchService:
     def _get_company_overview(self, company_id_list: List[int]) -> Optional[List[CompanyOverviewSchema]]:
         return self._company_service.company_overview(company_id_list)
 
-    def search(self, query: Optional[str], criteria: Optional[List[Criterion]]) -> Optional[
+    def search(self, *, query: Optional[str] = None, criteria: Optional[List[Criterion]] = None) -> Optional[
         List[CompanyOverviewSchema]]:
-        meilisearch_query_results_: List[int] = (self._meilisearch_search_with_criteria(
-            query) if query is not None else None) or []
-        sql_query_results_: List[int] = (self._sql_search_with_criteria(
-            criteria) if criteria is not None else None) or []
+        meilisearch_query_results_: Optional[List[int]] = self._meilisearch_search_with_criteria(
+            query) if query is not None else None
+        sql_query_results_: Optional[List[int]] = self._sql_search_with_criteria(
+            criteria) if criteria is not None else None
 
-        return self._get_company_overview(
-            [company_id for company_id in meilisearch_query_results_ if company_id in sql_query_results_])
+        if meilisearch_query_results_ is None:
+            return sql_query_results_ or []
+        elif sql_query_results_ is None:
+            return meilisearch_query_results_ or []
+        else:
+            return self._get_company_overview(
+                [company_id for company_id in meilisearch_query_results_ if company_id in sql_query_results_])
 
 
 if __name__ == "__main__":
@@ -71,4 +76,4 @@ if __name__ == "__main__":
         co = CompanyOverviewSearchService(engine=db.get_engine(), meilisearch_client=MeilisearchClient(),
                                           company_service=cs, company_search_sql_service=cssql)
 
-        print(co)
+        print(co.search(query='USD'))
