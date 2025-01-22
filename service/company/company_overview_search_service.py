@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-from sqlalchemy import Engine, text
+from sqlalchemy import Engine
 
 from core.search.meilisearch.meilisearch_client import MeilisearchClient
 from database.database import Database
