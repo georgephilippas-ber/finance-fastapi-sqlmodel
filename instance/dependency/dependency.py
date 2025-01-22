@@ -7,13 +7,14 @@ from sqlmodel import Session
 from configuration.security import API_SECURITY_ENABLED
 from database.database import Database
 from instance.shared import database_instance, json_web_token_instance, eodhd_client_instance, \
-    eodhd_end_of_day_change_overview_adapter_instance, meilisearch_client_instance
+    eodhd_end_of_day_change_overview_adapter_instance, meilisearch_client_instance, company_search_sql_service_instance
 from manager.end_of_day_change_overview.end_of_day_change_overview_manager import EndOfDayChangeOverviewManager
 from manager.exchange.exchange_manager import ExchangeManager
 from manager.ticker.ticker_manager import TickerManager
 from manager.user.user_manager import UserManager
 from orchestrator.eodhd.end_of_day_change_overview_orchestrator import EndOfDayChangeOverviewOrchestrator
 from service.company.company_overview_search_service import CompanyOverviewSearchService
+from service.company.company_search_sql_service import CompanySearchSQLService
 from service.company.company_service import CompanyService
 
 
@@ -64,4 +65,6 @@ def get_end_of_day_change_overview_orchestrator(
 
 
 def get_company_overview_search_service(company_service: CompanyService = Depends(get_company_service)):
-    return CompanyOverviewSearchService(meilisearch_client_instance, company_service)
+    return CompanyOverviewSearchService(engine=database_instance.get_engine(),
+                                        meilisearch_client=meilisearch_client_instance, company_service=company_service,
+                                        company_search_sql_service=company_search_sql_service_instance)
