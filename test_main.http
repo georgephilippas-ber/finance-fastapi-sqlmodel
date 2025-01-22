@@ -41,4 +41,3 @@ GET http://localhost:8000/ai/poll-result?task_id=db619921-0464-489f-ae17-fd4535a
 
 ###
 POST http://localhost:8000/company/search?query=USD
-
