@@ -32,7 +32,7 @@ class CompanyOverviewSearchService:
 
         self._engine = engine
 
-    def meilisearch_query(self, query: str) -> Optional[List[int]]:
+    def meilisearch_search_with_criteria(self, query: str) -> Optional[List[int]]:
         if self._meilisearch_client:
             return list(
                 map(lambda document: CompanyOverviewSchema(**document).company_id,
@@ -42,7 +42,7 @@ class CompanyOverviewSearchService:
 
             return None
 
-    def sql_query(self, criteria: List[Criterion]) -> Optional[List[int]]:
+    def sql_search_with_criteria(self, criteria: List[Criterion]) -> Optional[List[int]]:
         if self._company_search_sql_service:
             self._company_search_sql_service.get_company_ids(criteria)
         else:
