@@ -12,3 +12,5 @@ from model.user.user import User
 
 from model.link.country_continent.country_continent import CountryContinent
 from model.link.currency_country.currency_country import CurrencyCountry
+
+from model.end_of_day_change_overview.end_of_day_change_overview import EndOfDayChangeOverview
