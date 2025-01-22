@@ -32,7 +32,7 @@ class CompanyOverviewSearchService:
 
         self._engine = engine
 
-    def meilisearch_search_with_criteria(self, query: str) -> Optional[List[int]]:
+    def _meilisearch_search_with_criteria(self, query: str) -> Optional[List[int]]:
         if self._meilisearch_client:
             return list(
                 map(lambda document: CompanyOverviewSchema(**document).company_id,
@@ -42,14 +42,21 @@ class CompanyOverviewSearchService:
 
             return None
 
-    def sql_search_with_criteria(self, criteria: List[Criterion]) -> Optional[List[int]]:
+    def _sql_search_with_criteria(self, criteria: List[Criterion]) -> Optional[List[int]]:
         if self._company_search_sql_service:
             self._company_search_sql_service.get_company_ids(criteria)
         else:
             return None
 
-    def get_company_overview(self, company_id_list: List[int]) -> Optional[List[CompanyOverviewSchema]]:
+    def _get_company_overview(self, company_id_list: List[int]) -> Optional[List[CompanyOverviewSchema]]:
         return self._company_service.company_overview(company_id_list)
+
+    def search(self, query: str, criteria: List[Criterion]) -> Optional[List[CompanyOverviewSchema]]:
+        meilisearch_query_results_: List[int] = self._meilisearch_search_with_criteria(query) or []
+        sql_query_results_: List[int] = self._sql_search_with_criteria(criteria) or []
+
+        return self._get_company_overview(
+            [company_id for company_id in meilisearch_query_results_ if company_id in sql_query_results_])
 
 
 if __name__ == "__main__":
@@ -59,4 +66,4 @@ if __name__ == "__main__":
         cs = CompanyService(session=session)
         co = CompanyOverviewSearchService(engine=db.get_engine(), company_service=cs)
 
-        print(co.get_company_overview([10, 20]))
+        print(co._get_company_overview([10, 20]))

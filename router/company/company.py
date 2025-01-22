@@ -33,4 +33,4 @@ async def get_end_of_day_change_overview(ticker_id: int = Query(...),
 async def search(query: str = Query(...),
                  company_overview_search_service: CompanyOverviewSearchService = Depends(
                      get_company_overview_search_service)):
-    return company_overview_search_service.meilisearch_search_with_criteria(query)
+    return company_overview_search_service._meilisearch_search_with_criteria(query)
