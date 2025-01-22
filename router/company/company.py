@@ -1,5 +1,5 @@
 from collections.abc import Callable
-from typing import List
+from typing import List, Optional
 
 from fastapi import APIRouter, Query, Depends, Body
 
@@ -31,7 +31,9 @@ async def get_end_of_day_change_overview(ticker_id: int = Query(...),
 
 
 @company_router.post("/search")
-async def search(query: str = Query(...), criteria: List[Criterion] = Body(...),
+async def search(query: Optional[str] = Query(default=None), criteria: Optional[List[Criterion]] = Body(default=None),
                  company_overview_search_service: CompanyOverviewSearchService = Depends(
-                     get_company_overview_search_service)):
+                     get_company_overview_search_service)):  #
+    print("Searching...")
+    print(query, criteria)
     return company_overview_search_service.search(query=query, criteria=criteria)

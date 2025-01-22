@@ -9,7 +9,7 @@ if [[ "$OS" == "Linux" ]]; then
 elif [[ "$OS" == "Darwin" ]]; then
     :
 elif [[ "$OS" == CYGWIN* || "$OS" == MINGW* || "$OS" == MSYS* ]]; then
-    meilisearch-windows-amd64 --master-key $MASTER_KEY --http-addr "0.0.0.0:${PORT}"
+    meilisearch-windows-amd64 --master-key=$MASTER_KEY --http-addr "0.0.0.0:${PORT}"
 else
     echo "$OS"
 fi

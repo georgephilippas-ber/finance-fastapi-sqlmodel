@@ -32,18 +32,19 @@ class CompanyOverviewSearchService:
 
         self._engine = engine
 
-    def _meilisearch_search_with_criteria(self, query: str) -> Optional[List[int]]:
-        if self._meilisearch_client:
+    def _meilisearch_search_with_criteria(self, query: Optional[str]) -> Optional[List[int]]:
+        if self._meilisearch_client and query is not None:
             return list(
                 map(lambda document: CompanyOverviewSchema(**document).company_id,
                     self._meilisearch_client.search(self._index_name, query)))
         else:
-            print("!MeilisearchClient")
+            if self._meilisearch_client is None:
+                print("!MeilisearchClient")
 
             return None
 
-    def _sql_search_with_criteria(self, criteria: List[Criterion]) -> Optional[List[int]]:
-        if self._company_search_sql_service:
+    def _sql_search_with_criteria(self, criteria: Optional[List[Criterion]]) -> Optional[List[int]]:
+        if self._company_search_sql_service is not None and criteria is not None:
             self._company_search_sql_service.get_company_ids(criteria)
         else:
             return None
