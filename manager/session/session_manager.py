@@ -47,7 +47,7 @@ class SessionManager:
                 query_result_ = cursor_.fetchone()
 
                 return query_result_[0]
-            except (IntegrityError, IndexError) as e:
+            except (IntegrityError, TypeError, IndexError) as e:
                 return None
 
 

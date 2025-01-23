@@ -41,3 +41,18 @@ GET http://localhost:8000/ai/poll-result?task_id=db619921-0464-489f-ae17-fd4535a
 
 ###
 POST http://localhost:8000/company/search?query=USD
+
+
+###
+POST http://localhost:8000/authentication/session-set?key=credentials
+Content-Type: application/json
+Cookie: SESSION_ID=George
+
+{
+  "username": "root",
+  "password": "root!1A"
+}
+
+###
+GET http://localhost:8000/authentication/session-get?key=credentials
+Cookie: SESSION_ID=George
