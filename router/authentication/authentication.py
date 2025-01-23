@@ -61,18 +61,20 @@ async def logout(response: Response):
 @authentication_router.post("/session-set")
 async def session_set(request: Request, key: str = Query(...), object_: Any = Body(...)):
     session_id_ = request.cookies.get("SESSION_ID")
+    print(key, object_, session_id_)
 
     if session_id_ is not None:
         outcome_ = session_manager_instance.add(session_id_, key, json.dumps(object_))
     else:
         return {"status": "NO_SESSION"}
 
-    return {"status": "success" if outcome_ else "failure"}
+    return {"status": "SUCCESS" if outcome_ else "FAILURE"}
 
 
 @authentication_router.get("/session-get")
 async def session_get(request: Request, key: str = Query(...)) -> Any:
     session_id_ = request.cookies.get("SESSION_ID")
+    print(session_id_, key)
 
     if session_id_ is not None:
         value_str_ = session_manager_instance.get(session_id_, key)
