@@ -2,10 +2,23 @@
 
 import {CompanyOverview} from "@/components/server/company/company-overview";
 import {search} from "@/actions/financial/company";
+import {useEffect, useState} from "react";
+import {company_overview_type} from "@/schema/schema";
 
-export default async function ()
+export default function ()
 {
-    const query_result = await search("USD");
+    const [queryResults, setQueryResults] = useState<company_overview_type[]>([]);
+
+    const [query, setQuery] = useState<string>("");
+
+    useEffect(() =>
+        {
+            if (query)
+                search(query).then(value => setQueryResults(value));
+            else
+                setQueryResults([]);
+        },
+        [query]);
 
     function handleClick(company_id: number)
     {
@@ -15,11 +28,12 @@ export default async function ()
     return (
         <div className={"w-full flex flex-col h-full pt-12 px-4"}>
             <div className={"w-full flex flex-row gap-4"}>
-                <input className={"input w-full"} type={"text"} placeholder={"search"}/>
+                <input value={query} onChange={event => setQuery(event.target.value)} className={"input w-full"}
+                       type={"text"} placeholder={"search"}/>
                 <button className={"btn btn-primary"}>Search</button>
             </div>
             <div className={"w-full flex-grow overflow-auto flex flex-col gap-4 my-10 mx-auto p-10"}>
-                {query_result.map((value, index) => <CompanyOverview onClick={handleClick} key={index}
+                {queryResults.map((value, index) => <CompanyOverview onClick={handleClick} key={index}
                                                                      company_overview={value}/>)}
             </div>
         </div>
