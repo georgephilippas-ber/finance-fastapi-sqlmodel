@@ -2,7 +2,7 @@
 
 import {CompanyOverview} from "@/components/server/company/company-overview";
 import {search} from "@/actions/financial/company";
-import {useEffect, useMemo, useState} from "react";
+import {useEffect, useState} from "react";
 import {company_overview_type} from "@/schema/schema";
 
 export default function ()
