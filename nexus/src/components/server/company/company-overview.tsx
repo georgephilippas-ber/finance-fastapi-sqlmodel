@@ -29,7 +29,7 @@ export function CompanyOverview({company_overview, onClick}: {
                 <div className="row-span-1 flex justify-end gap-3">
                     <img src={company_overview.country_flag_url} alt={company_overview.company_name}
                          className={"h-6 text-xs overflow-hidden w-6"}/>
-                    <div>
+                    <div className={"text-xl"}>
                         {company_overview.currency_symbol}
                     </div>
                 </div>
