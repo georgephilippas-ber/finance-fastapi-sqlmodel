@@ -4,6 +4,7 @@ import {CompanyOverview} from "@/components/server/company/company-overview";
 import {search} from "@/actions/financial/company";
 import {useEffect, useState} from "react";
 import {company_overview_type} from "@/schema/schema";
+import {AiFillSetting} from "react-icons/ai";
 
 export default function ()
 {
@@ -27,12 +28,14 @@ export default function ()
 
     return (
         <div className={"w-full flex flex-col h-full pt-12 px-4"}>
-            <div className={"w-full flex flex-row gap-4"}>
+            <div className={"sm:w-4/5 sm:mx-auto flex flex-row gap-4 w-full"}>
                 <input value={query} onChange={event => setQuery(event.target.value)} className={"input w-full"}
                        type={"text"} placeholder={"search"}/>
-                <button className={"btn btn-primary"}>Details</button>
+                <button className={"btn btn-primary"}>
+                    <AiFillSetting className={"text-xl"}/>
+                </button>
             </div>
-            <div className={"w-full flex-grow overflow-auto flex flex-col gap-4 my-10 mx-auto p-10"}>
+            <div className={"w-4/5 p-4 flex-grow overflow-auto flex flex-col gap-4 mx-auto my-10"}>
                 {queryResults.map((value, index) => <CompanyOverview onClick={handleClick} key={index}
                                                                      company_overview={value}/>)}
             </div>

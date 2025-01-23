@@ -6,7 +6,7 @@ export default function ()
 {
     return (
         <section className={"font-sans"}>
-            <Login success_url={"/"}/>
+            <Login success_url={"/members/company/search"}/>
         </section>
     );
 }
