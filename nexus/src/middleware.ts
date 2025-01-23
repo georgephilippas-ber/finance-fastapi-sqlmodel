@@ -5,8 +5,6 @@ import {jwtVerify} from 'jose'
 
 export async function middleware(req: NextRequest)
 {
-    console.log(req.headers.get("Authorization"));
-
     const header_ = req.headers.get("Authorization")?.split(" ")?.[1] || req.cookies.get("Authorization")?.value;
     const request_url_ = req.nextUrl.pathname;
 
