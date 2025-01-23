@@ -1,7 +1,8 @@
+import json
 from http import HTTPStatus
 from typing import Any
 
-from fastapi import Depends, HTTPException, APIRouter, Response, Body
+from fastapi import Depends, HTTPException, APIRouter, Response, Body, Query, Request
 from pydantic import BaseModel
 from sqlmodel import Session
 
@@ -34,11 +35,14 @@ async def login(user_login_schema: UserLoginSchema, response: Response,
                             samesite="strict",
                             max_age=JSON_WEB_TOKEN_EXPIRATION_TIME_MINUTES * 60)
 
-        response.set_cookie(key="SESSION_ID", value=generate_session_id(), httponly=True, samesite="strict",
+        session_id_: str = generate_session_id()
+
+        response.set_cookie(key="SESSION_ID", value=session_id_, httponly=True, samesite="strict",
                             max_age=JSON_WEB_TOKEN_EXPIRATION_TIME_MINUTES * 60)
 
         return {
-            "access_token": token_
+            "access_token": token_,
+            "SESSION_ID": session_id_,
         }
     else:
         raise HTTPException(status_code=HTTPStatus.UNAUTHORIZED, detail="Incorrect user identifier or password")
@@ -55,5 +59,27 @@ async def logout(response: Response):
 
 
 @authentication_router.post("/session-set")
-async def session_set(object_: Any = Body(...)):
-    session_manager_instance.set(object_)
+async def session_set(request: Request, key: str = Query(...), object_: Any = Body(...)):
+    session_id_ = request.cookies.get("SESSION_ID")
+
+    if session_id_ is not None:
+        outcome_ = session_manager_instance.add(session_id_, key, json.dumps(object_))
+    else:
+        return {"status": "NO_SESSION"}
+
+    return {"status": "success" if outcome_ else "failure"}
+
+
+@authentication_router.get("/session-get")
+async def session_get(request: Request, key: str = Query(...)) -> Any:
+    session_id_ = request.cookies.get("SESSION_ID")
+
+    if session_id_ is not None:
+        value_str_ = session_manager_instance.get(session_id_, key)
+
+        if value_str_ is not None:
+            return json.loads(value_str_)
+        else:
+            return None
+    else:
+        return None
