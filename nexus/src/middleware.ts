@@ -1,9 +1,5 @@
 import {NextRequest, NextResponse} from "next/server";
-import {
-    JSON_WEB_TOKEN_SECRET_KEY,
-    JSON_WEB_TOKEN_SECRET_KEY_ENCODED,
-    PROTECTED_ROUTES
-} from "@/configuration/configuration";
+import {JSON_WEB_TOKEN_SECRET_KEY_ENCODED, PROTECTED_ROUTES} from "@/configuration/configuration";
 
 import {jwtVerify} from 'jose'
 
