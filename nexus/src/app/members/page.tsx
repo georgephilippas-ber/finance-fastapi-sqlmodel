@@ -1,3 +1,5 @@
+'use client'
+
 import {CompanyOverview} from "@/components/server/company/company-overview";
 import {search} from "@/actions/financial/company";
 
