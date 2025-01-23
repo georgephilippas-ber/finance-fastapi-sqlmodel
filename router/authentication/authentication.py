@@ -31,13 +31,14 @@ async def login(user_login_schema: UserLoginSchema, response: Response,
 
         response.set_cookie(key="Authorization",
                             value=token_,
+                            path="/",
                             httponly=True,
                             samesite="strict",
-                            max_age=JSON_WEB_TOKEN_EXPIRATION_TIME_MINUTES * 60)
+                            max_age=JSON_WEB_TOKEN_EXPIRATION_TIME_MINUTES * 60, secure=False)
 
         session_id_: str = generate_session_id()
 
-        response.set_cookie(key="SESSION_ID", value=session_id_, httponly=True, samesite="strict",
+        response.set_cookie(key="SESSION_ID", value=session_id_, path="/", httponly=True, samesite="strict",
                             max_age=JSON_WEB_TOKEN_EXPIRATION_TIME_MINUTES * 60)
 
         return {
@@ -50,8 +51,8 @@ async def login(user_login_schema: UserLoginSchema, response: Response,
 
 @authentication_router.post("/logout")
 async def logout(response: Response):
-    response.delete_cookie(key="Authorization")
-    response.delete_cookie(key="SESSION_ID")
+    response.delete_cookie(key="Authorization", path="/", httponly=True, samesite="strict", secure=False)
+    response.delete_cookie(key="SESSION_ID", path="/", httponly=True, samesite="strict")
 
     response.status_code = HTTPStatus.OK
 

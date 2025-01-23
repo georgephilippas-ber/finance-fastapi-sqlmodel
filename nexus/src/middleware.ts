@@ -16,7 +16,7 @@ export async function middleware(req: NextRequest)
         {
             try
             {
-                await jwtVerify(header_, JSON_WEB_TOKEN_SECRET_KEY_ENCODED)
+                await jwtVerify(header_, JSON_WEB_TOKEN_SECRET_KEY_ENCODED);
             }
             catch (e)
             {
