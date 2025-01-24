@@ -51,27 +51,27 @@ export function EndOfDayChangeOverview({endOfDayChangeOverview, currencySymbol, 
     return (
         <div className={"w-fit p-1.5 border-white border rounded-lg"}>
             <div className={"w-fit flex flex-row gap-3"}>
-                <div className={"grid grid-cols-[auto_1fr] gap-2 w-fit text-xl"}>
+                <div className={"grid grid-cols-[auto_4em] gap-2 w-fit text-xl"}>
                     <div>
                         {currencySymbol}
                     </div>
-                    <div>
+                    <div className={"overflow-x-hidden text-nowrap"}>
                         {endOfDayChangeOverview.latest?.toFixed(2)}
                     </div>
                 </div>
-                <div className={["grid grid-cols-[auto_1fr] gap-2 w-fit text-xl", getClass(month_to_date_)].join(" ")}>
-                    <div className={"font-semibold"}>
+                <div className={["grid grid-cols-[auto_4em] gap-2 w-fit text-xl", getClass(month_to_date_)].join(" ")}>
+                    <div className={"font-semibold text-sm"}>
                         MTD
                     </div>
-                    <div>
+                    <div className={"overflow-x-hidden text-nowrap"}>
                         {(month_to_date_ * 1.e2).toFixed(2)} %
                     </div>
                 </div>
-                <div className={["grid grid-cols-[auto_1fr] gap-2 w-fit text-xl", getClass(year_to_date_)].join(" ")}>
-                    <div className={"font-semibold"}>
+                <div className={["grid grid-cols-[auto_4em] gap-2 w-fit text-xl", getClass(year_to_date_)].join(" ")}>
+                    <div className={"font-semibold text-sm"}>
                         YTD
                     </div>
-                    <div>
+                    <div className={"overflow-x-hidden text-nowrap"}>
                         {(year_to_date_ * 1.e2).toFixed(2)} %
                     </div>
                 </div>
