@@ -4,7 +4,7 @@ import {useRouter} from "next/navigation";
 import {fastApiClient} from "@/instance/axios-instance";
 import {TbLogout2} from "react-icons/tb";
 
-export function LogoutButton()
+export function LogoutButton({className}: { className?: string })
 {
     const router = useRouter();
 
@@ -16,7 +16,7 @@ export function LogoutButton()
     }
 
     return (
-        <button onClick={handleClick} className={"btn btn-primary"}>
+        <button onClick={handleClick} className={["btn btn-primary", className || ""].join(" ").trim()}>
             <TbLogout2/>
         </button>
     );

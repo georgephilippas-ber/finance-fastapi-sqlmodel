@@ -14,8 +14,9 @@ export default function Layout({children}: { children: React.ReactNode; })
                                 Fluent Investor
                             </span>
                         </a>
+                        <LogoutButton/>
                     </div>
-                    <LogoutButton/>
+
                 </nav>
             </header>
             <main className="flex-grow overflow-y-auto">
