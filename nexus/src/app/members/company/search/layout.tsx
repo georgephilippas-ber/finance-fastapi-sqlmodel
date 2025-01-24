@@ -1,5 +1,5 @@
 import {APPLICATION_NAVBAR_LOGO_URL} from "@/configuration/configuration";
-import {Logout} from "@/components/client/authentication/logout";
+import {LogoutButton} from "@/components/client/authentication/logout";
 
 export default function Layout({children}: { children: React.ReactNode; })
 {
@@ -15,7 +15,7 @@ export default function Layout({children}: { children: React.ReactNode; })
                             </span>
                         </a>
                     </div>
-                    <Logout/>
+                    <LogoutButton/>
                 </nav>
             </header>
             <main className="flex-grow overflow-y-auto">

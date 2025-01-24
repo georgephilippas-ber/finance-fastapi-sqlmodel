@@ -4,6 +4,8 @@ enum EnvironmentType
     PRODUCTION
 }
 
+const SECURITY_ENABLED: boolean = false;
+
 const FASTAPI_DEVELOPMENT_SERVER_BASE_URL = 'http://localhost:8000'
 const FASTAPI_PRODUCTION_SERVER_BASE_URL = 'http://localhost:8000'
 
@@ -17,6 +19,6 @@ export const FASTAPI_SERVER_BASE_URL = environment == EnvironmentType.DEVELOPMEN
 
 export const APPLICATION_NAVBAR_LOGO_URL = "https://flowbite.com/docs/images/logo.svg";
 
-export const PROTECTED_ROUTES = [
+export const PROTECTED_ROUTES = SECURITY_ENABLED ? [
     '/members'
-]
+] : [];
