@@ -49,7 +49,7 @@ export function EndOfDayChangeOverview({endOfDayChangeOverview, currencySymbol, 
     const year_to_date_ = return_(endOfDayChangeOverview.latest_adjusted, endOfDayChangeOverview.beginning_of_year_adjusted);
 
     return (
-        <div className={"p-1.5 border-white border rounded-lg w-fit"}>
+        <div className={"w-fit p-1.5 border-white border rounded-lg"}>
             <div className={"w-fit flex flex-row gap-3"}>
                 <div className={"grid grid-cols-[auto_1fr] gap-2 w-fit text-xl"}>
                     <div>
@@ -79,7 +79,6 @@ export function EndOfDayChangeOverview({endOfDayChangeOverview, currencySymbol, 
             <div className={"text-xs mt-1"}>
                 {date(endOfDayChangeOverview.latest_date, fake)}
             </div>
-
         </div>
     )
 }

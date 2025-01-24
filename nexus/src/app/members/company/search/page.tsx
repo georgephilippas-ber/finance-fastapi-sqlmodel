@@ -1,6 +1,6 @@
 'use client'
 
-import {CompanyOverview} from "@/components/client/company/company-overview";
+import {CompanyOverviewListElement} from "@/components/client/company/company-overview-list-element";
 import {search} from "@/actions/financial/company";
 import {useEffect, useState} from "react";
 import {company_overview_type} from "@/schema/schema";
@@ -58,7 +58,7 @@ export default function ()
             </div>
             <div className={"w-4/5 p-4 flex-grow overflow-auto flex flex-col gap-4 mx-auto my-10"}>
                 {queryResults.map((value, index) =>
-                    <CompanyOverview onClick={handleClick} key={index} company_overview={value}/>
+                    <CompanyOverviewListElement onClick={handleClick} key={index} company_overview={value}/>
                 )}
             </div>
         </div>
