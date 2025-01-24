@@ -42,9 +42,9 @@ export default function ()
         },
         [query]);
 
-    function handleClick(company_id: number)
+    function handleClick(company_id: number, ticker_id: number)
     {
-        router.push("/members/company/details?company_id=" + company_id);
+        router.push("/members/company/details?company_id=" + company_id + "&ticker_id=" + ticker_id);
     }
 
     return (

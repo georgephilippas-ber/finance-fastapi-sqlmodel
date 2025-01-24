@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default async function ({searchParams}: { searchParams?: { company_id?: string } })
+export default async function ({searchParams}: { searchParams?: { company_id?: string; ticker_id?: string; } })
 {
     return (
         <div>
@@ -8,7 +8,7 @@ export default async function ({searchParams}: { searchParams?: { company_id?: s
                 Search
             </Link>
 
-            COMPANY DETAILS {searchParams?.company_id}
+            COMPANY DETAILS {searchParams?.company_id} - {searchParams?.ticker_id}
         </div>
     );
 }

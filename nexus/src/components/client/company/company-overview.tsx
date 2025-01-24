@@ -4,11 +4,11 @@ import {company_overview_type} from "@/schema/schema";
 
 export function CompanyOverview({company_overview, onClick}: {
     company_overview: company_overview_type,
-    onClick?: (company_id: number) => void
+    onClick?: (company_id: number, ticker_id: number) => void
 })
 {
     return (
-        <div onClick={event => onClick?.(company_overview.company_id)}
+        <div onClick={event => onClick?.(company_overview.company_id, company_overview.ticker_id)}
              className={"p-2 min-w-[18em] mx-auto w-full cursor-pointer shadow-md shadow-gray-800 rounded-lg flex flex-row gap-2 "}>
             <div className={"w-full flex sm:hidden items-center justify-between gap-3"}>
                 <img src={company_overview.company_logo_url} alt={company_overview.company_name}
