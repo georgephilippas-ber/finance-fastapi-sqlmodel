@@ -2,7 +2,6 @@ import {APPLICATION_NAVBAR_LOGO_URL} from "@/configuration/configuration";
 import {LogoutButton} from "@/components/client/authentication/logout";
 import {headers} from "next/headers";
 
-
 function title(referer: string | null | undefined): string
 {
     if (referer)
