@@ -54,4 +54,4 @@ class CompanyOverviewSchema(BaseModel):
 class CompanyDetailsSchema(BaseModel):
     company_overview: CompanyOverviewSchema
     company_snapshot_metrics: CompanySnapshotMetricsSchema
-    end_of_day_change_overview: EndOfDayChangeOverviewSchema
+    end_of_day_change_overview: Optional[EndOfDayChangeOverviewSchema] = Field(default=None)

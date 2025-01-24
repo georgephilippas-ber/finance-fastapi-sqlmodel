@@ -25,30 +25,37 @@ class CompanyDetailsOrchestrator:
         self._company_manager = company_manager
 
     async def by_company_id(self, company_id: int) -> Optional[CompanyDetailsSchema]:
-        company_overview_schema_, = self._company_service.company_overview([company_id])
+        try:
+            company_overview_schema_, = self._company_service.company_overview([company_id])
 
-        ticker_id_: Optional[int] = self._company_manager.ticker_id(company_id)
-        end_of_day_change_overview_ = await self._end_of_day_change_overview_orchestrator.by_ticker_id(ticker_id_)
+            ticker_id_: Optional[int] = self._company_manager.ticker_id(company_id)
+            end_of_day_change_overview_ = await self._end_of_day_change_overview_orchestrator.by_ticker_id(ticker_id_)
 
-        company_snapshot_metrics_ = self._company_snapshot_metrics_manager.by_company_id_latest(company_id)
+            company_snapshot_metrics_ = self._company_snapshot_metrics_manager.by_company_id_latest(company_id)
 
-        company_snapshot_metrics_schema_ = CompanySnapshotMetricsSchema(
-            market_capitalization=company_snapshot_metrics_.market_capitalization,
-            enterprise_value=company_snapshot_metrics_.enterprise_value,
-            return_on_assets=company_snapshot_metrics_.return_on_assets,
-            operating_profit_margin=company_snapshot_metrics_.operating_profit_margin,
-            net_profit_margin=company_snapshot_metrics_.net_profit_margin,
-        )
+            company_snapshot_metrics_schema_ = CompanySnapshotMetricsSchema(
+                market_capitalization=company_snapshot_metrics_.market_capitalization,
+                enterprise_value=company_snapshot_metrics_.enterprise_value,
+                return_on_assets=company_snapshot_metrics_.return_on_assets,
+                operating_profit_margin=company_snapshot_metrics_.operating_profit_margin,
+                net_profit_margin=company_snapshot_metrics_.net_profit_margin,
+            )
 
-        end_of_day_change_overview_schema_ = EndOfDayChangeOverviewSchema(
-            **end_of_day_change_overview_.model_dump()
-        )
+            if end_of_day_change_overview_ is not None:
+                end_of_day_change_overview_schema_ = EndOfDayChangeOverviewSchema(
+                    **end_of_day_change_overview_.model_dump()
+                )
+            else:
+                end_of_day_change_overview_schema_ = None
 
-        if company_snapshot_metrics_ is not None and end_of_day_change_overview_ is not None and company_overview_schema_ is not None:
-            return CompanyDetailsSchema(company_snapshot_metrics=company_snapshot_metrics_schema_,
-                                        company_overview=company_overview_schema_,
-                                        end_of_day_change_overview=end_of_day_change_overview_schema_)
-        else:
+            if company_snapshot_metrics_ is not None and end_of_day_change_overview_ is not None and company_overview_schema_ is not None:
+                return CompanyDetailsSchema(company_snapshot_metrics=company_snapshot_metrics_schema_,
+                                            company_overview=company_overview_schema_,
+                                            end_of_day_change_overview=end_of_day_change_overview_schema_)
+            else:
+                return None
+        except Exception as e:
+            print(e)
             return None
 
 
