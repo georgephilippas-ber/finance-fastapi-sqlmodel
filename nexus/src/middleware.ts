@@ -25,7 +25,12 @@ export async function middleware(req: NextRequest)
         }
     }
 
-    return NextResponse.next();
+    const headers = new Headers(req.headers);
+
+    headers.set("x-pathname", req.nextUrl.pathname);
+    return NextResponse.next({
+        headers
+    });
 }
 
 export const config = {

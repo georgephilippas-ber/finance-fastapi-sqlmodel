@@ -1,8 +1,8 @@
-export default function ()
+export default function ({searchParams}: { searchParams?: { company_id?: string } })
 {
     return (
         <div>
-            COMPANY DETAILS
+            COMPANY DETAILS {searchParams?.company_id}
         </div>
     );
 }

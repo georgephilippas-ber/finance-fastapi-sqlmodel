@@ -27,6 +27,8 @@ export default async function Layout({children}: { children: React.ReactNode; })
 {
     const headers_ = await headers();
 
+    console.log(headers_.get("Referer"));
+
     return (
         <div className={"h-screen flex flex-col w-full"}>
             <header>
