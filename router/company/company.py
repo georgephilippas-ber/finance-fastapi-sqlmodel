@@ -25,6 +25,7 @@ async def get_company_overview(company_ids: str = Query(...),
                                security: Callable = Depends(api_security)) -> List[CompanyOverviewSchema]:
     return_ = company_service.company_overview(list(map(lambda id_: int(id_), company_ids.split(','))))
     session.close()
+
     return return_
 
 
