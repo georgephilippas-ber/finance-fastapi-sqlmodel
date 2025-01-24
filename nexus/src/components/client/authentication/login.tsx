@@ -9,6 +9,7 @@ import {login} from "@/actions/authentication/login";
 import {useRouter} from "next/navigation";
 import {Modal} from "flowbite-react";
 
+// DO NOT REMOVE
 console.log(i18n);
 
 export function LoginServerErrorModal({open, onClose}: { open: boolean, onClose?: () => void })
