@@ -4,6 +4,8 @@ from typing import Optional
 from pydantic import BaseModel, Field
 from decimal import Decimal
 
+from schema.end_of_day_change_overview.end_of_day_change_overview import EndOfDayChangeOverviewSchema
+
 
 class CompanySchema(BaseModel):
     name: str
@@ -26,7 +28,7 @@ class CompanySnapshotMetricsSchema(BaseModel):
     operating_profit_margin: float
     net_profit_margin: float
 
-    updated_at: date
+    updated_at: Optional[date] = Field(default=None)
 
 
 class CompanyOverviewSchema(BaseModel):
@@ -47,3 +49,9 @@ class CompanyOverviewSchema(BaseModel):
     country_cca2: str
     country_cca3: str
     continents: str
+
+
+class CompanyDetailsSchema(BaseModel):
+    company_overview: CompanyOverviewSchema
+    company_snapshot_metrics: CompanySnapshotMetricsSchema
+    end_of_day_change_overview: EndOfDayChangeOverviewSchema

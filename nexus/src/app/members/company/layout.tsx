@@ -27,12 +27,14 @@ export default async function Layout({children}: { children: React.ReactNode; })
                 <nav className="bg-white border-gray-200 dark:bg-gray-900 font-sans">
                     <div className="flex flex-wrap items-center justify-between mx-auto p-2">
                         <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-                            <img src={APPLICATION_NAVBAR_LOGO_URL} className="h-8" alt="logo"/>
+                            <img src={APPLICATION_NAVBAR_LOGO_URL} className="h-12" alt="logo"/>
                         </a>
                         <div className={"text-xl font-semibold"}>
                             {title(headers_.get("x-pathname"))}
                         </div>
-                        <LogoutButton/>
+                        <div className={"m-0.5"}>
+                            <LogoutButton/>
+                        </div>
                     </div>
                 </nav>
             </header>
