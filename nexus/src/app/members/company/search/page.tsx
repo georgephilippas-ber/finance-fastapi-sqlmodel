@@ -7,6 +7,7 @@ import {company_overview_type} from "@/schema/schema";
 import {AiFillSetting} from "react-icons/ai";
 import {sessionAdd, sessionGet} from "@/actions/authentication/session";
 import {useRouter} from "next/navigation";
+import {revalidatePath} from "next/cache";
 
 export default function ()
 {
@@ -54,8 +55,9 @@ export default function ()
                 </button>
             </div>
             <div className={"w-4/5 p-4 flex-grow overflow-auto flex flex-col gap-4 mx-auto my-10"}>
-                {queryResults.map((value, index) => <CompanyOverview onClick={handleClick} key={index}
-                                                                     company_overview={value}/>)}
+                {queryResults.map((value, index) =>
+                    <CompanyOverview onClick={handleClick} key={index} company_overview={value}/>
+                )}
             </div>
         </div>
     );
