@@ -5,10 +5,12 @@ from fastapi import APIRouter, Query, Depends, Body
 from sqlmodel import Session
 
 from instance.dependency.dependency import get_company_service, api_security, \
-    get_end_of_day_change_overview_orchestrator, get_company_overview_search_service, get_session
+    get_end_of_day_change_overview_orchestrator, get_company_overview_search_service, get_session, \
+    get_company_details_orchestrator
 from model.end_of_day_change_overview.end_of_day_change_overview import EndOfDayChangeOverview
+from orchestrator.company_details_orchestrator.company_details_orchestrator import CompanyDetailsOrchestrator
 from orchestrator.eodhd.end_of_day_change_overview_orchestrator import EndOfDayChangeOverviewOrchestrator
-from schema.company.company import CompanyOverviewSchema
+from schema.company.company import CompanyOverviewSchema, CompanyDetailsSchema
 from schema.company.company_search.company_search_sql import Criterion
 from service.company.company_overview_search_service import CompanyOverviewSearchService
 from service.company.company_service import CompanyService
@@ -23,6 +25,16 @@ async def get_company_overview(company_ids: str = Query(...),
                                security: Callable = Depends(api_security)) -> List[CompanyOverviewSchema]:
     return_ = company_service.company_overview(list(map(lambda id_: int(id_), company_ids.split(','))))
     session.close()
+    return return_
+
+
+@company_router.get("/details")
+async def get_company_details(company_id: int = Query(...), session: Session = Depends(get_session),
+                              company_details_orchestrator: CompanyDetailsOrchestrator = Depends(
+                                  get_company_details_orchestrator())) -> Optional[CompanyDetailsSchema]:
+    return_ = await company_details_orchestrator.by_company_id(company_id)
+    session.close()
+
     return return_
 
 

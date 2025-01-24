@@ -8,13 +8,15 @@ from configuration.security import API_SECURITY_ENABLED
 from database.database import Database
 from instance.shared import database_instance, json_web_token_instance, eodhd_client_instance, \
     eodhd_end_of_day_change_overview_adapter_instance, meilisearch_client_instance, company_search_sql_service_instance
+from manager.company.company_manager import CompanyManager
+from manager.company.company_snapshot_metrics_manager import CompanySnapshotMetricsManager
 from manager.end_of_day_change_overview.end_of_day_change_overview_manager import EndOfDayChangeOverviewManager
 from manager.exchange.exchange_manager import ExchangeManager
 from manager.ticker.ticker_manager import TickerManager
 from manager.user.user_manager import UserManager
+from orchestrator.company_details_orchestrator.company_details_orchestrator import CompanyDetailsOrchestrator
 from orchestrator.eodhd.end_of_day_change_overview_orchestrator import EndOfDayChangeOverviewOrchestrator
 from service.company.company_overview_search_service import CompanyOverviewSearchService
-from service.company.company_search_sql_service import CompanySearchSQLService
 from service.company.company_service import CompanyService
 
 
@@ -68,3 +70,22 @@ def get_company_overview_search_service(company_service: CompanyService = Depend
     return CompanyOverviewSearchService(engine=database_instance.get_engine(),
                                         meilisearch_client=meilisearch_client_instance, company_service=company_service,
                                         company_search_sql_service=company_search_sql_service_instance)
+
+
+def get_company_manager(session: Session = Depends(get_session)):
+    return CompanyManager(session)
+
+
+def get_company_snapshot_metric_manager(session: Session = Depends(get_session),
+                                        company_manager: CompanyManager = Depends(get_company_manager)):
+    return CompanySnapshotMetricsManager(session, company_manager)
+
+
+def get_company_details_orchestrator(
+        end_of_day_change_overview_orchestrator: EndOfDayChangeOverviewOrchestrator = Depends(
+            get_end_of_day_change_overview_orchestrator),
+        company_service: CompanyService = Depends(get_company_service),
+        company_snapshot_metrics_manager: CompanySnapshotMetricsManager = Depends(get_company_snapshot_metric_manager),
+        company_manager: CompanyManager = Depends(get_company_manager)):
+    return CompanyDetailsOrchestrator(end_of_day_change_overview_orchestrator, company_service,
+                                      company_snapshot_metrics_manager, company_manager)

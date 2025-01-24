@@ -16,7 +16,8 @@ class CompanyDetailsOrchestrator:
 
     def __init__(self,
                  end_of_day_change_overview_orchestrator: EndOfDayChangeOverviewOrchestrator,
-                 company_service: CompanyService, company_snapshot_metrics_manager: CompanySnapshotMetricsManager,
+                 company_service: CompanyService,
+                 company_snapshot_metrics_manager: CompanySnapshotMetricsManager,
                  company_manager: CompanyManager):
         self._end_of_day_change_overview_orchestrator = end_of_day_change_overview_orchestrator
         self._company_service = company_service
@@ -48,3 +49,7 @@ class CompanyDetailsOrchestrator:
                                         end_of_day_change_overview=end_of_day_change_overview_schema_)
         else:
             return None
+
+
+if __name__ == "__main__":
+    pass
