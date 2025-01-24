@@ -10,10 +10,10 @@ function title(referer: string | null | undefined): string
 
         if (elements_.some(value => value === "company"))
         {
-            if (elements_.some(value => value === "search"))
+            if (elements_.some(value => value.startsWith("search")))
                 return "Company Search";
 
-            if (elements_.some(value => value === "details"))
+            if (elements_.some(value => value.startsWith("details")))
                 return "Company Details";
         }
 
@@ -27,7 +27,7 @@ export default async function Layout({children}: { children: React.ReactNode; })
 {
     const headers_ = await headers();
 
-    console.log(headers_.get("Referer"));
+    console.log(headers_.get("x-pathname"));
 
     return (
         <div className={"h-screen flex flex-col w-full"}>
