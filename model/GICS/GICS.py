@@ -4,12 +4,14 @@ from sqlalchemy import Column, Integer, Sequence
 from sqlmodel import SQLModel, Field, Relationship
 from uuid import uuid4
 
+from pathlib import Path
+
 
 class GICSSector(SQLModel, table=True):
     __tablename__ = 'GICSSector'
 
     # id: Optional[int] = Field(default=None, primary_key=True)
-    id: Optional[int] = Field(sa_column=Column(Integer, Sequence(uuid4().hex), primary_key=True))
+    id: Optional[int] = Field(sa_column=Column(Integer, Sequence(Path(__file__).stem), primary_key=True))
     name: str = Field(nullable=False, unique=True)
 
     industry_groups: List["GICSIndustryGroup"] = Relationship(back_populates="sector")
@@ -22,7 +24,7 @@ class GICSSector(SQLModel, table=True):
 class GICSIndustryGroup(SQLModel, table=True):
     __tablename__ = 'GICSIndustryGroup'
 
-    id: Optional[int] = Field(sa_column=Column(Integer, Sequence(uuid4().hex), primary_key=True))
+    id: Optional[int] = Field(sa_column=Column(Integer, Sequence(Path(__file__).stem), primary_key=True))
     name: str = Field(nullable=False, unique=True)
 
     sector_id: int = Field(foreign_key="GICSSector.id")
@@ -37,7 +39,7 @@ class GICSIndustryGroup(SQLModel, table=True):
 class GICSIndustry(SQLModel, table=True):
     __tablename__ = 'GICSIndustry'
 
-    id: Optional[int] = Field(sa_column=Column(Integer, Sequence(uuid4().hex), primary_key=True))
+    id: Optional[int] = Field(sa_column=Column(Integer, Sequence(Path(__file__).stem), primary_key=True))
     name: str = Field(nullable=False, unique=True)
 
     sector_id: int = Field(foreign_key="GICSSector.id")
@@ -54,7 +56,7 @@ class GICSIndustry(SQLModel, table=True):
 class GICSSubIndustry(SQLModel, table=True):
     __tablename__ = 'GICSSubIndustry'
 
-    id: Optional[int] = Field(sa_column=Column(Integer, Sequence(uuid4().hex), primary_key=True))
+    id: Optional[int] = Field(sa_column=Column(Integer, Sequence(Path(__file__).stem), primary_key=True))
 
     name: str = Field(nullable=False, unique=True)
 

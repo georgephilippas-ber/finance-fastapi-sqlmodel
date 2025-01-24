@@ -1,15 +1,15 @@
-from typing import Optional
 from datetime import date
-from uuid import uuid4
+from typing import Optional
 
 from sqlalchemy import Column, Integer, Sequence
 from sqlmodel import SQLModel, Field, Relationship
 
 from model.ticker.ticker import Ticker
+from pathlib import Path
 
 
 class EndOfDayChangeOverview(SQLModel, table=True):
-    id: Optional[int] = Field(sa_column=Column(Integer, Sequence(uuid4().hex), primary_key=True))
+    id: Optional[int] = Field(sa_column=Column(Integer, Sequence(Path(__file__).stem), primary_key=True))
 
     latest_date: date = Field(nullable=False)
     latest: Optional[float] = Field(default=None)

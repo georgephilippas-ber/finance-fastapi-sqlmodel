@@ -8,9 +8,11 @@ from sqlmodel import SQLModel, Field, Relationship
 
 from model.link.country_continent.country_continent import CountryContinent
 
+from pathlib import Path
+
 
 class Continent(SQLModel, table=True):
-    id: Optional[int] = Field(sa_column=Column(Integer, Sequence(uuid4().hex), primary_key=True))
+    id: Optional[int] = Field(sa_column=Column(Integer, Sequence(Path(__file__).stem), primary_key=True))
 
     name: str = Field(nullable=False, unique=True)
 

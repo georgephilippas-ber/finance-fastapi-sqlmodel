@@ -8,9 +8,10 @@ from model.currency.currency import Currency
 from model.exchange.exchange import Exchange
 from schema.ticker.ticker import InstrumentType
 
+from pathlib import Path
 
 class Ticker(SQLModel, table=True):
-    id: Optional[int] = Field(sa_column=Column(Integer, Sequence(uuid4().hex), primary_key=True))
+    id: Optional[int] = Field(sa_column=Column(Integer, Sequence(Path(__file__).stem), primary_key=True))
 
     isin: Optional[str] = Field(nullable=True, unique=True)
 

@@ -9,9 +9,10 @@ from datetime import date
 
 from model.company.company import Company
 
+from pathlib import Path
 
 class CompanySnapshotMetrics(SQLModel, table=True):
-    id: Optional[int] = Field(sa_column=Column(Integer, Sequence(uuid4().hex), primary_key=True))
+    id: Optional[int] = Field(sa_column=Column(Integer, Sequence(Path(__file__).stem), primary_key=True))
 
     market_capitalization: Decimal = Field(sa_column=Column(Numeric(26, 2)))
     enterprise_value: Decimal = Field(sa_column=Column(Numeric(26, 2)))

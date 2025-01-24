@@ -39,6 +39,7 @@ class CompanyDetailsOrchestrator:
             operating_profit_margin=company_snapshot_metrics_.operating_profit_margin,
             net_profit_margin=company_snapshot_metrics_.net_profit_margin,
         )
+
         end_of_day_change_overview_schema_ = EndOfDayChangeOverviewSchema(
             **end_of_day_change_overview_.model_dump()
         )

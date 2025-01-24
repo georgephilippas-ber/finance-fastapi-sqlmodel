@@ -32,7 +32,7 @@ async def get_company_overview(company_ids: str = Query(...),
 @company_router.get("/details")
 async def get_company_details(company_id: int = Query(...), session: Session = Depends(get_session),
                               company_details_orchestrator: CompanyDetailsOrchestrator = Depends(
-                                  get_company_details_orchestrator()),
+                                  get_company_details_orchestrator),
                               security: Callable = Depends(api_security)) -> Optional[CompanyDetailsSchema]:
     return_ = await company_details_orchestrator.by_company_id(company_id)
     session.close()

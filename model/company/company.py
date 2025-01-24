@@ -8,9 +8,11 @@ from model.currency.currency import Currency
 from model.ticker.ticker import Ticker
 from model.country.country import Country
 
+from pathlib import Path
+
 
 class Company(SQLModel, table=True):
-    id: Optional[int] = Field(sa_column=Column(Integer, Sequence(uuid4().hex), primary_key=True))
+    id: Optional[int] = Field(sa_column=Column(Integer, Sequence(Path(__file__).stem), primary_key=True))
 
     name: str = Field(nullable=False)
     isin: str = Field(nullable=False, unique=True)
