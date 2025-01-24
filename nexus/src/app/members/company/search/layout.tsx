@@ -1,8 +1,26 @@
 import {APPLICATION_NAVBAR_LOGO_URL} from "@/configuration/configuration";
 import {LogoutButton} from "@/components/client/authentication/logout";
+import {headers} from "next/headers";
 
-export default function Layout({children}: { children: React.ReactNode; })
+function title(referer: string | null | undefined): string
 {
+    if (referer)
+    {
+        const elements_ = referer.split("/");
+
+        if (elements_.some(value => value === "members") && elements_.some(value => value === "company") && elements_.some(value => value === "search"))
+            return "Company Search";
+
+        return "";
+    }
+    else
+        return "";
+}
+
+export default async function Layout({children}: { children: React.ReactNode; })
+{
+    const headers_ = await headers();
+
     return (
         <div className={"h-screen flex flex-col w-full"}>
             <header>
@@ -10,13 +28,12 @@ export default function Layout({children}: { children: React.ReactNode; })
                     <div className="flex flex-wrap items-center justify-between mx-auto p-2">
                         <a href="/nexus/public" className="flex items-center space-x-3 rtl:space-x-reverse">
                             <img src={APPLICATION_NAVBAR_LOGO_URL} className="h-8" alt="logo"/>
-                            <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
-                                Fluent Investor
-                            </span>
                         </a>
+                        <div className={"text-xl font-semibold"}>
+                            {title(headers_.get("Referer"))}
+                        </div>
                         <LogoutButton/>
                     </div>
-
                 </nav>
             </header>
             <main className="flex-grow overflow-y-auto">
