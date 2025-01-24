@@ -31,7 +31,8 @@ async def get_company_overview(company_ids: str = Query(...),
 @company_router.get("/details")
 async def get_company_details(company_id: int = Query(...), session: Session = Depends(get_session),
                               company_details_orchestrator: CompanyDetailsOrchestrator = Depends(
-                                  get_company_details_orchestrator())) -> Optional[CompanyDetailsSchema]:
+                                  get_company_details_orchestrator()),
+                              security: Callable = Depends(api_security)) -> Optional[CompanyDetailsSchema]:
     return_ = await company_details_orchestrator.by_company_id(company_id)
     session.close()
 
@@ -53,7 +54,8 @@ async def get_end_of_day_change_overview(ticker_id: int = Query(...),
 @company_router.post("/search")
 async def search(query: Optional[str] = Query(default=None), criteria: Optional[List[Criterion]] = Body(default=None),
                  company_overview_search_service: CompanyOverviewSearchService = Depends(
-                     get_company_overview_search_service), session: Session = Depends(get_session)):  #
+                     get_company_overview_search_service), session: Session = Depends(get_session),
+                 security: Callable = Depends(api_security)):  #
     return_ = company_overview_search_service.search(query=query, criteria=criteria)
     session.close()
 
