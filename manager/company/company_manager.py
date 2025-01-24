@@ -17,6 +17,11 @@ class CompanyManager(Manager):
 
         return (self._session.exec(query_)).first()
 
+    def ticker_id(self, company_id: int) -> Optional[int]:
+        query_ = select(Company.ticker_id).where(Company.id == company_id)
+
+        return (self._session.exec(query_)).first()
+
     def retrieve_unique(self, schema: CompanySchema, **kwargs) -> Optional[Company]:
         query_ = select(Company).where(Company.isin == schema.isin)
 

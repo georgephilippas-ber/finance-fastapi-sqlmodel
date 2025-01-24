@@ -18,6 +18,12 @@ class CompanySnapshotMetricsManager(Manager):
 
         self._company_manager = company_manager
 
+    def by_company_id_latest(self, company_id: int) -> Optional[CompanySnapshotMetrics]:
+        query_ = select(CompanySnapshotMetrics).where(CompanySnapshotMetrics.company_id == company_id).order_by(
+            CompanySnapshotMetrics.updated_at.desc()).limit(1)
+
+        return self._session.exec(query_).first()
+
     def retrieve_unique(self, schema_tuple: Tuple[CompanySchema, CompanySnapshotMetricsSchema], **kwargs) -> Optional[
         CompanySnapshotMetrics]:
         company_schema_, company_snapshot_metrics_schema_ = schema_tuple
