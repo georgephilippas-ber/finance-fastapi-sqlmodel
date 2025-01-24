@@ -1,8 +1,14 @@
+import Link from "next/link";
+
 export default async function ({searchParams}: { searchParams?: { company_id?: string } })
 {
     return (
         <div>
-            COMPANY DETAILS {(await searchParams)?.company_id}
+            <Link href={"/members/company/search"}>
+                Search
+            </Link>
+
+            COMPANY DETAILS {searchParams?.company_id}
         </div>
     );
 }

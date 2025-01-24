@@ -7,7 +7,6 @@ import {company_overview_type} from "@/schema/schema";
 import {AiFillSetting} from "react-icons/ai";
 import {sessionAdd, sessionGet} from "@/actions/authentication/session";
 import {useRouter} from "next/navigation";
-import {revalidatePath} from "next/cache";
 
 export default function ()
 {
@@ -21,6 +20,8 @@ export default function ()
     {
         sessionGet("company.search").then(value =>
         {
+            console.log(value);
+
             if (value)
                 setQuery(value["query"]);
         });
@@ -33,10 +34,11 @@ export default function ()
             else
                 setQueryResults([]);
 
-            sessionAdd("company.search", {query: query}).then(value =>
-            {
-                console.log(value);
-            })
+            if (query)
+                sessionAdd("company.search", {query: query}).then(value =>
+                {
+                    console.log(value);
+                })
         },
         [query]);
 
