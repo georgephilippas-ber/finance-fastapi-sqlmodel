@@ -17,7 +17,7 @@ export default async function ({searchParams}: { searchParams?: { company_id?: s
 
             COMPANY DETAILS {searchParams?.company_id} - {searchParams?.ticker_id}
 
-            <EndOfDayChangeOverview isFake end_of_day_change_overview={fake_endOfDayChangeOverview()}/>
+            <EndOfDayChangeOverview currencySymbol={"$"} isFake endOfDayChangeOverview={fake_endOfDayChangeOverview()}/>
         </div>
     );
 }
