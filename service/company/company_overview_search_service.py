@@ -3,7 +3,6 @@ from typing import List, Optional
 from sqlalchemy import Engine
 
 from client.search.meilisearch.meilisearch_client import MeilisearchClient
-from database.database import Database
 from schema.company.company import CompanyOverviewSchema
 from schema.company.company_search.company_search_sql import Criterion
 from service.company.company_search_sql_service import CompanySearchSQLService
@@ -70,14 +69,4 @@ class CompanyOverviewSearchService:
 
 
 if __name__ == "__main__":
-    db = Database()
-
-    with db.create_session() as session:
-        cs = CompanyService(session=session)
-        cssql = CompanySearchSQLService(db.get_engine())
-        co = CompanyOverviewSearchService(engine=db.get_engine(), meilisearch_client=MeilisearchClient(),
-                                          company_service=cs, company_search_sql_service=cssql)
-
-        for i in range(0, 100):
-            print(co.search(query='building'))
-        db.get_engine()
+    pass
