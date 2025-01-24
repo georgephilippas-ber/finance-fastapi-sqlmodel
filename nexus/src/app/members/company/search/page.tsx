@@ -1,17 +1,20 @@
 'use client'
 
-import {CompanyOverview} from "@/components/server/company/company-overview";
+import {CompanyOverview} from "@/components/client/company/company-overview";
 import {search} from "@/actions/financial/company";
 import {useEffect, useState} from "react";
 import {company_overview_type} from "@/schema/schema";
 import {AiFillSetting} from "react-icons/ai";
 import {sessionAdd, sessionGet} from "@/actions/authentication/session";
+import {useRouter} from "next/navigation";
 
 export default function ()
 {
     const [queryResults, setQueryResults] = useState<company_overview_type[]>([]);
 
     const [query, setQuery] = useState<string>("");
+
+    const router = useRouter();
 
     useEffect(() =>
     {

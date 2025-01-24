@@ -8,8 +8,14 @@ function title(referer: string | null | undefined): string
     {
         const elements_ = referer.split("/");
 
-        if (elements_.some(value => value === "members") && elements_.some(value => value === "company") && elements_.some(value => value === "search"))
-            return "Company Search";
+        if (elements_.some(value => value === "company"))
+        {
+            if (elements_.some(value => value === "search"))
+                return "Company Search";
+
+            if (elements_.some(value => value === "details"))
+                return "Company Details";
+        }
 
         return "";
     }
