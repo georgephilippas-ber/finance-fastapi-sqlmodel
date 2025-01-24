@@ -5,6 +5,7 @@ import {search} from "@/actions/financial/company";
 import {useEffect, useState} from "react";
 import {company_overview_type} from "@/schema/schema";
 import {AiFillSetting} from "react-icons/ai";
+import {sessionAdd, sessionGet} from "@/actions/authentication/session";
 
 export default function ()
 {
@@ -13,11 +14,25 @@ export default function ()
     const [query, setQuery] = useState<string>("");
 
     useEffect(() =>
+    {
+        sessionGet("company.search").then(value =>
+        {
+            if (value)
+                setQuery(value["query"]);
+        });
+    }, []);
+
+    useEffect(() =>
         {
             if (query)
                 search(query).then(value => setQueryResults(value));
             else
                 setQueryResults([]);
+
+            sessionAdd("company.search", {query: query}).then(value =>
+            {
+                console.log(value);
+            })
         },
         [query]);
 

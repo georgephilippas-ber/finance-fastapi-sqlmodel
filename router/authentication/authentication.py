@@ -50,7 +50,11 @@ async def login(user_login_schema: UserLoginSchema, response: Response,
 
 
 @authentication_router.post("/logout")
-async def logout(response: Response):
+async def logout(request: Request, response: Response):
+    session_id_ = request.cookies.get("SESSION_ID")
+    if session_id_ is not None:
+        session_manager_instance.close_session(session_id_)
+
     response.delete_cookie(key="Authorization", path="/", httponly=True, samesite="strict", secure=False)
     response.delete_cookie(key="SESSION_ID", path="/", httponly=True, samesite="strict")
 

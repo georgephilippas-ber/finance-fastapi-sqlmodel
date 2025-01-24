@@ -16,12 +16,25 @@ class SessionManager:
                 session_id TEXT NOT NULL,
                 entry_key TEXT NOT NULL,
                 value TEXT,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                session_closed BOOLEAN DEFAULT FALSE,
                 PRIMARY KEY (session_id, entry_key)
             );
             """)
 
     def get_connection(self) -> Connection:
         return connect(self._sqlite_filename)
+
+    def close_session(self, session_id: str) -> bool:
+        with self.get_connection() as _connection:
+            try:
+                _connection.execute("""
+                    UPDATE session SET session_closed = TRUE WHERE session_id = ?;
+                """, (session_id,))
+
+                return True
+            except IntegrityError:
+                return False
 
     def add(self, session_id: str, entry_key: str, value: str) -> bool:
         with self.get_connection() as _connection:
