@@ -17,7 +17,7 @@ export function LogoutButton({className}: { className?: string })
 
     return (
         <button onClick={handleClick} className={["btn btn-primary", className || ""].join(" ").trim()}>
-            <TbLogout2/>
+            <TbLogout2 className={"text-xl"}/>
         </button>
     );
 }
