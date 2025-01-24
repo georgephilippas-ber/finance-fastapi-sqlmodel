@@ -32,3 +32,12 @@ export type criterion_type = {
     metric_direction: metric_direction_type;
     groups: Array<[group_type | null, number]>;
 };
+
+
+export type end_of_day_change_overview_type = {
+    latest?: number;
+    latest_date?: string;
+    latest_adjusted?: number;
+    beginning_of_month_adjusted?: number;
+    beginning_of_year_adjusted?: number;
+};

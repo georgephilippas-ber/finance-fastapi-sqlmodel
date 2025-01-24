@@ -1,5 +1,7 @@
 import Link from "next/link";
 import {BiArrowBack} from "react-icons/bi";
+import {EndOfDayChangeOverview} from "@/components/server/end-of-day-change-overview/end-of-day-change-overview";
+import {fake_endOfDayChangeOverview} from "@/core/fake/end-of-day-change-overview";
 
 export default async function ({searchParams}: { searchParams?: { company_id?: string; ticker_id?: string; } })
 {
@@ -14,6 +16,8 @@ export default async function ({searchParams}: { searchParams?: { company_id?: s
             </div>
 
             COMPANY DETAILS {searchParams?.company_id} - {searchParams?.ticker_id}
+
+            <EndOfDayChangeOverview isFake end_of_day_change_overview={fake_endOfDayChangeOverview()}/>
         </div>
     );
 }
