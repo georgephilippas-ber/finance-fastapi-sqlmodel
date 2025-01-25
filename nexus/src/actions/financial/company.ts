@@ -1,5 +1,5 @@
 import {fastApiClient} from "@/instance/axios-instance";
-import {company_overview_type, criterion_type} from "@/schema/schema";
+import {company_details_type, company_overview_type, criterion_type} from "@/schema/schema";
 
 export async function search(query: string | undefined = undefined, criteria: criterion_type[] | undefined = undefined): Promise<company_overview_type[]>
 {
@@ -20,7 +20,7 @@ export async function search(query: string | undefined = undefined, criteria: cr
     }
 }
 
-export async function companyOverview(company_ids: number[]): Promise<company_overview_type[]>
+export async function retrieveCompanyOverview(company_ids: number[]): Promise<company_overview_type[]>
 {
     try
     {
@@ -42,9 +42,9 @@ export async function companyOverview(company_ids: number[]): Promise<company_ov
     }
 }
 
-export async function companyOverviewSingle(company_id: number): Promise<company_overview_type | undefined>
+export async function retrieveCompanyOverviewSingle(company_id: number): Promise<company_overview_type | undefined>
 {
-    const array_ = await companyOverview([company_id]);
+    const array_ = await retrieveCompanyOverview([company_id]);
 
     if (array_.length)
     {
@@ -52,4 +52,26 @@ export async function companyOverviewSingle(company_id: number): Promise<company
     }
     else
         return undefined;
+}
+
+export async function retrieveCompanyDetails(company_id: number): Promise<company_details_type | undefined>
+{
+    try
+    {
+        const response_ = await fastApiClient.get<company_details_type>("/company/details", {
+            params:
+                {
+                    company_id,
+                }
+        });
+
+        return response_.data;
+    }
+    catch (err)
+    {
+        console.log(err);
+
+        return undefined;
+    }
+
 }

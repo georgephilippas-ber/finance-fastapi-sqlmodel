@@ -54,7 +54,7 @@ export type company_snapshot_metrics_type = {
     updated_at?: string;
 };
 
-export type company_details_schema = {
+export type company_details_type = {
     company_overview: company_overview_type;
     company_snapshot_metrics: company_snapshot_metrics_type;
     end_of_day_change_overview?: end_of_day_change_overview_type

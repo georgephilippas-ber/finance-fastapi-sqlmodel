@@ -1,15 +1,17 @@
-import {Accordion} from "flowbite-react";
+'use client'
+
 import {company_overview_type} from "@/schema/schema";
 
 export default function CompanyOverview({company_overview}: { company_overview: company_overview_type })
 {
     return (
-        <div>
-            <Accordion>
-                <Accordion.Title>
-                    {company_overview.company_name}
-                </Accordion.Title>
-            </Accordion>
+        <div className={"font-sans w-fit"}>
+            <details>
+                <summary className={"text-lg"}>Description</summary>
+                <p className={"text-sm"}>
+                    {company_overview.description}
+                </p>
+            </details>
         </div>
     );
 }
