@@ -18,7 +18,7 @@ function date(date_string: string | undefined | null, fake: boolean)
     }
 }
 
-function return_(end: number | undefined | null, start: number | undefined | null): number
+function assetReturn(end: number | undefined | null, start: number | undefined | null): number
 {
     if (end && start)
         return (end - start) / start
@@ -45,8 +45,8 @@ export function EndOfDayChangeOverview({endOfDayChangeOverview, currencySymbol, 
     fake?: boolean;
 })
 {
-    const month_to_date_ = return_(endOfDayChangeOverview.latest_adjusted, endOfDayChangeOverview.beginning_of_month_adjusted);
-    const year_to_date_ = return_(endOfDayChangeOverview.latest_adjusted, endOfDayChangeOverview.beginning_of_year_adjusted);
+    const month_to_date_ = assetReturn(endOfDayChangeOverview.latest_adjusted, endOfDayChangeOverview.beginning_of_month_adjusted);
+    const year_to_date_ = assetReturn(endOfDayChangeOverview.latest_adjusted, endOfDayChangeOverview.beginning_of_year_adjusted);
 
     return (
         <div className={"w-fit p-1.5 border-white border rounded-lg"}>
