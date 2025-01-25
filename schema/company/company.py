@@ -40,8 +40,8 @@ class CompanySnapshotMetricsSchema(BaseModel):
 
     price_to_book_ratio: float
 
-    shares_outstanding: int
-    shares_float: int
+    shares_outstanding: Decimal
+    shares_float: Decimal
 
     beta: Optional[float] = Field(default=None)
 

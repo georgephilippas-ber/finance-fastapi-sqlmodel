@@ -34,11 +34,7 @@ class CompanyDetailsOrchestrator:
             company_snapshot_metrics_ = self._company_snapshot_metrics_manager.by_company_id_latest(company_id)
 
             company_snapshot_metrics_schema_ = CompanySnapshotMetricsSchema(
-                market_capitalization=company_snapshot_metrics_.market_capitalization,
-                enterprise_value=company_snapshot_metrics_.enterprise_value,
-                return_on_assets=company_snapshot_metrics_.return_on_assets,
-                operating_profit_margin=company_snapshot_metrics_.operating_profit_margin,
-                net_profit_margin=company_snapshot_metrics_.net_profit_margin,
+                **company_snapshot_metrics_.model_dump()
             )
 
             if end_of_day_change_overview_ is not None:

@@ -6,6 +6,10 @@ from abstract.adapter.adapter import Adapter
 from schema.company.company import CompanySnapshotMetricsSchema
 
 
+def get_return_on_invested_capital(json_: Dict) -> Optional[float]:
+    return json_['Financials']['BalanceSheet']['yearly']
+
+
 class CompanySnapshotMetricsAdapter(Adapter):
     def __init__(self):
         super().__init__()

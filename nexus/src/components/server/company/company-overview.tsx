@@ -20,7 +20,7 @@ export function CompanyOverview({company_overview}: { company_overview: company_
                 </div>
             </div>
             <details open className={"m-2"}>
-                <summary className={"text-lg"}>Description</summary>
+                <summary className={"text-lg cursor-pointer"}>Description</summary>
                 <p className={"text-sm text-justify p-4"}>
                     {company_overview.description}
                 </p>
