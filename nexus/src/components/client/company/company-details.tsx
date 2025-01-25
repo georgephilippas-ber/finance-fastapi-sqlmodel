@@ -49,8 +49,8 @@ export default function CompanyDetails({company_id}: { company_id: number })
                             {companyDetails.company_overview.company_name}
                         </div>
                         <EndOfDayChangeOverview
-                            endOfDayChangeOverview={companyDetails?.end_of_day_change_overview as any}
-                            currencySymbol={companyDetails?.company_overview.currency_symbol as any}/>
+                            endOfDayChangeOverview={companyDetails?.end_of_day_change_overview}
+                            currencySymbol={companyDetails.company_overview.currency_symbol}/>
                     </div>
 
                     {companyDetails?.company_overview ?
