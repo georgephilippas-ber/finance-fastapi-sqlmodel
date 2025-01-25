@@ -41,3 +41,21 @@ export type end_of_day_change_overview_type = {
     beginning_of_month_adjusted?: number;
     beginning_of_year_adjusted?: number;
 };
+
+export type company_snapshot_metrics_type = {
+    market_capitalization: number;
+    enterprise_value: number;
+
+    return_on_assets: number;
+
+    operating_profit_margin: number;
+    net_profit_margin: number;
+
+    updated_at?: string;
+};
+
+export type company_details_schema = {
+    company_overview: company_overview_type;
+    company_snapshot_metrics: company_snapshot_metrics_type;
+    end_of_day_change_overview?: end_of_day_change_overview_type
+};

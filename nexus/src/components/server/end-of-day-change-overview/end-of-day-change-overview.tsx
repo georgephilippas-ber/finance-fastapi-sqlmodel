@@ -80,5 +80,5 @@ export function EndOfDayChangeOverview({endOfDayChangeOverview, currencySymbol, 
                 {date(endOfDayChangeOverview.latest_date, fake)}
             </div>
         </div>
-    )
+    );
 }
