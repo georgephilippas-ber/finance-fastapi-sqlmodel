@@ -20,6 +20,8 @@ class CompanySchema(BaseModel):
 
 
 class CompanySnapshotMetricsSchema(BaseModel):
+    updated_at: Optional[date] = Field(default=None)
+
     market_capitalization: Decimal
     enterprise_value: Decimal
 
@@ -28,7 +30,23 @@ class CompanySnapshotMetricsSchema(BaseModel):
     operating_profit_margin: float
     net_profit_margin: float
 
-    updated_at: Optional[date] = Field(default=None)
+    price_earnings_ratio: Optional[float] = Field(default=None)
+    book_price_per_share: float
+
+    revenue: Decimal
+    gross_profit: Decimal
+
+    diluted_eps: float
+
+    price_to_book_ratio: float
+
+    shares_outstanding: int
+    shares_float: int
+
+    beta: Optional[float] = Field(default=None)
+
+    fifty_two_week_high: float
+    fifty_two_week_low: float
 
 
 class CompanyOverviewSchema(BaseModel):

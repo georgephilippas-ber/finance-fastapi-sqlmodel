@@ -50,13 +50,24 @@ class CompanySnapshotMetricsManager(Manager):
         company_schema_, company_snapshot_metrics_schema_ = schema_tuple
 
         company_snapshot_metrics_ = CompanySnapshotMetrics(
+            updated_at=company_snapshot_metrics_schema_.updated_at,
+            company_id=foreign_keys['company_id'],
             market_capitalization=company_snapshot_metrics_schema_.market_capitalization,
             enterprise_value=company_snapshot_metrics_schema_.enterprise_value,
             return_on_assets=company_snapshot_metrics_schema_.return_on_assets,
             operating_profit_margin=company_snapshot_metrics_schema_.operating_profit_margin,
             net_profit_margin=company_snapshot_metrics_schema_.net_profit_margin,
-            updated_at=company_snapshot_metrics_schema_.updated_at,
-            company_id=foreign_keys['company_id']
+            price_to_book_ratio=company_snapshot_metrics_schema_.price_to_book_ratio,
+            fifty_two_week_high=company_snapshot_metrics_schema_.fifty_two_week_high,
+            fifty_two_week_low=company_snapshot_metrics_schema_.fifty_two_week_low,
+            price_earnings_ratio=company_snapshot_metrics_schema_.price_earnings_ratio,
+            book_price_per_share=company_snapshot_metrics_schema_.book_price_per_share,
+            diluted_eps=company_snapshot_metrics_schema_.diluted_eps,
+            revenue=company_snapshot_metrics_schema_.revenue,
+            gross_profit=company_snapshot_metrics_schema_.gross_profit,
+            beta=company_snapshot_metrics_schema_.beta,
+            shares_outstanding=company_snapshot_metrics_schema_.shares_outstanding,
+            shares_float=company_snapshot_metrics_schema_.shares_float,
         )
 
         try:

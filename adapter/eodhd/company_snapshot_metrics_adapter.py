@@ -14,12 +14,23 @@ class CompanySnapshotMetricsAdapter(Adapter):
         try:
             if json_.get('General', {}).get('Type') == 'Common Stock':
                 return CompanySnapshotMetricsSchema(
+                    updated_at=json_['General']['UpdatedAt'],
                     market_capitalization=json_['Highlights']['MarketCapitalization'],
                     enterprise_value=json_['Valuation']['EnterpriseValue'],
                     return_on_assets=json_['Highlights']['ReturnOnAssetsTTM'],
                     operating_profit_margin=json_['Highlights']['OperatingMarginTTM'],
                     net_profit_margin=json_['Highlights']['ProfitMargin'],
-                    updated_at=json_['General']['UpdatedAt']
+                    price_earnings_ratio=json_['Highlights']['PERatio'],
+                    book_price_per_share=json_['Highlights']['BookValue'],
+                    revenue=json_['Highlights']['RevenueTTM'],
+                    gross_profit=json_['Highlights']['GrossProfitTTM'],
+                    diluted_eps=json_['Highlights']['DilutedEpsTTM'],
+                    shares_outstanding=json_['SharesStats']['SharesOutstanding'],
+                    shares_float=json_['SharesStats']['SharesFloat'],
+                    beta=json_['Technicals']['Beta'],
+                    fifty_two_week_high=json_['Technicals']['52WeekHigh'],
+                    fifty_two_week_low=json_['Technicals']['52WeekLow'],
+                    price_to_book_ratio=json_['Valuation']['PriceBookMRQ'],
                 )
         except (KeyError, ValidationError) as e:
             print(e)
