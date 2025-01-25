@@ -18,8 +18,7 @@ export default function CompanyDetails({company_id}: { company_id: number })
         {
             setCompanyDetails(value);
 
-            setTimeout(() => setLoading(false), 1000)
-            // setLoading(false);
+            setLoading(false);
         });
     }, []);
 
@@ -42,12 +41,16 @@ export default function CompanyDetails({company_id}: { company_id: number })
                         <img src={companyDetails.company_overview.company_logo_url}
                              alt={companyDetails.company_overview.company_name}
                              className={"w-20 overflow-x-hidden text-xs text-nowrap rounded-xl"}/>
+                        <div className={"hidden lg:block lg:rounded-xl"}>
+                            <img className={"w-12"} src={companyDetails.company_overview.country_flag_url}
+                                 alt={companyDetails.company_overview.country_cca3}/>
+                        </div>
                         <div className={"text-xl"}>
                             {companyDetails.company_overview.company_name}
                         </div>
                         <EndOfDayChangeOverview
-                                                endOfDayChangeOverview={companyDetails?.end_of_day_change_overview as any}
-                                                currencySymbol={companyDetails?.company_overview.currency_symbol as any}/>
+                            endOfDayChangeOverview={companyDetails?.end_of_day_change_overview as any}
+                            currencySymbol={companyDetails?.company_overview.currency_symbol as any}/>
                     </div>
 
                     {companyDetails?.company_overview ?
