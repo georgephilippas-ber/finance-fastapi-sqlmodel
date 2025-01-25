@@ -10,7 +10,7 @@ import {ClipLoader} from "react-spinners";
 export default function CompanyDetails({company_id}: { company_id: number })
 {
     const [companyDetails, setCompanyDetails] = useState<company_details_type | undefined>(undefined);
-    const [loading, setLoading] = useState<boolean>(true);
+    const [isLoading, set_isLoading] = useState<boolean>(true);
 
     useEffect(() =>
     {
@@ -18,13 +18,13 @@ export default function CompanyDetails({company_id}: { company_id: number })
         {
             setCompanyDetails(value);
 
-            setLoading(false);
+            set_isLoading(false);
         });
     }, []);
 
     return (
         <>
-            {loading || !companyDetails ?
+            {isLoading || !companyDetails ?
                 <div className={"w-fit mx-auto mt-20"}>
                     <ClipLoader
                         color={"lightgray"}
