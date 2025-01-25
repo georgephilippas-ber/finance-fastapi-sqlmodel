@@ -3,9 +3,10 @@
 import {useEffect, useState} from "react";
 import {company_details_type} from "@/schema/schema";
 import {retrieveCompanyDetails} from "@/actions/financial/company";
-import CompanyOverview from "@/components/server/company/company-overview";
+import {CompanyOverview} from "@/components/server/company/company-overview";
 import {EndOfDayChangeOverview} from "@/components/server/end-of-day-change-overview/end-of-day-change-overview";
 import {ClipLoader} from "react-spinners";
+import {CompanySnapshotMetrics} from "@/components/server/company/company-snapshot-metrics";
 
 export default function CompanyDetails({company_id}: { company_id: number })
 {
@@ -55,6 +56,10 @@ export default function CompanyDetails({company_id}: { company_id: number })
 
                     {companyDetails?.company_overview ?
                         <CompanyOverview company_overview={companyDetails.company_overview}/> : null}
+
+                    {companyDetails?.company_snapshot_metrics ?
+                        <CompanySnapshotMetrics currency_code={companyDetails.company_overview.currency_code}
+                                                company_snapshot_metrics={companyDetails.company_snapshot_metrics}/> : null}
                 </div>}
         </>
     )

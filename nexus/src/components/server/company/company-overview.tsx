@@ -2,7 +2,7 @@
 
 import {company_overview_type} from "@/schema/schema";
 
-export default function CompanyOverview({company_overview}: { company_overview: company_overview_type })
+export function CompanyOverview({company_overview}: { company_overview: company_overview_type })
 {
     return (
         <div className={"font-sans w-full m-1"}>
