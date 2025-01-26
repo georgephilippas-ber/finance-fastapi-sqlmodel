@@ -1,6 +1,7 @@
 import {APPLICATION_NAVBAR_LOGO_URL} from "@/configuration/configuration";
 import {LogoutButton} from "@/components/client/authentication/logout";
 import {headers} from "next/headers";
+import {faker} from "@faker-js/faker";
 
 function title(referer: string | null | undefined): string
 {
@@ -43,7 +44,7 @@ export default async function Layout({children}: { children: React.ReactNode; })
             </main>
             <footer className="h-8">
                 <div className="text-center text-gray-500 text-sm">
-                    © {new Date().getFullYear()} <strong>Fluent Investor</strong>.
+                    <strong>{faker.finance.ethereumAddress()}</strong>
                 </div>
             </footer>
         </div>

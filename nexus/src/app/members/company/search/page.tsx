@@ -52,7 +52,8 @@ export default function ()
             <div className={"sm:w-4/5 sm:mx-auto flex flex-row gap-4 w-full"}>
                 <input value={query} onChange={event => setQuery(event.target.value)} className={"input w-full"}
                        type={"text"} placeholder={"search"}/>
-                <button className={"btn btn-primary"}>
+                <button className={"btn btn-primary"}
+                        onClick={event => router.push("/members/company/search-criteria")}>
                     <AiFillSetting className={"text-xl"}/>
                 </button>
             </div>
