@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import {BiArrowBack} from "react-icons/bi";
-import {GroupOptions, MetricOptions} from "@/schema/criterion-schema";
+import {Criterion} from "@/schema/criterion-schema";
 
 export default function ()
 {
@@ -14,11 +14,11 @@ export default function ()
                         <BiArrowBack className={"text-xl"}/>
                     </button>
                 </Link>
-                <p className={"text-2xl font-semibold text-center"}>
+                <p className={"text-2xl font-semibold text-center mb-4"}>
                     Search Criteria
                 </p>
-                <GroupOptions onSelect={console.log}/>
-                <MetricOptions onSelect={console.log}/>
+
+                <Criterion className={"mx-auto"}/>
             </div>
         </div>
     );
