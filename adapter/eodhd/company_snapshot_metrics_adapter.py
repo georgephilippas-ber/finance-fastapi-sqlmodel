@@ -42,7 +42,7 @@ class EODHDFundamentalsPreprocessor:
         return self.total_assets() - self.total_liabilities()
 
     def free_cash_flow(self) -> Optional[Decimal]:
-        cash_flow_statement_ = json_['Financials']['Cash_Flow']['yearly']
+        cash_flow_statement_ = self._json['Financials']['Cash_Flow']['yearly']
 
         return Decimal(cash_flow_statement_[list(cash_flow_statement_.keys())[0]]["freeCashFlow"])
 
