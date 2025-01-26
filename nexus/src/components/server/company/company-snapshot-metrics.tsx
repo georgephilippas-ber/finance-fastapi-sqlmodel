@@ -13,7 +13,7 @@ type table_type = {
     entry_array: Array<metric_entry_type>
 }
 
-function getSizeTable(companySnapshotMetrics: company_snapshot_metrics_type, currency_code: string): table_type | undefined
+function getSizeTable(companySnapshotMetrics: company_snapshot_metrics_type, currency_code: string): table_type
 {
     return {
         title: "Company Size",
@@ -75,6 +75,12 @@ function getReturnTable(companySnapshotMetrics: company_snapshot_metrics_type, c
             {
                 name: "ROA",
                 value: companySnapshotMetrics.return_on_assets,
+                currency_code: currency_code,
+                format: percentageFormat
+            },
+            {
+                name: "ROIC",
+                value: companySnapshotMetrics.return_on_invested_capital,
                 currency_code: currency_code,
                 format: percentageFormat
             },
@@ -163,12 +169,33 @@ function getPriceTable(companySnapshotMetrics: company_snapshot_metrics_type, cu
     }
 }
 
+function getFundamentalsTable(companySnapshotMetrics: company_snapshot_metrics_type, currency_code: string): table_type
+{
+    return {
+        title: "Fundamentals",
+        entry_array: [
+            {
+                name: "D/E",
+                value: companySnapshotMetrics.debt_to_equity_ratio,
+                currency_code: currency_code,
+                format: ratioFormat
+            },
+            {
+                name: "FCF-ROIC",
+                value: companySnapshotMetrics.free_cash_flow_return_on_invested_capital,
+                currency_code: currency_code,
+                format: percentageFormat
+            }
+        ]
+    }
+}
+
 function Grid({table}: { table: table_type | undefined })
 {
     if (table)
         return (
             <div
-                className={"p-4 border border-white rounded-lg flex flex-col items-stretch w-full justify-start h-full"}>
+                className={"min-w-[12em] p-4 border border-white rounded-lg flex flex-col items-stretch w-full justify-start h-full"}>
                 <p className={"text-xs mb-4 w-full text-center"}>
                     {table.title.toUpperCase()}
                 </p>
@@ -180,7 +207,7 @@ function Grid({table}: { table: table_type | undefined })
                                 <div className={"text-sm font-semibold"}>
                                     {value.name}
                                 </div>
-                                <div className={"text-sm text-nowrap"}>
+                                <div className={"text-sm overflow-x-auto"}>
                                     {value.format(value.value, value.currency_code)}
                                 </div>
                             </React.Fragment>
@@ -249,6 +276,7 @@ export function CompanySnapshotMetrics({company_snapshot_metrics, currency_code}
     const valuationTable = getValuationTable(company_snapshot_metrics, currency_code);
     const technicalsTable = getTechnicalsTable(company_snapshot_metrics, currency_code);
     const priceTable = getPriceTable(company_snapshot_metrics, currency_code);
+    const fundamentalsTable = getFundamentalsTable(company_snapshot_metrics, currency_code);
 
     return (
         <>
@@ -263,6 +291,7 @@ export function CompanySnapshotMetrics({company_snapshot_metrics, currency_code}
                 <Grid table={valuationTable}/>
                 <Grid table={technicalsTable}/>
                 <Grid table={priceTable}/>
+                <Grid table={fundamentalsTable}/>
             </div>
         </>
     );
