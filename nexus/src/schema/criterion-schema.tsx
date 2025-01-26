@@ -1,9 +1,7 @@
 import {Dropdown, RangeSlider} from "flowbite-react";
-import {useEffect, useState} from "react";
-import {BsBuildingAdd} from "react-icons/bs";
-import {event} from "next/dist/build/output/log";
-import {AiOutlineUsergroupAdd} from "react-icons/ai";
+import {useState} from "react";
 import {IoIosAddCircleOutline} from "react-icons/io";
+import {AiFillDelete} from "react-icons/ai";
 
 export type metric_direction_type = 'DESC' | 'ASC';
 
@@ -46,6 +44,7 @@ export function MetricOptions({onSelect, defaultValue, color = "gray"}: {
 export type group_type = 'GICSIndustry' | 'GICSSector' | 'country';
 
 export type criterion_type = {
+    id?: string;
     metric: metric_type;
     metric_direction: metric_direction_type;
     groups: Array<[group_type | null, number]>;
@@ -89,7 +88,42 @@ export function GroupOptions({onSelect, defaultValue, color = "gray", visible}: 
 const metric_defaultValue: metric_type = 'market_capitalization';
 const group_defaultValue: group_type = 'GICSIndustry';
 
-export function Criterion({onChange, className}: {
+export function CriterionItem({criterion, onDelete}: { criterion: criterion_type, onDelete?: (id?: string) => void })
+{
+    return (
+        <div className={"text-sm items-center gap-1 p-2 border border-white rounded-lg m-2"}>
+            <div>
+                {criterion.groups[0][1]} % of companies with
+                the {criterion.metric_direction === 'DESC' ? "highest" : "lowest"} {metrics[criterion.metric]} {criterion.groups[0][0] ? "in their " + groups[criterion.groups[0][0]].toLowerCase() : "overall"}
+            </div>
+
+            <AiFillDelete onClick={event =>
+            {
+                if (criterion.id)
+                    onDelete?.(criterion.id);
+            }} className={"ml-auto cursor-pointer text-2xl"}/>
+
+            <div>{criterion.id?.slice(0, 2)}</div>
+        </div>);
+}
+
+export function CriteriaList({criteria, className, onDelete}: {
+    criteria: criterion_type[];
+    className?: string;
+    onDelete?: (id?: string) => void
+})
+{
+
+
+    return (
+        <div className={className}>
+            {criteria.map((value, index) => <CriterionItem onDelete={onDelete} key={value.id || index}
+                                                           criterion={value}/>)}
+        </div>
+    );
+}
+
+export function CriterionInput({onChange, className}: {
     onChange?: (criterion: criterion_type) => void;
     className?: string
 })
@@ -101,17 +135,15 @@ export function Criterion({onChange, className}: {
 
     const [metricDirection, setMetricDirection] = useState<metric_direction_type>('DESC');
 
-    function onAdd()
+    function onAddClick()
     {
         const criterion: criterion_type = {
             metric,
             metric_direction: metricDirection,
-            groups: [[groupEnabled ? currentGroup : null, sliderValue]]
+            groups: [[groupEnabled ? currentGroup : null, sliderValue * 1.e-2]]
         };
 
         onChange?.(criterion);
-
-        console.table(criterion);
     }
 
     return (
@@ -145,7 +177,7 @@ export function Criterion({onChange, className}: {
                     </div>
                 </div>
             </div>
-            <IoIosAddCircleOutline onClick={event1 => onAdd()} className={"text-2xl cursor-pointer"}/>
+            <IoIosAddCircleOutline onClick={event1 => onAddClick()} className={"text-2xl cursor-pointer"}/>
         </div>
     )
 }

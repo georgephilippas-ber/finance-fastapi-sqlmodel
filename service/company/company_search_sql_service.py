@@ -56,16 +56,14 @@ class CompanySearchSQLService:
             case _:
                 query_ = None
 
-        with self._engine.connect() as connection:
-            query_results_ = connection.execute(text(query_)).all()
+        if query_:
+            with self._engine.connect() as connection:
+                query_results_ = connection.execute(text(query_)).all()
 
-            return [query_result_[0] for query_result_ in query_results_]
+                return [query_result_[0] for query_result_ in query_results_]
+        else:
+            return []
 
 
 if __name__ == '__main__':
-    db = Database()
-
-    sql = CompanySearchSQLService(db.get_engine())
-    print(sql.get_company_ids(
-        [Criterion(metric=MetricType.MARKET_CAPITALIZATION, metric_direction=MetricDirectionType.HIGH_IS_BEST,
-                   groups=[(None, 1)])]))
+    pass

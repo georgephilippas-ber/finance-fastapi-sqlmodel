@@ -2,7 +2,7 @@ import {fastApiClient} from "@/instance/axios-instance";
 import {company_details_type, company_overview_type} from "@/schema/schema";
 import {criterion_type} from "@/schema/criterion-schema";
 
-export async function search(query: string | undefined = undefined, criteria: criterion_type[] | undefined = undefined): Promise<company_overview_type[]>
+export async function search(query: string | undefined | null = null, criteria: criterion_type[] | undefined = undefined): Promise<company_overview_type[]>
 {
     try
     {

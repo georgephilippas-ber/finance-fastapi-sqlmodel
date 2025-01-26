@@ -44,7 +44,7 @@ class CompanyOverviewSearchService:
 
     def _sql_search_with_criteria(self, criteria: Optional[List[Criterion]]) -> Optional[List[int]]:
         if self._company_search_sql_service is not None and criteria is not None:
-            self._company_search_sql_service.get_company_ids(criteria)
+            return self._company_search_sql_service.get_company_ids(criteria)
         else:
             return None
 
@@ -54,7 +54,7 @@ class CompanyOverviewSearchService:
     def search(self, *, query: Optional[str] = None, criteria: Optional[List[Criterion]] = None) -> Optional[
         List[CompanyOverviewSchema]]:
         meilisearch_query_results_: Optional[List[int]] = self._meilisearch_search_with_criteria(
-            query) if query is not None else None
+            query) if query else None
         sql_query_results_: Optional[List[int]] = self._sql_search_with_criteria(
             criteria) if criteria is not None else None
 
