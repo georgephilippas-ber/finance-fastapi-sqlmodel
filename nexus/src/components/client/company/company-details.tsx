@@ -36,9 +36,9 @@ export default function CompanyDetails({company_id}: { company_id: number })
                         aria-label="Loading Spinner"
                     />
                 </div> :
-                <div>
+                <div className={"flex flex-col"}>
                     <div
-                        className={"flex flex-col items-center sm:gap-4 md:justify-evenly md:flex-row md:w-full mx-auto"}>
+                        className={"flex flex-col grow-0 items-center sm:gap-4 md:justify-evenly md:flex-row md:w-full mx-auto"}>
                         <img src={companyDetails.company_overview.company_logo_url}
                              alt={companyDetails.company_overview.company_name}
                              className={"w-20 overflow-x-hidden text-xs text-nowrap rounded-xl"}/>
@@ -53,13 +53,14 @@ export default function CompanyDetails({company_id}: { company_id: number })
                             endOfDayChangeOverview={companyDetails?.end_of_day_change_overview}
                             currencySymbol={companyDetails.company_overview.currency_symbol}/>
                     </div>
+                    <div className={"p-2 border-white rounded-lg border w-full mt-4 grow-1 overflow-y-auto"}>
+                        {companyDetails?.company_overview ?
+                            <CompanyOverview company_overview={companyDetails.company_overview}/> : null}
 
-                    {companyDetails?.company_overview ?
-                        <CompanyOverview company_overview={companyDetails.company_overview}/> : null}
-
-                    {companyDetails?.company_snapshot_metrics ?
-                        <CompanySnapshotMetrics currency_code={companyDetails.company_overview.currency_code}
-                                                company_snapshot_metrics={companyDetails.company_snapshot_metrics}/> : null}
+                        {companyDetails?.company_snapshot_metrics ?
+                            <CompanySnapshotMetrics currency_code={companyDetails.company_overview.currency_code}
+                                                    company_snapshot_metrics={companyDetails.company_snapshot_metrics}/> : null}
+                    </div>
                 </div>}
         </>
     )

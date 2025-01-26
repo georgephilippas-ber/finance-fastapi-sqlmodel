@@ -54,7 +54,7 @@ export function EndOfDayChangeOverview({endOfDayChangeOverview, currencySymbol, 
     const year_to_date_ = assetReturn(overview_.latest_adjusted, overview_.beginning_of_year_adjusted);
 
     return (
-        <div className={["w-fit p-1 border-white border rounded-lg", className].join(" ").trim()}>
+        <div className={["w-fit p-2 border-white border rounded-lg", className].join(" ").trim()}>
             <div className={"w-fit flex flex-row gap-3"}>
                 <div className={"grid grid-cols-[auto_4em] gap-2 w-fit text-xl"}>
                     <div>
