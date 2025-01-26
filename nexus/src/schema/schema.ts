@@ -18,22 +18,6 @@ export type company_overview_type = {
     continents: string;
 };
 
-export type metric_direction_type = 'DESC' | 'ASC';
-
-export type metric_type =
-    | 'market_capitalization'
-    | 'return_on_assets'
-    | 'operating_profit_margin';
-
-export type group_type = 'GICSIndustry' | 'GICSSector' | 'country';
-
-export type criterion_type = {
-    metric: metric_type;
-    metric_direction: metric_direction_type;
-    groups: Array<[group_type | null, number]>;
-};
-
-
 export type end_of_day_change_overview_type = {
     latest?: number;
     latest_date?: string;

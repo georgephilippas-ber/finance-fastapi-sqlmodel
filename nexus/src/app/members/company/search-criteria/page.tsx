@@ -1,5 +1,8 @@
+'use client'
+
 import Link from "next/link";
 import {BiArrowBack} from "react-icons/bi";
+import {GroupOptions, MetricOptions} from "@/schema/criterion-schema";
 
 export default function ()
 {
@@ -11,9 +14,11 @@ export default function ()
                         <BiArrowBack className={"text-xl"}/>
                     </button>
                 </Link>
-                <div>
-                    {"Search Criteria"}
-                </div>
+                <p className={"text-2xl font-semibold text-center"}>
+                    Search Criteria
+                </p>
+                <GroupOptions onSelect={console.log}/>
+                <MetricOptions onSelect={console.log}/>
             </div>
         </div>
     );

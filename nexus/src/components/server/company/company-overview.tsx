@@ -19,7 +19,7 @@ export function CompanyOverview({company_overview}: { company_overview: company_
                     {company_overview.currency_code}
                 </div>
             </div>
-            <details open className={"m-2"}>
+            <details open className={"m-2 dropdown"}>
                 <summary className={"text-lg cursor-pointer"}>Description</summary>
                 <p className={"text-sm text-justify p-4"}>
                     {company_overview.description}
