@@ -112,13 +112,4 @@ class CompanySnapshotMetricsAdapter(Adapter):
 
 
 if __name__ == '__main__':
-    from json import load
-    from os.path import join
-    from core.utilities.root import project_root
-
-    with open(join(project_root(), "client", "cache", "eodhd", "fundamentals", "4MD-F.json"), "r") as file:
-        json_ = load(file)
-
-        print(free_cash_flow_return_on_invested_capital(json_))
-        print(return_on_invested_capital(json_))
-        print(debt_to_equity(json_))
+    pass
