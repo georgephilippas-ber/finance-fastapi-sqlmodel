@@ -39,8 +39,6 @@ export default function ()
 
     useEffect(() =>
         {
-            console.log("HURRAT", query, criteria);
-
             if (query || criteria.length)
                 search(query, criteria.length ? criteria : undefined).then(value => setQueryResults(value));
             else
@@ -70,7 +68,7 @@ export default function ()
                 </button>
             </div>
             <div className={"w-fit mx-auto text-2xl font-semibold my-4"}>
-                {queryResults.length === 0 ? "No results found" : queryResults.length}
+                {queryResults.length === 0 ? "No results found." : queryResults.length + (queryResults.length === 1 ? " company" : " companies" + " found.")}
             </div>
             <div className={"w-4/5 p-4 flex-grow overflow-auto flex flex-col gap-4 mx-auto my-10"}>
                 {queryResults.map((value, index) =>
