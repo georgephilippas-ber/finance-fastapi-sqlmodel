@@ -52,6 +52,8 @@ class CompanySnapshotMetricsSchema(BaseModel):
     free_cash_flow_return_on_invested_capital: Optional[float] = Field(default=None)
     debt_to_equity_ratio: Optional[float] = Field(default=None)
 
+    return_on_equity: Optional[float] = Field(default=None)
+
 
 class CompanyOverviewSchema(BaseModel):
     company_id: int

@@ -42,6 +42,8 @@ class CompanySnapshotMetrics(SQLModel, table=True):
     free_cash_flow_return_on_invested_capital: Optional[float] = Field(nullable=True, default=None)
     debt_to_equity_ratio: Optional[float] = Field(nullable=True, default=None)
 
+    return_on_equity: Optional[float] = Field(nullable=True, default=None)
+
     updated_at: date = Field(nullable=False)
 
     company_id: int = Field(foreign_key="company.id")

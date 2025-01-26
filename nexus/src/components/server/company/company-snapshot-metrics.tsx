@@ -84,6 +84,12 @@ function getReturnTable(companySnapshotMetrics: company_snapshot_metrics_type, c
                 currency_code: currency_code,
                 format: percentageFormat
             },
+            {
+                name: "ROE",
+                value: companySnapshotMetrics.return_on_equity,
+                currency_code: currency_code,
+                format: percentageFormat
+            },
         ]
     }
 }

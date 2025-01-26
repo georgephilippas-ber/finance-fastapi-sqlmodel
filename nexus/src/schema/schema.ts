@@ -74,6 +74,8 @@ export type company_snapshot_metrics_type = {
     return_on_invested_capital?: number;
     debt_to_equity_ratio?: number;
     free_cash_flow_return_on_invested_capital?: number;
+
+    return_on_equity?: number;
 };
 
 export type company_details_type = {

@@ -98,7 +98,8 @@ class CompanySnapshotMetricsAdapter(Adapter):
                     price_to_book_ratio=json_['Valuation']['PriceBookMRQ'],
                     return_on_invested_capital=preprocessor_.return_on_invested_capital(),
                     debt_to_equity_ratio=preprocessor_.debt_to_equity(),
-                    free_cash_flow_return_on_invested_capital=preprocessor_.free_cash_flow_return_on_invested_capital()
+                    free_cash_flow_return_on_invested_capital=preprocessor_.free_cash_flow_return_on_invested_capital(),
+                    return_on_equity=json_["Highlights"]["ReturnOnEquityTTM"]
                 )
         except (KeyError, ValidationError) as e:
             print(e)
