@@ -48,6 +48,10 @@ class CompanySnapshotMetricsSchema(BaseModel):
     fifty_two_week_high: float
     fifty_two_week_low: float
 
+    return_on_invested_capital: Optional[float] = Field(default=None)
+    free_cash_flow_return_on_invested_capital: Optional[float] = Field(default=None)
+    debt_to_equity_ratio: Optional[float] = Field(default=None)
+
 
 class CompanyOverviewSchema(BaseModel):
     company_id: int

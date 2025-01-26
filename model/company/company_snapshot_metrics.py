@@ -30,13 +30,17 @@ class CompanySnapshotMetrics(SQLModel, table=True):
 
     price_to_book_ratio: float = Field(nullable=False)
 
-    shares_outstanding: int = Field(sa_column=Column(Numeric(26, 2)))
-    shares_float: int = Field(sa_column=Column(Numeric(26, 2)))
+    shares_outstanding: Decimal = Field(sa_column=Column(Numeric(26, 2)))
+    shares_float: Decimal = Field(sa_column=Column(Numeric(26, 2)))
 
     beta: Optional[float] = Field(nullable=True, default=None)
 
     fifty_two_week_high: float
     fifty_two_week_low: float
+
+    return_on_invested_capital: Optional[float] = Field(nullable=True, default=None)
+    free_cash_flow_return_on_invested_capital: Optional[float] = Field(nullable=True, default=None)
+    debt_to_equity_ratio: Optional[float] = Field(nullable=True, default=None)
 
     updated_at: date = Field(nullable=False)
 

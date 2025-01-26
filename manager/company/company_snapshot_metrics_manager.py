@@ -68,6 +68,9 @@ class CompanySnapshotMetricsManager(Manager):
             beta=company_snapshot_metrics_schema_.beta,
             shares_outstanding=company_snapshot_metrics_schema_.shares_outstanding,
             shares_float=company_snapshot_metrics_schema_.shares_float,
+            debt_to_equity_ratio=company_snapshot_metrics_schema_.debt_to_equity_ratio,
+            return_on_invested_capital=company_snapshot_metrics_schema_.return_on_invested_capital,
+            free_cash_flow_return_on_invested_capital=company_snapshot_metrics_schema_.free_cash_flow_return_on_invested_capital,
         )
 
         try:

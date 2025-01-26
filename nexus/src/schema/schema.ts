@@ -43,33 +43,37 @@ export type end_of_day_change_overview_type = {
 };
 
 export type company_snapshot_metrics_type = {
-  updated_at?: string; // using ISO 8601 date string format for dates
+    updated_at?: string; // using ISO 8601 date string format for dates
 
-  market_capitalization: number;
-  enterprise_value: number;
+    market_capitalization: number;
+    enterprise_value: number;
 
-  return_on_assets: number;
+    return_on_assets: number;
 
-  operating_profit_margin: number;
-  net_profit_margin: number;
+    operating_profit_margin: number;
+    net_profit_margin: number;
 
-  price_earnings_ratio?: number;
-  book_price_per_share: number;
+    price_earnings_ratio?: number;
+    book_price_per_share: number;
 
-  revenue: number;
-  gross_profit: number;
+    revenue: number;
+    gross_profit: number;
 
-  diluted_eps: number;
+    diluted_eps: number;
 
-  price_to_book_ratio: number;
+    price_to_book_ratio: number;
 
-  shares_outstanding: number;
-  shares_float: number;
+    shares_outstanding: number;
+    shares_float: number;
 
-  beta?: number;
+    beta?: number;
 
-  fifty_two_week_high: number;
-  fifty_two_week_low: number;
+    fifty_two_week_high: number;
+    fifty_two_week_low: number;
+
+    return_on_invested_capital?: number;
+    debt_to_equity_ratio?: number;
+    free_cash_flow_return_on_invested_capital?: number;
 };
 
 export type company_details_type = {
