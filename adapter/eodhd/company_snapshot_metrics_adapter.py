@@ -7,69 +7,66 @@ from abstract.adapter.adapter import Adapter
 from schema.company.company import CompanySnapshotMetricsSchema
 
 
-def net_invested_capital(json_: Dict) -> Optional[Decimal]:
-    balance_sheet_ = json_['Financials']['Balance_Sheet']['yearly']
+class EODHDFundamentalsPreprocessor:
+    _json: Dict
 
-    return Decimal(balance_sheet_[list(balance_sheet_.keys())[0]]["netInvestedCapital"])
+    def __init__(self, json_: Dict):
+        self._json = json_
 
+    def net_invested_capital(self) -> Optional[Decimal]:
+        balance_sheet_ = self._json['Financials']['Balance_Sheet']['yearly']
 
-def operating_income(json_: Dict) -> Optional[Decimal]:
-    income_statement_ = json_['Financials']['Income_Statement']['yearly']
+        return Decimal(balance_sheet_[list(balance_sheet_.keys())[0]]["netInvestedCapital"])
 
-    return Decimal(income_statement_[list(income_statement_.keys())[0]]["operatingIncome"])
+    def operating_income(self) -> Optional[Decimal]:
+        income_statement_ = self._json['Financials']['Income_Statement']['yearly']
 
+        return Decimal(income_statement_[list(income_statement_.keys())[0]]["operatingIncome"])
 
-def total_debt(json_: Dict) -> Optional[Decimal]:
-    balance_sheet_ = json_['Financials']['Balance_Sheet']['yearly']
+    def total_debt(self) -> Optional[Decimal]:
+        balance_sheet_ = self._json['Financials']['Balance_Sheet']['yearly']
 
-    return Decimal(balance_sheet_[list(balance_sheet_.keys())[0]]["netDebt"])
+        return Decimal(balance_sheet_[list(balance_sheet_.keys())[0]]["netDebt"])
 
+    def total_assets(self) -> Optional[Decimal]:
+        balance_sheet_ = self._json['Financials']['Balance_Sheet']['yearly']
 
-def total_assets(json_: Dict) -> Optional[Decimal]:
-    balance_sheet_ = json_['Financials']['Balance_Sheet']['yearly']
+        return Decimal(balance_sheet_[list(balance_sheet_.keys())[0]]["totalAssets"])
 
-    return Decimal(balance_sheet_[list(balance_sheet_.keys())[0]]["totalAssets"])
+    def total_liabilities(self) -> Optional[Decimal]:
+        balance_sheet_ = self._json['Financials']['Balance_Sheet']['yearly']
 
+        return Decimal(balance_sheet_[list(balance_sheet_.keys())[0]]["totalLiab"])
 
-def total_liabilities(json_: Dict) -> Optional[Decimal]:
-    balance_sheet_ = json_['Financials']['Balance_Sheet']['yearly']
+    def total_equity(self) -> Optional[Decimal]:
+        return self.total_assets() - self.total_liabilities()
 
-    return Decimal(balance_sheet_[list(balance_sheet_.keys())[0]]["totalLiab"])
+    def free_cash_flow(self) -> Optional[Decimal]:
+        cash_flow_statement_ = json_['Financials']['Cash_Flow']['yearly']
 
+        return Decimal(cash_flow_statement_[list(cash_flow_statement_.keys())[0]]["freeCashFlow"])
 
-def total_equity(json_: Dict) -> Optional[Decimal]:
-    return total_assets(json_) - total_liabilities(json_)
+    def return_on_invested_capital(self) -> Optional[float]:
+        try:
+            return_on_invested_capital_ = float(self.operating_income() / self.net_invested_capital())
 
+            return return_on_invested_capital_
+        except Exception as e:
+            print(e)
+            return None
 
-def free_cash_flow(json_: Dict) -> Optional[Decimal]:
-    cash_flow_statement_ = json_['Financials']['Cash_Flow']['yearly']
+    def debt_to_equity(self) -> Optional[float]:
+        try:
+            return float(self.total_debt() / self.total_equity())
+        except Exception as e:
+            print(e)
+            return None
 
-    return Decimal(cash_flow_statement_[list(cash_flow_statement_.keys())[0]]["freeCashFlow"])
-
-
-def return_on_invested_capital(json_: Dict) -> Optional[float]:
-    try:
-        return_on_invested_capital_ = float(operating_income(json_) / net_invested_capital(json_))
-
-        return return_on_invested_capital_
-    except Exception as e:
-        print(e)
-        return None
-
-
-def debt_to_equity(json_: Dict) -> Optional[float]:
-    try:
-        return float(total_debt(json_) / total_equity(json_))
-    except Exception as e:
-        print(e)
-        return None
-
-
-def free_cash_flow_return_on_invested_capital(json_: Dict) -> Optional[float]:
-    try:
-        return float(free_cash_flow(json_) / net_invested_capital(json_))
-    except Exception:
-        return None
+    def free_cash_flow_return_on_invested_capital(self) -> Optional[float]:
+        try:
+            return float(self.free_cash_flow() / self.net_invested_capital())
+        except Exception:
+            return None
 
 
 class CompanySnapshotMetricsAdapter(Adapter):
@@ -77,6 +74,8 @@ class CompanySnapshotMetricsAdapter(Adapter):
         super().__init__()
 
     def adapt(self, json_: Dict) -> Optional[CompanySnapshotMetricsSchema]:
+        preprocessor_ = EODHDFundamentalsPreprocessor(json_)
+
         try:
             if json_.get('General', {}).get('Type') == 'Common Stock':
                 return CompanySnapshotMetricsSchema(
@@ -97,9 +96,9 @@ class CompanySnapshotMetricsAdapter(Adapter):
                     fifty_two_week_high=json_['Technicals']['52WeekHigh'],
                     fifty_two_week_low=json_['Technicals']['52WeekLow'],
                     price_to_book_ratio=json_['Valuation']['PriceBookMRQ'],
-                    return_on_invested_capital=return_on_invested_capital(json_),
-                    debt_to_equity_ratio=debt_to_equity(json_),
-                    free_cash_flow_return_on_invested_capital=free_cash_flow_return_on_invested_capital(json_)
+                    return_on_invested_capital=preprocessor_.return_on_invested_capital(),
+                    debt_to_equity_ratio=preprocessor_.debt_to_equity(),
+                    free_cash_flow_return_on_invested_capital=preprocessor_.free_cash_flow_return_on_invested_capital()
                 )
         except (KeyError, ValidationError) as e:
             print(e)
