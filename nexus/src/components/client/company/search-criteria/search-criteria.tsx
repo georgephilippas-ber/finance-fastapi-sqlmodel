@@ -65,7 +65,7 @@ export function CriterionItem({criterion, onDelete}: { criterion: criterion_type
     return (
         <div className={"text-sm items-center gap-1 p-2 border border-white rounded-lg m-2"}>
             <div>
-                {criterion.groups[0][1]} % of companies with
+                {(criterion.groups[0][1] * 1.e2).toFixed(0)} % of companies with
                 the {criterion.metric_direction === 'DESC' ? "highest" : "lowest"} {metrics_array[criterion.metric]} {criterion.groups[0][0] ? "in their " + groups_array[criterion.groups[0][0]].toLowerCase() : "overall"}
             </div>
 

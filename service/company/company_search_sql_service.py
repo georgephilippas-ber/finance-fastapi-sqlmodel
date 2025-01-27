@@ -3,7 +3,6 @@ from typing import Tuple, List, Literal, Optional
 from sqlalchemy import text, Engine
 
 from configuration.search.company.company_search_sql import METRICS_DICTIONARY, GROUPS_DICTIONARY
-from database.database import Database
 from schema.company.company_search.company_search_sql import MetricDirectionType, MetricType, GroupType, Criterion
 
 
