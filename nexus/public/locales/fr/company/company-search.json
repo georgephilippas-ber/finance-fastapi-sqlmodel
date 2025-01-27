@@ -1,0 +1,5 @@
+{
+  "result-count_one": "{{count}} entreprise trouvée.",
+  "result-count_other": "{{count}} entreprises trouvées.",
+  "no-results": "Requête vide ou aucune entreprise trouvée."
+}

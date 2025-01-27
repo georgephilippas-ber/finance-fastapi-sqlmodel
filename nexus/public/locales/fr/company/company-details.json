@@ -1,0 +1,13 @@
+{
+  "description": "Description",
+  "title": "Statistiques Instantanées",
+  "table": {
+    "company_size": "Taille de l'entreprise",
+    "profitability": "Rentabilité",
+    "return": "Rendement",
+    "valuation": "Indicateurs d'Évaluation",
+    "shares_and_technicals": "Actions & Techniques",
+    "price_movement": "Mouvements de Prix",
+    "fundamentals": "Données Fondamentales"
+  }
+}

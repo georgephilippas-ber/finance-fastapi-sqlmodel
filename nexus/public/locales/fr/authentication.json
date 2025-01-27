@@ -1,0 +1,23 @@
+{
+  "forms": {
+    "login": {
+      "title": "Connectez-vous à votre compte",
+      "placeholder": {
+        "identifier": "nom d'utilisateur ou e-mail",
+        "password": "mot de passe"
+      },
+      "remember_me": "Se souvenir de moi",
+      "sign_in_button": "Se connecter",
+      "create_account_prompt": "Vous n'avez pas encore de compte ?",
+      "create_account_sign_up_link": "S'inscrire",
+      "validation": {
+        "identifier_too_short": "Nom d'utilisateur ou e-mail est trop court ou vide",
+        "password_empty": "Le mot de passe est vide",
+        "modal": {
+          "header": "Identifiants Invalides",
+          "content": "Les identifiants fournis sont incorrects ou n'ont pas pu être validés pour le moment. Veuillez vérifier votre nom d'utilisateur et votre mot de passe, puis réessayez plus tard."
+        }
+      }
+    }
+  }
+}

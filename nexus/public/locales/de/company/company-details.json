@@ -1,0 +1,13 @@
+{
+  "description": "Beschreibung",
+  "title": "Schnappschuss-Metriken",
+  "table": {
+    "company_size": "Unternehmensgröße",
+    "profitability": "Rentabilität",
+    "return": "Rendite",
+    "valuation": "Bewertungskennzahlen",
+    "shares_and_technicals": "Aktien & Technische Daten",
+    "price_movement": "Preisbewegung",
+    "fundamentals": "Fundamentaldaten"
+  }
+}

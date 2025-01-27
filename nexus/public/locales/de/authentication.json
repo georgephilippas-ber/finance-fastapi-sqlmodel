@@ -1,0 +1,23 @@
+{
+  "forms": {
+    "login": {
+      "title": "Melden Sie sich bei Ihrem Konto an",
+      "placeholder": {
+        "identifier": "Benutzername oder E-Mail",
+        "password": "Passwort"
+      },
+      "remember_me": "Angemeldet bleiben",
+      "sign_in_button": "Anmelden",
+      "create_account_prompt": "Noch kein Konto?",
+      "create_account_sign_up_link": "Registrieren",
+      "validation": {
+        "identifier_too_short": "Benutzername oder E-Mail ist zu kurz oder leer",
+        "password_empty": "Passwort ist leer",
+        "modal": {
+          "header": "Ungültige Anmeldedaten",
+          "content": "Die von Ihnen angegebenen Anmeldedaten sind falsch oder können derzeit nicht überprüft werden. Bitte überprüfen Sie Ihren Benutzernamen und Ihr Passwort und versuchen Sie es später erneut."
+        }
+      }
+    }
+  }
+}
