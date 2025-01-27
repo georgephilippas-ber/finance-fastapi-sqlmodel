@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import {BiArrowBack} from "react-icons/bi";
-import {CriteriaList, criterion_type, CriterionInput} from "@/schema/criterion-schema";
+import {criterion_type} from "@/schema/criterion-schema";
 import {useEffect, useState} from "react";
 import {sessionAdd, sessionGet} from "@/actions/authentication/session";
+import {CriteriaList, CriterionInput} from "@/components/client/company/search-criteria/search-criteria";
 
 export default function ()
 {
