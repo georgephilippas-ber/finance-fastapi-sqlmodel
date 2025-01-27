@@ -25,7 +25,7 @@ def get_json_web_token(request: Request) -> Optional[str]:
 
 
 def verify_json_web_token_cookie(token: Optional[str] = Depends(get_json_web_token)) -> None:
-    if token and json_web_token_instance.verify_token(token):
+    if token and json_web_token_instance.verify(token):
         return
     else:
         raise HTTPException(status_code=HTTPStatus.UNAUTHORIZED)
