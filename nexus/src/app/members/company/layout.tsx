@@ -2,6 +2,8 @@ import {APPLICATION_NAVBAR_LOGO_URL} from "@/configuration/configuration";
 import {LogoutButton} from "@/components/client/authentication/logout";
 import {headers} from "next/headers";
 import {faker} from "@faker-js/faker";
+import {LanguageSelector} from "@/components/client/internationalization/language-selector";
+import {SettingsButton} from "@/components/client/settings/settings-button";
 
 function title(referer: string | null | undefined): string
 {
@@ -33,7 +35,9 @@ export default async function Layout({children}: { children: React.ReactNode; })
                         <div className={"text-xl font-semibold"}>
                             {title(headers_.get("x-pathname"))}
                         </div>
-                        <div className={"m-0.5"}>
+
+                        <div className={"m-0.5 gap-2 flex flex-row items-center"}>
+                            <SettingsButton/>
                             <LogoutButton/>
                         </div>
                     </div>
