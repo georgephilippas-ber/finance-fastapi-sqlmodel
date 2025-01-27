@@ -43,11 +43,11 @@ export const metrics_dictionary: metric_display_type = {
 };
 
 export const groups_dictionary: group_display_type = {
+    country: 'country',
     GICSSector: 'sector',
     GICSIndustryGroup: 'industry group',
-    GICSSubIndustry: 'sub-industry',
     GICSIndustry: 'industry',
-    country: 'country'
+    GICSSubIndustry: 'sub-industry',
 };
 
 export type criterion_type = {
