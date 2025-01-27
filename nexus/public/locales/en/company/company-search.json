@@ -1,0 +1,5 @@
+{
+  "result-count": "{{number_of_companies}} company found",
+  "result-count_plural": "{{number_of_companies}} companies found",
+  "no-result": "Empty query or no companies found"
+}

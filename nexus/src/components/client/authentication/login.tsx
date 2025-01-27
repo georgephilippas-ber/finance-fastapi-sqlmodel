@@ -1,13 +1,12 @@
-import {useTranslation} from "react-i18next";
-
 import {MouseEventHandler, useEffect, useMemo, useState} from "react";
 import {createLoginValidationSchema} from "@/core/validation/login";
 import {ZodError} from "zod";
-
-import i18n from "../../../i18n/i18n";
 import {login} from "@/actions/authentication/login";
 import {useRouter} from "next/navigation";
 import {Modal} from "flowbite-react";
+
+import {useTranslation} from "react-i18next";
+import i18n from "../../../i18n/i18n";
 
 // DO NOT REMOVE
 console.log(i18n);
