@@ -7,8 +7,8 @@ import {
     group_type,
     metric_direction_type,
     metric_type,
-    groups_array,
-    metrics_array
+    groups_dictionary,
+    metrics_dictionary
 } from "@/schema/criterion-schema";
 
 export function MetricOptions({onSelect, defaultValue, color = "gray"}: {
@@ -20,14 +20,14 @@ export function MetricOptions({onSelect, defaultValue, color = "gray"}: {
     const [selection, setSelection] = useState<metric_type>(defaultValue);
 
     return (
-        <Dropdown size={"xs"} color={"gray"} label={metrics_array[selection].toUpperCase()} dismissOnClick={true}>
-            {Object.entries(metrics_array).map(([key, value]) => <Dropdown.Item onClick={() =>
+        <Dropdown size={"xs"} color={"gray"} label={metrics_dictionary[selection].toUpperCase()} dismissOnClick={true}>
+            {Object.entries(metrics_dictionary).map(([key, value]) => <Dropdown.Item onClick={() =>
             {
                 setSelection(key as metric_type);
 
                 onSelect?.(key as metric_type);
             }} className={"text-xs"}
-                                                                                key={key}>{value.toUpperCase()}</Dropdown.Item>)}
+                                                                                     key={key}>{value.toUpperCase()}</Dropdown.Item>)}
         </Dropdown>
     );
 }
@@ -43,15 +43,15 @@ export function GroupOptions({onSelect, defaultValue, color = "gray", visible}: 
 
     return (
         <div className={visible ? "block" : "invisible"}>
-            <Dropdown size={"xs"} color={color} label={groups_array[selection].toUpperCase()}
+            <Dropdown size={"xs"} color={color} label={groups_dictionary[selection].toUpperCase()}
                       dismissOnClick={true}>
-                {Object.entries(groups_array).map(([key, value]) => <Dropdown.Item onClick={() =>
+                {Object.entries(groups_dictionary).map(([key, value]) => <Dropdown.Item onClick={() =>
                 {
                     setSelection(key as group_type);
 
                     onSelect?.(key as group_type);
                 }} className={"text-xs"}
-                                                                                   key={key}>{value.toUpperCase()}</Dropdown.Item>)}
+                                                                                        key={key}>{value.toUpperCase()}</Dropdown.Item>)}
             </Dropdown>
         </div>
     );
@@ -66,7 +66,7 @@ export function CriterionItem({criterion, onDelete}: { criterion: criterion_type
         <div className={"text-sm items-center gap-1 p-2 border border-white rounded-lg m-2"}>
             <div>
                 {(criterion.groups[0][1] * 1.e2).toFixed(0)} % of companies with
-                the {criterion.metric_direction === 'DESC' ? "highest" : "lowest"} {metrics_array[criterion.metric]} {criterion.groups[0][0] ? "in their " + groups_array[criterion.groups[0][0]].toLowerCase() : "overall"}
+                the {criterion.metric_direction === 'DESC' ? "highest" : "lowest"} {metrics_dictionary[criterion.metric]} {criterion.groups[0][0] ? "in their " + groups_dictionary[criterion.groups[0][0]].toLowerCase() : "overall"}
             </div>
 
             <AiFillDelete onClick={event =>
