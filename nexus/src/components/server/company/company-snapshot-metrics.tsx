@@ -1,6 +1,9 @@
 import {company_snapshot_metrics_type} from "@/schema/schema";
 import React from "react";
 
+import "../../../i18n/i18n";
+import {useTranslation} from "react-i18next";
+
 type metric_entry_type = {
     name: string;
     value: number | null | undefined;
@@ -13,10 +16,10 @@ type table_type = {
     entry_array: Array<metric_entry_type>
 }
 
-function getSizeTable(companySnapshotMetrics: company_snapshot_metrics_type, currency_code: string): table_type
+function getSizeTable(companySnapshotMetrics: company_snapshot_metrics_type, currency_code: string, t: (key: string) => string): table_type
 {
     return {
-        title: "Company Size",
+        title: t("table.company_size"),
         entry_array: [
             {
                 name: "MCAP",
@@ -40,10 +43,10 @@ function getSizeTable(companySnapshotMetrics: company_snapshot_metrics_type, cur
     }
 }
 
-function getProfitabilityTable(companySnapshotMetrics: company_snapshot_metrics_type, currency_code: string): table_type
+function getProfitabilityTable(companySnapshotMetrics: company_snapshot_metrics_type, currency_code: string, t: (key: string) => string): table_type
 {
     return {
-        title: "Profitability",
+        title: t("table.profitability"),
         entry_array: [
             {
                 name: "GPM",
@@ -67,10 +70,10 @@ function getProfitabilityTable(companySnapshotMetrics: company_snapshot_metrics_
     }
 }
 
-function getReturnTable(companySnapshotMetrics: company_snapshot_metrics_type, currency_code: string): table_type
+function getReturnTable(companySnapshotMetrics: company_snapshot_metrics_type, currency_code: string, t: (key: string) => string): table_type
 {
     return {
-        title: "Return",
+        title: t("table.return"),
         entry_array: [
             {
                 name: "ROA",
@@ -94,10 +97,10 @@ function getReturnTable(companySnapshotMetrics: company_snapshot_metrics_type, c
     }
 }
 
-function getValuationTable(companySnapshotMetrics: company_snapshot_metrics_type, currency_code: string): table_type
+function getValuationTable(companySnapshotMetrics: company_snapshot_metrics_type, currency_code: string, t: (key: string) => string): table_type
 {
     return {
-        title: "Valuation Metrics",
+        title: t("table.valuation"),
         entry_array: [
             {
                 name: "P/B",
@@ -127,10 +130,10 @@ function getValuationTable(companySnapshotMetrics: company_snapshot_metrics_type
     }
 }
 
-function getTechnicalsTable(companySnapshotMetrics: company_snapshot_metrics_type, currency_code: string): table_type
+function getTechnicalsTable(companySnapshotMetrics: company_snapshot_metrics_type, currency_code: string, t: (key: string) => string): table_type
 {
     return {
-        title: "Shares & Technicals",
+        title: t("table.shares_and_technicals"),
         entry_array: [
             {
                 name: "β",
@@ -154,10 +157,10 @@ function getTechnicalsTable(companySnapshotMetrics: company_snapshot_metrics_typ
     }
 }
 
-function getPriceTable(companySnapshotMetrics: company_snapshot_metrics_type, currency_code: string): table_type
+function getPriceTable(companySnapshotMetrics: company_snapshot_metrics_type, currency_code: string, t: (key: string) => string): table_type
 {
     return {
-        title: "Price Movement",
+        title: t("table.price_movement"),
         entry_array: [
             {
                 name: "52-HIGH",
@@ -175,10 +178,10 @@ function getPriceTable(companySnapshotMetrics: company_snapshot_metrics_type, cu
     }
 }
 
-function getFundamentalsTable(companySnapshotMetrics: company_snapshot_metrics_type, currency_code: string): table_type
+function getFundamentalsTable(companySnapshotMetrics: company_snapshot_metrics_type, currency_code: string, t: (key: string) => string): table_type
 {
     return {
-        title: "Fundamentals",
+        title: t("table.fundamentals"),
         entry_array: [
             {
                 name: "D/E",
@@ -276,18 +279,20 @@ export function CompanySnapshotMetrics({company_snapshot_metrics, currency_code}
     currency_code: string;
 })
 {
-    const sizeTable = getSizeTable(company_snapshot_metrics, currency_code);
-    const profitabilityTable = getProfitabilityTable(company_snapshot_metrics, currency_code);
-    const returnTable = getReturnTable(company_snapshot_metrics, currency_code);
-    const valuationTable = getValuationTable(company_snapshot_metrics, currency_code);
-    const technicalsTable = getTechnicalsTable(company_snapshot_metrics, currency_code);
-    const priceTable = getPriceTable(company_snapshot_metrics, currency_code);
-    const fundamentalsTable = getFundamentalsTable(company_snapshot_metrics, currency_code);
+    const {t} = useTranslation("company_details");
+
+    const sizeTable = getSizeTable(company_snapshot_metrics, currency_code, t);
+    const profitabilityTable = getProfitabilityTable(company_snapshot_metrics, currency_code, t);
+    const returnTable = getReturnTable(company_snapshot_metrics, currency_code, t);
+    const valuationTable = getValuationTable(company_snapshot_metrics, currency_code, t);
+    const technicalsTable = getTechnicalsTable(company_snapshot_metrics, currency_code, t);
+    const priceTable = getPriceTable(company_snapshot_metrics, currency_code, t);
+    const fundamentalsTable = getFundamentalsTable(company_snapshot_metrics, currency_code, t);
 
     return (
         <>
             <p className={"text-xl font-semibold text-center mb-4"}>
-                Snapshot Metrics
+                {t("title")}
             </p>
             <div
                 className={"font-sans mx-auto w-4/5 m-2 grid justify-items-center xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2"}>

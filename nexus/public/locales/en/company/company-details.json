@@ -1,0 +1,13 @@
+{
+  "description": "Description",
+  "title": "Snapshot Metrics",
+  "table": {
+    "company_size": "Company Size",
+    "profitability": "Profitability",
+    "return": "Return",
+    "valuation": "Valuation Metrics",
+    "shares_and_technicals": "Shares & Technicals",
+    "price_movement": "Price Movement",
+    "fundamentals": "Fundamentals"
+  }
+}

@@ -2,8 +2,13 @@
 
 import {company_overview_type} from "@/schema/schema";
 
+import "../../../i18n/i18n";
+import {useTranslation} from "react-i18next";
+
 export function CompanyOverview({company_overview}: { company_overview: company_overview_type })
 {
+    const {t} = useTranslation("company_details");
+
     return (
         <div className={"font-sans w-full m-1"}>
             <div className={"flex flex-row items-center justify-start gap-4"}>
@@ -20,7 +25,9 @@ export function CompanyOverview({company_overview}: { company_overview: company_
                 </div>
             </div>
             <details open className={"m-2 dropdown"}>
-                <summary className={"text-lg cursor-pointer"}>Description</summary>
+                <summary className={"text-lg cursor-pointer"}>
+                    {t("description")}
+                </summary>
                 <p className={"text-sm text-justify p-4"}>
                     {company_overview.description}
                 </p>
