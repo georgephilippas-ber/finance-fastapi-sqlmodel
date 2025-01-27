@@ -5,11 +5,8 @@ import {login} from "@/actions/authentication/login";
 import {useRouter} from "next/navigation";
 import {Modal} from "flowbite-react";
 
+import "../../../i18n/i18n";
 import {useTranslation} from "react-i18next";
-import i18n from "../../../i18n/i18n";
-
-// DO NOT REMOVE
-console.log(i18n);
 
 export function LoginServerErrorModal({open, onClose}: { open: boolean, onClose?: () => void })
 {
@@ -31,7 +28,7 @@ export function LoginServerErrorModal({open, onClose}: { open: boolean, onClose?
                 <button onClick={onClose} className="btn btn-primary">Close</button>
             </Modal.Footer>
         </Modal>
-    )
+    );
 }
 
 export function Login({success_url}: { success_url: string })

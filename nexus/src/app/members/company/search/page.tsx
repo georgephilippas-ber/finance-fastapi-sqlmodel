@@ -9,6 +9,9 @@ import {sessionAdd, sessionGet} from "@/actions/authentication/session";
 import {useRouter} from "next/navigation";
 import {criterion_type} from "@/schema/criterion-schema";
 
+import "../../../../i18n/i18n";
+import {useTranslation} from "react-i18next";
+
 export default function ()
 {
     const [queryResults, setQueryResults] = useState<company_overview_type[]>([]);
@@ -57,6 +60,8 @@ export default function ()
         router.push("/members/company/details?company_id=" + company_id + "&ticker_id=" + ticker_id);
     }
 
+    const {t} = useTranslation("company_search");
+
     return (
         <div className={"w-full flex flex-col h-full pt-12 px-4"}>
             <div className={"sm:w-4/5 sm:mx-auto flex flex-row gap-4 w-full"}>
@@ -68,7 +73,7 @@ export default function ()
                 </button>
             </div>
             <div className={"w-fit mx-auto text-2xl font-semibold my-4"}>
-                {queryResults.length === 0 ? "No results found." : queryResults.length + (queryResults.length === 1 ? " company" : " companies" + " found.")}
+                {queryResults.length === 0 ? t("no-results") : t("result-count", {count: queryResults.length})}
             </div>
             <div className={"w-4/5 p-4 flex-grow overflow-auto flex flex-col gap-4 mx-auto my-10"}>
                 {queryResults.map((value, index) =>
