@@ -13,8 +13,8 @@ export default async function ({searchParams}: { searchParams?: { company_id?: s
                     </button>
                 </Link>
             </div>
-            {searchParams?.company_id && !isNaN(parseInt(searchParams.company_id)) ?
-                <CompanyDetails company_id={parseInt(searchParams.company_id)}/> : null}
+            {searchParams?.company_id && !isNaN(parseInt((await searchParams).company_id || "")) ?
+                <CompanyDetails company_id={parseInt((await searchParams).company_id || "")}/> : null}
         </div>
     );
 }
