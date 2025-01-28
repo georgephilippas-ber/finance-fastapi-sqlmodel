@@ -3,7 +3,7 @@ import {LogoutButton} from "@/components/client/authentication/logout";
 import {headers} from "next/headers";
 import {faker} from "@faker-js/faker";
 import {LanguageSelector} from "@/components/client/internationalization/language-selector";
-import {SettingsButton} from "@/components/client/settings/settings-button";
+import {SettingsButton} from "@/components/client/navigation/settings-button";
 
 function title(referer: string | null | undefined): string
 {
