@@ -21,3 +21,6 @@ export const APPLICATION_NAVBAR_LOGO_URL = "https://flowbite.com/docs/images/log
 export const PROTECTED_ROUTES = SECURITY_ENABLED ? [
     '/members'
 ] : [];
+
+const supported_locales = ['en', 'fr', 'de'];
+
