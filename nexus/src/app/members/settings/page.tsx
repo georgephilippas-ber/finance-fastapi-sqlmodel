@@ -8,10 +8,10 @@ export default function ()
             <div className={"text-2xl font-semibold text-center p-4 mb-4"}>
                 Settings
             </div>
-            <div>
+            <div className={"m-4"}>
                 <BackButton/>
             </div>
-            <div>
+            <div className={"m-4"}>
                 <LanguageSelector/>
             </div>
         </div>

@@ -1,5 +1,10 @@
 import {NextRequest, NextResponse} from "next/server";
-import {JSON_WEB_TOKEN_SECRET_KEY_ENCODED, PROTECTED_ROUTES} from "@/configuration/configuration";
+import {
+    APPLICATION_HOME_URL,
+    APPLICATION_PROTECTED_HOME_URL,
+    JSON_WEB_TOKEN_SECRET_KEY_ENCODED,
+    PROTECTED_ROUTES
+} from "@/configuration/configuration";
 
 import {jwtVerify} from 'jose'
 
@@ -7,6 +12,22 @@ export async function middleware(req: NextRequest)
 {
     const header_ = req.headers.get("Authorization")?.split(" ")?.[1] || req.cookies.get("Authorization")?.value;
     const request_url_ = req.nextUrl.pathname;
+
+    if (request_url_.includes("login"))
+    {
+        if (header_)
+        {
+            try
+            {
+                await jwtVerify(header_, JSON_WEB_TOKEN_SECRET_KEY_ENCODED);
+
+                return NextResponse.redirect(APPLICATION_PROTECTED_HOME_URL);
+            }
+            catch (e)
+            {
+            }
+        }
+    }
 
     if (PROTECTED_ROUTES.some(value => request_url_.startsWith(value)))
     {
@@ -34,5 +55,5 @@ export async function middleware(req: NextRequest)
 }
 
 export const config = {
-    matcher: PROTECTED_ROUTES.map(value => value + '/:path*'),
+    matcher: [...PROTECTED_ROUTES.map(value => value + '/:path*'), "/authentication/login"],
 };
