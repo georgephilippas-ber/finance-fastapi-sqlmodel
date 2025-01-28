@@ -24,7 +24,15 @@ export function LanguageSelector()
             {SUPPORTED_LOCALES.map(value =>
             {
                 return (
-                    <Dropdown.Item onClick={() => setSelection(value)} key={value}>
+                    <Dropdown.Item onClick={() =>
+                    {
+                        i18n.changeLanguage(value).then(value1 =>
+                        {
+                            console.log(value1);
+                        });
+
+                        setSelection(value)
+                    }} key={value}>
                         <div className={"flex gap-2 items-center"}>
                             <img className={"w-5"} src={`https://flagsapi.com/${localeToFlag(value)}/flat/64.png`}
                                  alt={value.toUpperCase()}/>
