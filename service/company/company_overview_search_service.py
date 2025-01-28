@@ -35,7 +35,7 @@ class CompanyOverviewSearchService:
         if self._meilisearch_client and query is not None:
             return list(
                 map(lambda document: CompanyOverviewSchema(**document).company_id,
-                    self._meilisearch_client.search(self._index_name, query)))
+                    self._meilisearch_client.search(self._index_name, query) or []))
         else:
             if self._meilisearch_client is None:
                 print("!MeilisearchClient")

@@ -1,4 +1,4 @@
-import {APPLICATION_HOME_URL, APPLICATION_NAVBAR_LOGO_URL} from "@/configuration/configuration";
+import {APPLICATION_HOME_URL} from "@/configuration/configuration";
 import {LogoutButton} from "@/components/client/authentication/logout";
 import {headers} from "next/headers";
 import {faker} from "@faker-js/faker";
@@ -29,9 +29,15 @@ export default async function Layout({children}: { children: React.ReactNode; })
             <header>
                 <nav className="bg-white border-gray-200 dark:bg-gray-900 font-sans">
                     <div className="flex flex-wrap items-center justify-between mx-auto p-2">
-                        <a href={APPLICATION_HOME_URL} className="flex items-center space-x-3 rtl:space-x-reverse">
-                            <img src={APPLICATION_NAVBAR_LOGO_URL} className="h-12" alt="logo"/>
+                        <a href={APPLICATION_HOME_URL} className="flex items-center">
+                            <span className={"text-2xl font-bold tracking-widest ml-1"}>
+                                investi
+                            </span>
+                            <span className={"text-sm mt-2 font-semibold"}>
+                                gator
+                            </span>
                         </a>
+
                         <div className={"text-xl font-semibold"}>
                             {title(headers_.get("x-pathname"))}
                         </div>

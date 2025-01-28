@@ -69,7 +69,7 @@ async def session_set(request: Request, key: str = Query(...), object_: Any = Bo
     print(key, object_, session_id_)
 
     if session_id_ is not None:
-        outcome_ = session_manager_instance.add(session_id_, key, json.dumps(object_))
+        outcome_ = session_manager_instance.session_add(session_id_, key, json.dumps(object_))
     else:
         return {"status": "NO_SESSION"}
 
@@ -82,7 +82,7 @@ async def session_get(request: Request, key: str = Query(...)) -> Any:
     print(session_id_, key)
 
     if session_id_ is not None:
-        value_str_ = session_manager_instance.get(session_id_, key)
+        value_str_ = session_manager_instance.session_get(session_id_, key)
 
         if value_str_ is not None:
             return json.loads(value_str_)

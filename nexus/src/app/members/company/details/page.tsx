@@ -1,7 +1,7 @@
 import CompanyDetails from "@/components/client/company/company-details";
 import {BackButton} from "@/components/server/navigation/back-button";
 
-export default async function ({searchParams}: { searchParams?: { company_id?: string; ticker_id?: string; } })
+export default async function ({searchParams}: { searchParams?: any })
 {
     return (
         <div className={"p-2"}>

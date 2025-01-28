@@ -24,8 +24,6 @@ export const HAS_LANDING_PAGE: boolean = false;
 
 export const APPLICATION_PROTECTED_HOME_URL = `${NEXUS_SERVER_BASE_URL}/members/company/search`;
 export const APPLICATION_HOME_URL = `${NEXUS_SERVER_BASE_URL}`;
-export const APPLICATION_NAVBAR_LOGO_URL = "https://flowbite.com/docs/images/logo.svg";
-
 
 // SECURITY
 

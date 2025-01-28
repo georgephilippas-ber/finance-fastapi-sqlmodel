@@ -55,7 +55,7 @@ class MeilisearchClient:
 
             search_result_ = index_.search(query_text)
 
-            return search_result_.get("hits")
+            return search_result_.session_get("hits")
         except Exception as e:
             print(e)
 
