@@ -3,9 +3,11 @@ import {LanguageSelector} from "@/components/client/internationalization/languag
 export default function ()
 {
     return (
-
         <div className={"min-h-screen"}>
             Settings
+            <div>
+                <LanguageSelector/>
+            </div>
         </div>
     )
 }

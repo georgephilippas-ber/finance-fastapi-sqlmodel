@@ -22,5 +22,4 @@ export const PROTECTED_ROUTES = SECURITY_ENABLED ? [
     '/members'
 ] : [];
 
-const supported_locales = ['en', 'fr', 'de'];
-
+export const SUPPORTED_LOCALES = ['en', 'fr', 'de'];
