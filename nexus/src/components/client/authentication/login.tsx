@@ -1,3 +1,5 @@
+'use client'
+
 import {MouseEventHandler, useEffect, useMemo, useState} from "react";
 import {createLoginValidationSchema} from "@/core/validation/login";
 import {ZodError} from "zod";

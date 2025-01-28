@@ -1,3 +1,5 @@
+import asyncio
+
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -8,10 +10,14 @@ from instance.shared import database_instance
 from router.ai.ai import ai_router
 from router.authentication.authentication import authentication_router
 from router.company.company import company_router
+from seeder.meilisearch.seed_meilisearch import seed_meilisearch
 
 app = FastAPI()
 
 database_instance.create_tables(drop_all=False)
+
+session_ = database_instance.create_session()
+asyncio.run(seed_meilisearch(session_))
 
 app.add_middleware(
     CORSMiddleware,
@@ -39,4 +45,4 @@ async def say_hello(name: str):
 if __name__ == "__main__":
     load_environment()
 
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)

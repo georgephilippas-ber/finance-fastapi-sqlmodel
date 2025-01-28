@@ -7,19 +7,19 @@ export const fastApiClient = axios.create({
     withCredentials: true,
 });
 
-fastApiClient.interceptors.response.use(
-    (response) =>
-    {
-        return response;
-    },
-    (error: AxiosError) =>
-    {
-        if (error.response?.status === HttpStatusCode.Unauthorized)
-            window.location.href = '/authentication/login';
-
-        return Promise.reject(error);
-    }
-);
+// fastApiClient.interceptors.response.use(
+//     (response) =>
+//     {
+//         return response;
+//     },
+//     (error: AxiosError) =>
+//     {
+//         if (error.response?.status === HttpStatusCode.Unauthorized)
+//             window.location.href = '/authentication/login';
+//
+//         return Promise.reject(error);
+//     }
+// );
 
 export function setAuthorizationHeader(token: string)
 {
