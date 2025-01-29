@@ -8,7 +8,7 @@ from configuration.project import PROJECT_NAME
 from core.environment.environment import EnvironmentType
 from schema.user.user import UserSchema
 
-SEED_ON_STARTUP: bool = False
+SEED_ON_STARTUP: bool = True
 
 
 class ModelSliceEnum(str, Enum):
