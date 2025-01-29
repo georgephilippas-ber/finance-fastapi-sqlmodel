@@ -1,4 +1,4 @@
-from client.search.meilisearch.meilisearch_client import MeilisearchClient
+from client.meilisearch.meilisearch_client import MeilisearchClient
 from database.database import Database
 from seeder.meilisearch.company_seeder import MeilisearchCompanySeeder
 from service.company.company_service import CompanyService

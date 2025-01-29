@@ -2,7 +2,7 @@ from typing import List, Optional
 
 from sqlalchemy import Engine
 
-from client.search.meilisearch.meilisearch_client import MeilisearchClient
+from client.meilisearch.meilisearch_client import MeilisearchClient
 from schema.company.company import CompanyOverviewSchema
 from schema.company.company_search.company_search_sql import Criterion
 from service.company.company_search_sql_service import CompanySearchSQLService

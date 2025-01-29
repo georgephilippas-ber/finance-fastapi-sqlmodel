@@ -10,7 +10,6 @@ from core.environment.environment import load_environment
 from instance.shared import database_instance
 from router.authentication.authentication import authentication_router
 from router.company.company import company_router
-from seeder.meilisearch.seed_meilisearch import seed_meilisearch
 from seeder.seeder import seed
 
 # from router.ai.ai import ai_router
@@ -36,7 +35,7 @@ app.include_router(company_router)
 
 @app.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {"message": "Hello World!"}
 
 
 @app.get("/hello/{name}")
@@ -50,7 +49,4 @@ if __name__ == "__main__":
     if SEED_ON_STARTUP:
         asyncio.run(seed(SEED_ENTITIES_SPECIFICATION, drop_all=True, debug=True))
 
-        session_ = database_instance.create_session()
-        asyncio.run(seed_meilisearch(session_))
-
-    uvicorn.run("main:app", host="localhost", port=8000, reload=False)
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=False)

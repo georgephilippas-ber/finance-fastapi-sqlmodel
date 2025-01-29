@@ -1,3 +1,5 @@
+from logging import warning
+
 from meilisearch import Client
 from typing import List, Dict, Optional
 from configuration.meilisearch import MEILISEARCH_MASTER_KEY, MEILISEARCH_SERVER_URL
@@ -31,16 +33,23 @@ class MeilisearchClient:
 
             return []
 
-    def seed_index(self, index_name: str, documents: List[Dict], *, primary_key: str) -> bool:
+    def seed_index(self, index_name: str, documents: List[Optional[Dict]], *, primary_key: str) -> bool:
         try:
             self._client.wait_for_task(self._client.delete_index(index_name).task_uid)
 
             self._client.wait_for_task(
-                self._client.create_index(index_name, {"stopWords": MeilisearchClient.get_stopwords()}).task_uid)
+                self._client.create_index(index_name).task_uid)
 
             index_ = self._client.index(index_name)
 
-            self._client.wait_for_task(index_.add_documents(documents, primary_key=primary_key).task_uid)
+            self._client.wait_for_task(index_.update_settings({"stopWords": self.get_stopwords()}).task_uid)
+
+            if documents:
+                self._client.wait_for_task(
+                    index_.add_documents(list(map(lambda document: document is not None, documents)),
+                                         primary_key=primary_key).task_uid)
+            else:
+                warning(f"meilisearch: seeding {index_name} - NO DOCUMENTS")
 
             return False
         except Exception as e:
