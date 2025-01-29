@@ -101,7 +101,7 @@ class CompanySnapshotMetricsAdapter(Adapter):
                     free_cash_flow_return_on_invested_capital=preprocessor_.free_cash_flow_return_on_invested_capital(),
                     return_on_equity=json_["Highlights"]["ReturnOnEquityTTM"]
                 )
-        except (KeyError, ValidationError) as e:
+        except (KeyError, ValidationError, AttributeError) as e:
             print(e)
 
             return None

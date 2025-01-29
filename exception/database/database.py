@@ -1,0 +1,2 @@
+class CreateTablesException(Exception):
+    pass

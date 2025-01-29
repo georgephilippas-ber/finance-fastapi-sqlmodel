@@ -29,7 +29,7 @@ class EndOfDayChangeOverviewAdapter(Adapter):
                 beginning_of_month_adjusted=beginning_of_month_['adjusted_close'],
                 beginning_of_year_adjusted=earliest_['adjusted_close']
             )
-        except (KeyError, IndexError) as e:
+        except (KeyError, IndexError, AttributeError) as e:
             print(e)
 
             return None

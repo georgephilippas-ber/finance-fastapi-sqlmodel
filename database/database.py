@@ -3,9 +3,9 @@ from typing import List
 from sqlalchemy import Engine
 from sqlalchemy.sql.ddl import CreateTable
 from sqlmodel import create_engine, SQLModel, Session
-from configuration.database import DATABASE_URL
 
-import model.comprehensive
+from configuration.database import DATABASE_URL
+from exception.database.database import CreateTablesException
 
 
 class Database:
@@ -22,10 +22,13 @@ class Database:
         return self._engine
 
     def create_tables(self, *, drop_all: bool = False):
-        if drop_all:
-            SQLModel.metadata.drop_all(self._engine)
+        try:
+            if drop_all:
+                SQLModel.metadata.drop_all(self._engine)
 
-        SQLModel.metadata.create_all(self._engine)
+            SQLModel.metadata.create_all(self._engine)
+        except Exception as e:
+            raise CreateTablesException(f"FATAL - {e}")
 
     def create_session(self) -> Session:
         return Session(self._engine)

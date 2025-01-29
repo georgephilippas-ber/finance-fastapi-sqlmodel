@@ -8,6 +8,8 @@ from configuration.project import PROJECT_NAME
 from core.environment.environment import EnvironmentType
 from schema.user.user import UserSchema
 
+SEED_ON_STARTUP: bool = True
+
 
 class ModelSliceEnum(str, Enum):
     COUNTRY_CURRENCY = "country_currency"
@@ -33,16 +35,6 @@ SEED_ENTITIES_SPECIFICATION: SeedSpecificationDict = {
     ModelSliceEnum.USER: (True, []),
     ModelSliceEnum.MEILISEARCH_COMPANY_SEEDER: (True, [ModelSliceEnum.COMPANY_AND_COMPANY_SNAPSHOT_METRICS])
 }
-
-
-def just_user_seed_specification(spec: SeedSpecificationDict) -> SeedSpecificationDict:
-    for entry_ in spec.keys():
-        if entry_ == ModelSliceEnum.USER:
-            spec[entry_] = (True, spec[entry_][1])
-        else:
-            spec[entry_] = (False, spec[entry_][1])
-    return spec
-
 
 COMPANY_SAMPLE_SIZE: Optional[int] = 20 if ENVIRONMENT == EnvironmentType.DEVELOPMENT else None
 

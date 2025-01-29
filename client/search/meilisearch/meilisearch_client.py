@@ -34,17 +34,15 @@ class MeilisearchClient:
     def seed_index(self, index_name: str, documents: List[Dict], *, primary_key: str) -> bool:
         try:
             self._client.wait_for_task(self._client.delete_index(index_name).task_uid)
-        except Exception as e:
-            print(e)
+
             self._client.wait_for_task(
                 self._client.create_index(index_name, {"stopWords": MeilisearchClient.get_stopwords()}).task_uid)
 
-        index_ = self._client.index(index_name)
+            index_ = self._client.index(index_name)
 
-        try:
             self._client.wait_for_task(index_.add_documents(documents, primary_key=primary_key).task_uid)
 
-            return True
+            return False
         except Exception as e:
             print(e)
             return False

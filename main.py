@@ -4,20 +4,26 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from configuration.seed import SEED_ON_STARTUP, SEED_ENTITIES_SPECIFICATION
 from configuration.server import NEXUS_SERVER
 from core.environment.environment import load_environment
 from instance.shared import database_instance
-from router.ai.ai import ai_router
 from router.authentication.authentication import authentication_router
 from router.company.company import company_router
 from seeder.meilisearch.seed_meilisearch import seed_meilisearch
+from seeder.seeder import seed
+
+# from router.ai.ai import ai_router
 
 app = FastAPI()
 
 database_instance.create_tables(drop_all=False)
 
-session_ = database_instance.create_session()
-asyncio.run(seed_meilisearch(session_))
+if SEED_ON_STARTUP:
+    asyncio.run(seed(SEED_ENTITIES_SPECIFICATION, drop_all=True, debug=True))
+
+    session_ = database_instance.create_session()
+    asyncio.run(seed_meilisearch(session_))
 
 app.add_middleware(
     CORSMiddleware,
@@ -29,7 +35,7 @@ app.add_middleware(
 
 app.include_router(authentication_router)
 app.include_router(company_router)
-app.include_router(ai_router)
+# app.include_router(ai_router)
 
 
 @app.get("/")

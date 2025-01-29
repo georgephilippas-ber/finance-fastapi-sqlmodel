@@ -31,7 +31,7 @@ class CompanyAdapter(Adapter):
                               sub_industry=json_['General']['GicSubIndustry']), CurrencySchema(
                     code=json_['General']['CurrencyCode']), CountrySchema(
                     iso_code=CountryISOCodeSchema(cca2=json_['General']['CountryISO']))
-        except (KeyError, ValidationError) as e:
+        except (KeyError, ValidationError, AttributeError) as e:
             print(e)
 
             return None
