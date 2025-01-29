@@ -64,6 +64,7 @@ class MeilisearchClient:
     def all(self, index_name: str) -> Optional[List[Dict]]:
         try:
             index_ = self._client.index(index_name)
+
             return [dict(f) for f in index_.get_documents().results]
         except Exception as e:
             print(e)
@@ -72,9 +73,4 @@ class MeilisearchClient:
 
 
 if __name__ == '__main__':
-    nltk.download('stopwords')
-
-    english_stopwords = nltk.corpus.stopwords.words('english')
-    german_stopwords = nltk.corpus.stopwords.words('german')
-    print(english_stopwords)
-    print(german_stopwords)
+    pass

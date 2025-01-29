@@ -6,6 +6,7 @@ from os.path import join
 from typing import Optional, List, Dict
 from urllib.parse import urljoin
 from datetime import date
+from logging import warning
 
 import httpx
 
@@ -15,14 +16,13 @@ from core.client.eodhd import to_eodhd_exchange_code
 from core.environment.environment import load_environment
 from core.utilities.date import day_before, beginning_of_month
 from core.utilities.root import project_root
-from exception.exception import APISecurityException
 
 load_environment()
 
 API_TOKEN: Optional[str] = environ.get('API_TOKEN') if not EODHD_DEMO else 'demo'
 
 if API_TOKEN is None:
-    raise APISecurityException
+    warning("EODHD API security token is missing. The data being used may be cached or simulated.")
 
 BASE_URL: str = 'https://eodhd.com'
 
@@ -45,6 +45,9 @@ class EODHDClient(Client):
                     return json.load(cache_file)
             except FileNotFoundError:
                 pass
+
+        if API_TOKEN is None:
+            return None
 
         async with httpx.AsyncClient() as client:
             response_ = await client.get(url_, params={'api_token': self._api_token, 'fmt': 'json'})
@@ -70,6 +73,9 @@ class EODHDClient(Client):
             except FileNotFoundError:
                 pass
 
+        if API_TOKEN is None:
+            return None
+
         async with httpx.AsyncClient() as client:
             response_ = await client.get(url_, params={'api_token': self._api_token, 'fmt': 'json'})
 
@@ -89,7 +95,7 @@ class EODHDClient(Client):
         for exchange_code_ in eodhd_exchange_code_list:
             list_.extend(await self.exchange_symbol_list(exchange_code_, prefer_cached=prefer_cached))
 
-        return list_
+        return list(filter(lambda element: element is not None, list_))
 
     async def _fundamentals(self, symbol: str, eodhd_exchange: str, *, prefer_cached: bool = True,
                             debug: bool = False) -> Optional[Dict]:
@@ -106,6 +112,9 @@ class EODHDClient(Client):
                     return json.load(cache_file)
             except FileNotFoundError:
                 pass
+
+        if API_TOKEN is None:
+            return None
 
         async with httpx.AsyncClient() as client:
             response_ = await client.get(url_, params={'api_token': self._api_token, 'fmt': 'json'})
@@ -139,6 +148,9 @@ class EODHDClient(Client):
             except FileNotFoundError:
                 pass
 
+        if API_TOKEN is None:
+            return None
+
         async with httpx.AsyncClient() as client:
             yesterday_ = day_before(date_)
             beginning_of_month_ = beginning_of_month(yesterday_)
@@ -160,11 +172,4 @@ class EODHDClient(Client):
 
 
 if __name__ == '__main__':
-    async def execute():
-        client_ = EODHDClient()
-
-        f = await client_.eod("MSFT", "NASDAQ", debug=True)
-        print(f)
-
-
-    asyncio.run(execute())
+    pass

@@ -1,5 +1,6 @@
+from logging import warning
 from os.path import join
-from typing import Tuple
+from typing import Tuple, Optional
 
 from langchain_community.llms.llamacpp import LlamaCpp
 from time import time
@@ -17,31 +18,40 @@ else:
 
 class LargeLanguageModel:
     _model_path_and_filename: str
-    _instance: LlamaCpp
+    _instance: Optional[LlamaCpp]
 
     def __init__(self, model_path_and_filename: str = MODEL_PATH_AND_FILENAME, *, n_ctx: int = N_CTX,
                  max_tokens: int = 2048):
         self._model_path_and_filename = model_path_and_filename
         print("LOADING LargeLanguageModel", self._model_path_and_filename.split(sep)[-1], end='')
-        beginning_ = time()
-        self._instance = LlamaCpp(
-            model_path=self._model_path_and_filename,
-            temperature=0.75,
-            max_tokens=max_tokens,
-            n_ctx=n_ctx,
-            top_p=1,
-            verbose=False,
-            n_batch=32,
-        )
-        end_ = time()
-        print(f" - DONE - {end_ - beginning_:.2f}s")
+        try:
+            beginning_ = time()
+            self._instance = LlamaCpp(
+                model_path=self._model_path_and_filename,
+                temperature=0.75,
+                max_tokens=max_tokens,
+                n_ctx=n_ctx,
+                top_p=1,
+                verbose=False,
+                n_batch=32,
+            )
+            end_ = time()
 
-    def query(self, query_: str) -> Tuple[str, float]:
-        beginning_: float = time()
-        response_ = self._instance.invoke(query_)
-        end_: float = time()
+            print(f" - DONE - {end_ - beginning_:.2f}s")
+        except Exception as e:
+            warning(e)
+            self._instance = None
+            pass
 
-        return response_, end_ - beginning_
+    def query(self, query_: str) -> Optional[Tuple[str, float]]:
+        if self._instance is not None:
+            beginning_: float = time()
+            response_ = self._instance.invoke(query_)
+            end_: float = time()
+
+            return response_, end_ - beginning_
+        else:
+            return None
 
 
 if __name__ == '__main__':
