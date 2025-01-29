@@ -50,7 +50,7 @@ if __name__ == "__main__":
     if SEED_ON_STARTUP:
         asyncio.run(seed(SEED_ENTITIES_SPECIFICATION, drop_all=True, debug=True))
 
-        # session_ = database_instance.create_session()
-        # asyncio.run(seed_meilisearch(session_))
+        session_ = database_instance.create_session()
+        asyncio.run(seed_meilisearch(session_))
 
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=False)
+    uvicorn.run("main:app", host="localhost", port=8000, reload=False)
