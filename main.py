@@ -15,15 +15,9 @@ from seeder.seeder import seed
 
 # from router.ai.ai import ai_router
 
-app = FastAPI()
-
 database_instance.create_tables(drop_all=False)
 
-if SEED_ON_STARTUP:
-    asyncio.run(seed(SEED_ENTITIES_SPECIFICATION, drop_all=True, debug=True))
-
-    session_ = database_instance.create_session()
-    asyncio.run(seed_meilisearch(session_))
+app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
@@ -35,6 +29,8 @@ app.add_middleware(
 
 app.include_router(authentication_router)
 app.include_router(company_router)
+
+
 # app.include_router(ai_router)
 
 
@@ -51,4 +47,10 @@ async def say_hello(name: str):
 if __name__ == "__main__":
     load_environment()
 
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    if SEED_ON_STARTUP:
+        asyncio.run(seed(SEED_ENTITIES_SPECIFICATION, drop_all=True, debug=True))
+
+        # session_ = database_instance.create_session()
+        # asyncio.run(seed_meilisearch(session_))
+
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=False)
