@@ -25,6 +25,7 @@ async def login(user_login_schema: UserLoginSchema, response: Response,
                 user_manager: UserManager = Depends(get_user_manager), session: Session = Depends(get_session)):
     user_ = user_manager.verify_and_retrieve(user_login_schema.identifier, user_login_schema.password)
     session.close()
+    print(user_manager.all())
 
     if user_ is not None:
         token_ = json_web_token_instance.encode(user_.model_dump(exclude={"password", "id"}))
