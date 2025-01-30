@@ -14,17 +14,26 @@ class TimeFrame(BaseModel):
     column_names: List[str] = Field(default_factory=list)
     frame: Dict[date, List[float]] = Field(default_factory=dict)
 
+    def data_points(self) -> int:
+        return len(self.frame.keys())
+
 
 @dataclass
 class EODHDFinancialTimeSeriesColumn:
     statement: str
     key: str
-    name: str
+    column_name: str
 
 
 TIME_SERIES_COLUMNS: List[EODHDFinancialTimeSeriesColumn] = [
-    EODHDFinancialTimeSeriesColumn(statement='Balance_Sheet', key='totalAssets', name='assets'),
-    EODHDFinancialTimeSeriesColumn(statement='Balance_Sheet', key='totalLiab', name='liabilities'),
+    EODHDFinancialTimeSeriesColumn(statement='Balance_Sheet', key='totalAssets', column_name='assets'),
+    EODHDFinancialTimeSeriesColumn(statement='Balance_Sheet', key='totalLiab', column_name='liabilities'),
+    EODHDFinancialTimeSeriesColumn(statement='Balance_Sheet', key='cash', column_name='cash'),
+    EODHDFinancialTimeSeriesColumn(statement='Balance_Sheet', key='netDebt', column_name='net_debt'),
+    EODHDFinancialTimeSeriesColumn(statement='Balance_Sheet', key='netWorkingCapital',
+                                   column_name='net_working_capital'),
+    EODHDFinancialTimeSeriesColumn(statement='Cash_Flow', key='capitalExpenditures', column_name='capital_expenditure'),
+    EODHDFinancialTimeSeriesColumn(statement='Cash_Flow', key='freeCashFlow', column_name='free_cash_flow'),
 ]
 
 
@@ -37,23 +46,30 @@ class TimeSeriesAdapter(Adapter):
         self._columns = columns
 
     def adapt(self, json_: Dict) -> Optional[TimeFrame]:
-        date_key_set_: Set[date] = set()
-
+        dates_in_columns_: List[List[str]] = []
         for column_ in self._columns:
-            for date_key_ in json_["Financials"][column_.statement]["yearly"].keys():
-                date_key_set_.add(date.fromisoformat(date_key_))
+            dates_in_columns_.append(
+                [date_key_ for date_key_ in json_["Financials"][column_.statement]["yearly"].keys()])
+
+        if dates_in_columns_:
+            date_key_set_: Set[str] = set(dates_in_columns_[0])
+
+            for list_ in dates_in_columns_[1:]:
+                date_key_set_ = date_key_set_.intersection(set(list_))
+        else:
+            date_key_set_ = set()
 
         timeframe_: TimeFrame = TimeFrame(frame={})
 
         frame_: Dict[date, List[float]] = {}
         for date_key_ in date_key_set_:
-            values_ = [json_["Financials"][column_.statement]["yearly"][date_key_.isoformat()][column_.key] for column_
+            values_ = [json_["Financials"][column_.statement]["yearly"][date_key_][column_.key] for column_
                        in
                        self._columns]
 
-            frame_[date_key_] = values_
+            frame_[date.fromisoformat(date_key_)] = values_
 
-        timeframe_.column_names = [column_.name for column_ in self._columns]
+        timeframe_.column_names = [column_.column_name for column_ in self._columns]
         timeframe_.frame = frame_
 
         return timeframe_
@@ -67,4 +83,6 @@ if __name__ == '__main__':
 
     ad = TimeSeriesAdapter(TIME_SERIES_COLUMNS)
 
-    print(ad.adapt(a))
+    f = ad.adapt(a)
+    print(f)
+    print(f.data_points())
