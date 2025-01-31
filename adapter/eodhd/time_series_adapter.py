@@ -93,5 +93,10 @@ if __name__ == '__main__':
     ad = TimeSeriesAdapter(TIME_SERIES_COLUMNS)
 
     f = ad.adapt(a)
-    print(f)
-    print(f.data_points())
+
+    f.calculate("free_cash_flow_return_on_investment", ("free_cash_flow", "capital_expenditure"), lambda x, y: x / y)
+
+    print(f.get_column("free_cash_flow"))
+    print(f.get_column("capital_expenditure"))
+
+    print(len(f))
