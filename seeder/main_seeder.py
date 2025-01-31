@@ -5,6 +5,7 @@ from sqlmodel import Session
 from adapter.eodhd.company_adapter import CompanyAdapter
 from adapter.eodhd.company_snapshot_metrics_adapter import CompanySnapshotMetricsAdapter
 from adapter.eodhd.exchange_adapter import ExchangeAdapter
+from adapter.eodhd.fundamental_time_series_adapter import FundamentalTimeSeriesAdapter, TIME_SERIES_COLUMNS
 from adapter.eodhd.ticker_adapter import TickerAdapter
 from adapter.kaggle.gics_adapter import GICSAdapter
 from adapter.restcountries.restcountries_adapter import RESTCountriesAdapter
@@ -22,12 +23,14 @@ from manager.country.country_manager import CountryManager
 from manager.currency.currency_manager import CurrencyManager
 from manager.exchange.exchange_manager import ExchangeManager
 from manager.ticker.ticker_manager import TickerManager
+from manager.time_series.fundamental_time_series_manager import FundamentalTimeSeriesManager
 from manager.user.user_manager import UserManager
 from seeder.eodhd.eodhd_seeder import EODHDSeeder
 from seeder.kaggle.kaggle_seeder import KaggleSeeder
 from seeder.local.user_seeder import UserSeeder
 from seeder.meilisearch.company_seeder import MeilisearchCompanySeeder
 from seeder.restcountries.restcountries_seeder import RESTCountriesSeeder
+from seeder.eodhd.time_series.fundamental_time_series_seeder import FundamentalTimeSeriesSeeder
 from service.company.company_service import CompanyService
 from core.dependency.dependency import Resolver
 from core.dependency.resolvers.compile import compile_resolver
@@ -47,6 +50,8 @@ async def seed(seed_specification: SeedSpecificationDict, drop_all: bool = False
     eodhd_company_adapter_ = CompanyAdapter()
     eodhd_company_snapshot_metrics_adapter_ = CompanySnapshotMetricsAdapter()
 
+    fundamental_time_series_adapter_ = FundamentalTimeSeriesAdapter(TIME_SERIES_COLUMNS)
+
     meilisearch_client = MeilisearchClient()
 
     with Session(database_.get_engine()) as session:
@@ -55,6 +60,7 @@ async def seed(seed_specification: SeedSpecificationDict, drop_all: bool = False
         continent_manager_ = ContinentManager(session)
         exchange_manager_ = ExchangeManager(session)
         ticker_manager_ = TickerManager(session, exchange_manager_)
+        fundamentals_time_series_manager_ = FundamentalTimeSeriesManager(session)
 
         company_manager_ = CompanyManager(session)
         company_snapshot_metrics_manager_ = CompanySnapshotMetricsManager(session, company_manager_)
@@ -72,6 +78,13 @@ async def seed(seed_specification: SeedSpecificationDict, drop_all: bool = False
         restcountries_seeder_ = RESTCountriesSeeder(restcountries_client, restcountries_adapter_, country_manager_,
                                                     currency_manager_,
                                                     continent_manager_)
+
+        fundamental_time_series_seeder_ = FundamentalTimeSeriesSeeder(
+            company_manager=company_manager_,
+            eodhd_client=eodhd_client,
+            fundamental_time_series_manager=fundamentals_time_series_manager_,
+            eodhd_fundamental_time_series_adapter=fundamental_time_series_adapter_
+        )
 
         eodhd_seeder_ = EODHDSeeder(eodhd_client, eodhd_exchange_adapter_, eodhd_ticker_adapter_,
                                     eodhd_company_adapter_, eodhd_company_snapshot_metrics_adapter_,
@@ -109,6 +122,7 @@ async def seed(seed_specification: SeedSpecificationDict, drop_all: bool = False
                                eodhd_seeder_.seed_company_and_company_snapshot_metrics)
         resolver_.add_callback(ModelSliceEnum.USER.value, user_seeder_.seed)
         resolver_.add_callback(ModelSliceEnum.MEILISEARCH_COMPANY_SEEDER, meilisearch_company_seeder_.seed)
+        resolver_.add_callback(ModelSliceEnum.FUNDAMENTAL_TIME_SERIES, fundamental_time_series_seeder_.seed)
 
         await resolver_.process()
 

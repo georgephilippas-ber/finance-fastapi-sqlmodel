@@ -2,4 +2,4 @@
 
 cd ..
 export PYTHONPATH=$(pwd)
-python ./seeder/main_seed.py
+python ./seeder/main_seeder.py

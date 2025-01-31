@@ -10,7 +10,7 @@ from core.environment.environment import load_environment
 from instance.shared import database_instance
 from router.authentication.authentication import authentication_router
 from router.company.company import company_router
-from seeder.seeder import seed
+from seeder.main_seeder import seed
 
 # from router.ai.ai import ai_router
 
