@@ -39,7 +39,7 @@ TIME_SERIES_COLUMNS: List[EODHDFinancialTimeSeriesColumn] = [
 ]
 
 
-class TimeSeriesAdapter(Adapter):
+class FundamentalTimeSeriesAdapter(Adapter):
     _columns: List[EODHDFinancialTimeSeriesColumn]
 
     def __init__(self, columns: List[EODHDFinancialTimeSeriesColumn]):
@@ -100,7 +100,7 @@ class TimeSeriesAdapter(Adapter):
 if __name__ == '__main__':
     a = read([project_root(), "client", "cache", "eodhd", "fundamentals", "MSFT-US.json"])
 
-    ad = TimeSeriesAdapter(TIME_SERIES_COLUMNS)
+    ad = FundamentalTimeSeriesAdapter(TIME_SERIES_COLUMNS)
 
     f = ad.adapt(a)
 
