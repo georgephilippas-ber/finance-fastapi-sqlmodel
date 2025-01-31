@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 
 from sqlalchemy.exc import SQLAlchemyError
 from sqlmodel import select, Session
@@ -62,3 +62,8 @@ class CompanyManager(Manager):
             self._session.rollback()
 
             return None
+
+    def all(self) -> List[Company]:
+        query_ = select(Company)
+
+        return list(self._session.exec(query_).all())
