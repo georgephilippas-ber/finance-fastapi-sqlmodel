@@ -6,11 +6,15 @@ from sqlalchemy import Numeric
 from sqlmodel import SQLModel, Field, Column, Sequence, Integer, Relationship
 
 from model.company.company import Company
+from datetime import date
 
 
 class FundamentalTimeSeries(SQLModel, table=True):
     id: Optional[int] = Field(sa_column=Column(Integer, Sequence(Path(__file__).stem), primary_key=True))
 
+    record_date: date = Field(nullable=False, unique=True)
+
+    # EXTRACTED
     assets: Optional[Decimal] = Field(sa_column=Column(nullable=True, default=None, type_=Numeric(26, 2)))
     liabilities: Optional[Decimal] = Field(sa_column=Column(nullable=True, default=None, type_=Numeric(26, 2)))
     cash: Optional[Decimal] = Field(sa_column=Column(nullable=True, default=None, type_=Numeric(26, 2)))
@@ -21,6 +25,7 @@ class FundamentalTimeSeries(SQLModel, table=True):
     free_cash_flow: Optional[Decimal] = Field(sa_column=Column(nullable=True, default=None, type_=Numeric(26, 2)))
     net_income: Optional[Decimal] = Field(sa_column=Column(nullable=True, default=None, type_=Numeric(26, 2)))
 
+    # COMPUTED
     equity: Optional[Decimal] = Field(sa_column=Column(nullable=True, default=None, type_=Numeric(26, 2)))
     return_on_equity: Optional[Decimal] = Field(sa_column=Column(nullable=True, default=None, type_=Numeric(26, 2)))
     free_cash_flow_return_on_assets: Optional[Decimal] = Field(

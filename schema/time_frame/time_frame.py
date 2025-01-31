@@ -15,10 +15,18 @@ class TimeFrame(BaseModel):
     def get_frame(self) -> Dict[date, List[Decimal]]:
         return self.frame
 
+    def get_value(self, record_date: date, column_name: str) -> Optional[Decimal]:
+        index_ = self.column_names.index(column_name)
+
+        return self.frame[record_date][index_]
+
     def get_column(self, column_name: str) -> Optional[List[Decimal]]:
         index_ = self.column_names.index(column_name)
 
         return [row_[index_] for row_ in self.frame.values()]
+
+    def get_dates(self) -> List[date]:
+        return list(self.frame.keys())
 
     def _add_column(self, column_name: str, values: List[Decimal]):
         self.column_names.append(column_name)
