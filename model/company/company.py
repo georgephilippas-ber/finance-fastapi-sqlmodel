@@ -43,6 +43,7 @@ class Company(SQLModel, table=True):
     currency: Optional[Currency] = Relationship(back_populates="company_list")
 
     company_snapshot_metrics: "CompanySnapshotMetrics" = Relationship(back_populates="company")
+    fundamental_time_series: "FundamentalTimeSeries" = Relationship(back_populates="company")
 
     country_id: int = Field(foreign_key="country.id")
     country: Country = Relationship(back_populates="company_list")

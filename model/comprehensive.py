@@ -1,5 +1,6 @@
 from model.company.company import Company
 from model.company.company_snapshot_metrics import CompanySnapshotMetrics
+from model.time_series.fundamental_time_series import FundamentalTimeSeries
 
 from model.continent.continent import Continent
 from model.country.country import Country
