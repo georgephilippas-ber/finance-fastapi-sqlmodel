@@ -59,7 +59,7 @@ class TimeSeriesAdapter(Adapter):
 
         timeframe_: TimeFrame = TimeFrame(frame={})
 
-        frame_: Dict[date, List[float]] = {}
+        frame_: Dict[date, List[Decimal]] = {}
         for date_key_ in date_key_set_:
             values_ = []
             for column_ in self._columns:
