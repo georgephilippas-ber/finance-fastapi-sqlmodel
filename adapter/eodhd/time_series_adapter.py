@@ -7,7 +7,7 @@ from dataclasses import dataclass
 from abstract.adapter.adapter import Adapter
 from core.utilities.quickjson import read
 from core.utilities.root import project_root
-from schema.time_frame.time_time import TimeFrame
+from schema.time_frame.time_frame import TimeFrame
 
 from decimal import Decimal
 
@@ -79,6 +79,9 @@ class TimeSeriesAdapter(Adapter):
         timeframe_.frame = frame_
 
         return timeframe_
+
+    def postprocess(self, time_frame: TimeFrame) -> TimeFrame:
+        pass
 
     def adapt_many(self, json_list_: List[Dict]) -> List[TimeFrame]:
         return [self.adapt(json_list_[0])]
