@@ -19,6 +19,7 @@ class ModelSliceEnum(str, Enum):
     COMPANY_AND_COMPANY_SNAPSHOT_METRICS = "company_and_company_snapshot_metrics",
     USER = "user"
     MEILISEARCH_COMPANY_SEEDER = "meilisearch_company_seeder"
+    FUNDAMENTAL_TIME_SERIES = "fundamental_time_series"
 
 
 DROP_ALL_TABLES_BEFORE_SEEDING: bool = True
@@ -33,7 +34,8 @@ SEED_ENTITIES_SPECIFICATION: SeedSpecificationDict = {
     ModelSliceEnum.COMPANY_AND_COMPANY_SNAPSHOT_METRICS: (
         True, [ModelSliceEnum.TICKER, ModelSliceEnum.COUNTRY_CURRENCY, ModelSliceEnum.GICS, ModelSliceEnum.EXCHANGE]),
     ModelSliceEnum.USER: (True, []),
-    ModelSliceEnum.MEILISEARCH_COMPANY_SEEDER: (True, [ModelSliceEnum.COMPANY_AND_COMPANY_SNAPSHOT_METRICS])
+    ModelSliceEnum.MEILISEARCH_COMPANY_SEEDER: (True, [ModelSliceEnum.COMPANY_AND_COMPANY_SNAPSHOT_METRICS]),
+    ModelSliceEnum.FUNDAMENTAL_TIME_SERIES: (True, [ModelSliceEnum.COMPANY_AND_COMPANY_SNAPSHOT_METRICS]),
 }
 
 COMPANY_SAMPLE_SIZE: Optional[int] = 20 if ENVIRONMENT == EnvironmentType.DEVELOPMENT else None
