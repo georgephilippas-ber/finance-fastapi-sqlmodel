@@ -42,3 +42,6 @@ class TimeFrame(BaseModel):
     def calculate(self, new_column_name: str, columns: Tuple[str, str],
                   operation: Callable[[Decimal, Decimal], Decimal]):
         self._add_column(new_column_name, self._binary_operator(columns, operation))
+
+    def columns(self) -> List[str]:
+        return self.column_names

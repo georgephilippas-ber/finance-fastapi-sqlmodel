@@ -89,6 +89,7 @@ class TimeSeriesAdapter(Adapter):
         time_frame.calculate("equity", ("assets", "liabilities"), lambda x, y: x - y)
         time_frame.calculate("return_on_equity", ("net_income", "equity"), lambda x, y: x / y)
         time_frame.calculate("free_cash_flow_return_on_assets", ("free_cash_flow", "assets"), lambda x, y: x / y)
+        time_frame.calculate("debt_to_equity_ratio", ("net_debt", "equity"), lambda x, y: x / y)
 
         return time_frame
 
@@ -103,7 +104,11 @@ if __name__ == '__main__':
 
     f = ad.adapt(a)
 
+    ad.postprocess_in_place(f)
+
     print(f.get_column("free_cash_flow_return_on_assets"))
     print(f.get_column("return_on_equity"))
+    print(f.get_column("debt_to_equity_ratio"))
 
     print(len(f))
+    print(f.columns())
