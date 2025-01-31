@@ -84,8 +84,13 @@ class TimeSeriesAdapter(Adapter):
 
         return timeframe_
 
-    def postprocess(self, time_frame: TimeFrame) -> TimeFrame:
-        pass
+    @staticmethod
+    def postprocess_in_place(time_frame: TimeFrame) -> TimeFrame:
+        time_frame.calculate("equity", ("assets", "liabilities"), lambda x, y: x - y)
+        time_frame.calculate("return_on_equity", ("net_income", "equity"), lambda x, y: x / y)
+        time_frame.calculate("free_cash_flow_return_on_assets", ("free_cash_flow", "assets"), lambda x, y: x / y)
+
+        return time_frame
 
     def adapt_many(self, json_list_: List[Dict]) -> List[TimeFrame]:
         return [self.adapt(json_list_[0])]
@@ -98,11 +103,7 @@ if __name__ == '__main__':
 
     f = ad.adapt(a)
 
-    f.calculate("equity", ("assets", "liabilities"), lambda x, y: x - y)
-    f.calculate("return_on_equity", ("net_income", "equity"), lambda x, y: x / y)
-    f.calculate("free_cash_flow_return_on_investment", ("free_cash_flow", "assets"), lambda x, y: x / y)
-
-    print(f.get_column("free_cash_flow_return_on_investment"))
+    print(f.get_column("free_cash_flow_return_on_assets"))
     print(f.get_column("return_on_equity"))
 
     print(len(f))
