@@ -9,23 +9,29 @@ from core.utilities.quickjson import read
 from core.utilities.root import project_root
 from schema.time_frame.time_time import TimeFrame
 
+from decimal import Decimal
+
 
 @dataclass
 class EODHDFinancialTimeSeriesColumn:
+    scale: int
     statement: str
     key: str
     column_name: str
 
 
 TIME_SERIES_COLUMNS: List[EODHDFinancialTimeSeriesColumn] = [
-    EODHDFinancialTimeSeriesColumn(statement='Balance_Sheet', key='totalAssets', column_name='assets'),
-    EODHDFinancialTimeSeriesColumn(statement='Balance_Sheet', key='totalLiab', column_name='liabilities'),
-    EODHDFinancialTimeSeriesColumn(statement='Balance_Sheet', key='cash', column_name='cash'),
-    EODHDFinancialTimeSeriesColumn(statement='Balance_Sheet', key='netDebt', column_name='net_debt'),
+    EODHDFinancialTimeSeriesColumn(statement='Balance_Sheet', key='totalAssets', column_name='assets', scale=int(1.e6)),
+    EODHDFinancialTimeSeriesColumn(statement='Balance_Sheet', key='totalLiab', column_name='liabilities',
+                                   scale=int(1.e6)),
+    EODHDFinancialTimeSeriesColumn(statement='Balance_Sheet', key='cash', column_name='cash', scale=int(1.e6)),
+    EODHDFinancialTimeSeriesColumn(statement='Balance_Sheet', key='netDebt', column_name='net_debt', scale=int(1.e6)),
     EODHDFinancialTimeSeriesColumn(statement='Balance_Sheet', key='netWorkingCapital',
-                                   column_name='net_working_capital'),
-    EODHDFinancialTimeSeriesColumn(statement='Cash_Flow', key='capitalExpenditures', column_name='capital_expenditure'),
-    EODHDFinancialTimeSeriesColumn(statement='Cash_Flow', key='freeCashFlow', column_name='free_cash_flow'),
+                                   column_name='net_working_capital', scale=int(1.e6)),
+    EODHDFinancialTimeSeriesColumn(statement='Cash_Flow', key='capitalExpenditures', column_name='capital_expenditure',
+                                   scale=int(1.e6)),
+    EODHDFinancialTimeSeriesColumn(statement='Cash_Flow', key='freeCashFlow', column_name='free_cash_flow',
+                                   scale=int(1.e6)),
 ]
 
 
@@ -55,9 +61,17 @@ class TimeSeriesAdapter(Adapter):
 
         frame_: Dict[date, List[float]] = {}
         for date_key_ in date_key_set_:
-            values_ = [json_["Financials"][column_.statement]["yearly"][date_key_][column_.key] for column_
-                       in
-                       self._columns]
+            values_ = []
+            for column_ in self._columns:
+                try:
+                    value_candidate_ = Decimal(json_["Financials"][column_.statement]["yearly"][date_key_][column_.key])
+                except Exception:
+                    value_candidate_ = None
+
+                if value_candidate_ is not None:
+                    values_.append(value_candidate_ / column_.scale)
+                else:
+                    values_.append(None)
 
             frame_[date.fromisoformat(date_key_)] = values_
 
