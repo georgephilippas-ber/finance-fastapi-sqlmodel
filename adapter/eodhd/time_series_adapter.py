@@ -1,6 +1,5 @@
 from typing import Dict, List, Set, Optional
 
-from pydantic import BaseModel, Field
 from datetime import date
 
 from dataclasses import dataclass
@@ -8,14 +7,7 @@ from dataclasses import dataclass
 from abstract.adapter.adapter import Adapter
 from core.utilities.quickjson import read
 from core.utilities.root import project_root
-
-
-class TimeFrame(BaseModel):
-    column_names: List[str] = Field(default_factory=list)
-    frame: Dict[date, List[float]] = Field(default_factory=dict)
-
-    def data_points(self) -> int:
-        return len(self.frame.keys())
+from schema.time_frame.time_time import TimeFrame
 
 
 @dataclass
