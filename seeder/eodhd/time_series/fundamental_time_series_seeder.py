@@ -19,4 +19,4 @@ class FundamentalTimeSeriesSeeder:
         self._eodhd_fundamental_time_series_adapter = eodhd_fundamental_time_series_adapter
 
     def seed(self):
-
+        pass
