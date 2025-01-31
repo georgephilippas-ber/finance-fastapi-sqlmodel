@@ -1,18 +1,18 @@
+from datetime import date
 from decimal import Decimal
 from pathlib import Path
 from typing import Optional
 
-from sqlalchemy import Numeric
+from sqlalchemy import Numeric, UniqueConstraint
 from sqlmodel import SQLModel, Field, Column, Sequence, Integer, Relationship
 
 from model.company.company import Company
-from datetime import date
 
 
 class FundamentalTimeSeries(SQLModel, table=True):
-    id: Optional[int] = Field(sa_column=Column(Integer, Sequence(Path(__file__).stem), primary_key=True))
+    id: Optional[int] = Field(sa_column=Column(Integer, Sequence(Path(__file__).stem), primary_key=True, default=None))
 
-    record_date: date = Field(nullable=False, unique=True)
+    record_date: date = Field(nullable=False)
 
     # EXTRACTED
     assets: Optional[Decimal] = Field(sa_column=Column(nullable=True, default=None, type_=Numeric(26, 2)))
@@ -34,3 +34,7 @@ class FundamentalTimeSeries(SQLModel, table=True):
 
     company_id: int = Field(foreign_key="company.id")
     company: Company = Relationship(back_populates="fundamental_time_series")
+
+    __table_args__ = (
+        UniqueConstraint("record_date", "company_id"),
+    )

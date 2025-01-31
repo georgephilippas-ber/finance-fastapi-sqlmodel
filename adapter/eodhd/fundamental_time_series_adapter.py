@@ -82,6 +82,8 @@ class FundamentalTimeSeriesAdapter(Adapter):
         timeframe_.column_names = [column_.column_name for column_ in self._columns]
         timeframe_.frame = frame_
 
+        self.postprocess_in_place(timeframe_)
+
         return timeframe_
 
     @staticmethod

@@ -39,4 +39,5 @@ class FundamentalTimeSeriesManager(Manager):
                 self._session.add(fundamental_time_series_)
                 self._session.commit()
             except Exception as e:
+                print(e)
                 pass
