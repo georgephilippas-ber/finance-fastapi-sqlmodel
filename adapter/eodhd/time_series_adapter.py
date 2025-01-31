@@ -65,7 +65,7 @@ class TimeSeriesAdapter(Adapter):
             for column_ in self._columns:
                 try:
                     value_candidate_ = Decimal(json_["Financials"][column_.statement]["yearly"][date_key_][column_.key])
-                except Exception:
+                except Exception as e:
                     value_candidate_ = None
 
                 if value_candidate_ is not None:
