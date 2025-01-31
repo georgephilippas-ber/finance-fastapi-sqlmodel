@@ -30,7 +30,11 @@ TIME_SERIES_COLUMNS: List[EODHDFinancialTimeSeriesColumn] = [
                                    column_name='net_working_capital', scale=int(1.e6)),
     EODHDFinancialTimeSeriesColumn(statement='Cash_Flow', key='capitalExpenditures', column_name='capital_expenditure',
                                    scale=int(1.e6)),
+    EODHDFinancialTimeSeriesColumn(statement='Balance_Sheet', key='netInvestedCapital',
+                                   column_name='net_invested_capital', scale=int(1.e6)),
     EODHDFinancialTimeSeriesColumn(statement='Cash_Flow', key='freeCashFlow', column_name='free_cash_flow',
+                                   scale=int(1.e6)),
+    EODHDFinancialTimeSeriesColumn(statement='Income_Statement', key='netIncome', column_name='net_income',
                                    scale=int(1.e6)),
 ]
 
@@ -94,9 +98,11 @@ if __name__ == '__main__':
 
     f = ad.adapt(a)
 
-    f.calculate("free_cash_flow_return_on_investment", ("free_cash_flow", "capital_expenditure"), lambda x, y: x / y)
+    f.calculate("equity", ("assets", "liabilities"), lambda x, y: x - y)
+    f.calculate("return_on_equity", ("net_income", "equity"), lambda x, y: x / y)
+    f.calculate("free_cash_flow_return_on_investment", ("free_cash_flow", "assets"), lambda x, y: x / y)
 
-    print(f.get_column("free_cash_flow"))
-    print(f.get_column("capital_expenditure"))
+    print(f.get_column("free_cash_flow_return_on_investment"))
+    print(f.get_column("return_on_equity"))
 
     print(len(f))
