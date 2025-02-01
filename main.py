@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from configuration.seed import SEED_ON_STARTUP, SEED_ENTITIES_SPECIFICATION
 from configuration.server import NEXUS_SERVER
-from core.environment.environment import load_environment
+from core.environment.environment import load_environment, is_running_in_docker
 from instance.shared import database_instance
 from router.authentication.authentication_router import authentication_router
 from router.company.company_router import company_router
@@ -37,12 +37,17 @@ app.include_router(company_router)
 
 @app.get("/")
 async def root():
-    return {"message": "Hello World!"}
+    return {
+        "message": "Hello World!",
+        "docker": is_running_in_docker()
+    }
 
 
 @app.get("/hello/{name}")
 async def say_hello(name: str):
-    return {"message": f"Hello {name}"}
+    return {
+        "message": f"Hello {name}",
+    }
 
 
 if __name__ == "__main__":

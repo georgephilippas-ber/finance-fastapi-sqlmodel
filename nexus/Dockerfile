@@ -1,5 +1,7 @@
 FROM node:lts-slim
 
+ENV IN_DOCKER=true
+
 WORKDIR /nexus
 
 COPY package.json ./
