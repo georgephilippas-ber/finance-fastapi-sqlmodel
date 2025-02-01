@@ -1,15 +1,10 @@
+from dataclasses import dataclass
+from datetime import date
+from decimal import Decimal
 from typing import Dict, List, Set, Optional
 
-from datetime import date
-
-from dataclasses import dataclass
-
 from abstract.adapter.adapter import Adapter
-from core.utilities.quickjson import read
-from core.utilities.root import project_root
 from schema.time_frame.time_frame import TimeFrame
-
-from decimal import Decimal
 
 
 @dataclass
@@ -37,6 +32,10 @@ TIME_SERIES_COLUMNS: List[EODHDFinancialTimeSeriesColumn] = [
     EODHDFinancialTimeSeriesColumn(statement='Income_Statement', key='netIncome', column_name='net_income',
                                    scale=int(1.e6)),
 ]
+
+
+def division_decimal(x: Decimal, y: Decimal) -> Decimal:
+    return x / y if y != 0 else None
 
 
 class FundamentalTimeSeriesAdapter(Adapter):
@@ -89,9 +88,9 @@ class FundamentalTimeSeriesAdapter(Adapter):
     @staticmethod
     def postprocess_in_place(time_frame: TimeFrame) -> TimeFrame:
         time_frame.calculate("equity", ("assets", "liabilities"), lambda x, y: x - y)
-        time_frame.calculate("return_on_equity", ("net_income", "equity"), lambda x, y: x / y)
-        time_frame.calculate("free_cash_flow_return_on_assets", ("free_cash_flow", "assets"), lambda x, y: x / y)
-        time_frame.calculate("debt_to_equity_ratio", ("net_debt", "equity"), lambda x, y: x / y)
+        time_frame.calculate("return_on_equity", ("net_income", "equity"), division_decimal)
+        time_frame.calculate("free_cash_flow_return_on_assets", ("free_cash_flow", "assets"), division_decimal)
+        time_frame.calculate("debt_to_equity_ratio", ("net_debt", "equity"), division_decimal)
 
         return time_frame
 
@@ -100,17 +99,4 @@ class FundamentalTimeSeriesAdapter(Adapter):
 
 
 if __name__ == '__main__':
-    a = read([project_root(), "client", "cache", "eodhd", "fundamentals", "MSFT-US.json"])
-
-    ad = FundamentalTimeSeriesAdapter(TIME_SERIES_COLUMNS)
-
-    f = ad.adapt(a)
-
-    ad.postprocess_in_place(f)
-
-    print(f.get_column("free_cash_flow_return_on_assets"))
-    print(f.get_column("return_on_equity"))
-    print(f.get_column("debt_to_equity_ratio"))
-
-    print(len(f))
-    print(f.columns())
+    pass
