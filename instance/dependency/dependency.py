@@ -13,11 +13,13 @@ from manager.company.company_snapshot_metrics_manager import CompanySnapshotMetr
 from manager.end_of_day_change_overview.end_of_day_change_overview_manager import EndOfDayChangeOverviewManager
 from manager.exchange.exchange_manager import ExchangeManager
 from manager.ticker.ticker_manager import TickerManager
+from manager.time_series.fundamental_time_series_manager import FundamentalTimeSeriesManager
 from manager.user.user_manager import UserManager
 from orchestrator.company_details_orchestrator.company_details_orchestrator import CompanyDetailsOrchestrator
 from orchestrator.eodhd.end_of_day_change_overview_orchestrator import EndOfDayChangeOverviewOrchestrator
 from service.company.company_overview_search_service import CompanyOverviewSearchService
 from service.company.company_service import CompanyService
+from service.company.fundamental_time_series_service import FundamentalTimeSeriesService
 
 
 def get_json_web_token(request: Request) -> Optional[str]:
@@ -66,19 +68,31 @@ def get_end_of_day_change_overview_orchestrator(
                                               dependencies[0], dependencies[1], dependencies[2])
 
 
-def get_company_overview_search_service(company_service: CompanyService = Depends(get_company_service)):
+def get_company_overview_search_service(
+        company_service: CompanyService = Depends(get_company_service)) -> CompanyOverviewSearchService:
     return CompanyOverviewSearchService(engine=database_instance.get_engine(),
                                         meilisearch_client=meilisearch_client_instance, company_service=company_service,
                                         company_search_sql_service=company_search_sql_service_instance)
 
 
-def get_company_manager(session: Session = Depends(get_session)):
+def get_company_manager(session: Session = Depends(get_session)) -> CompanyManager:
     return CompanyManager(session)
 
 
 def get_company_snapshot_metric_manager(session: Session = Depends(get_session),
-                                        company_manager: CompanyManager = Depends(get_company_manager)):
+                                        company_manager: CompanyManager = Depends(
+                                            get_company_manager)) -> CompanySnapshotMetricsManager:
     return CompanySnapshotMetricsManager(session, company_manager)
+
+
+def get_fundamental_time_series_manager(session: Session = Depends(get_session)) -> FundamentalTimeSeriesManager:
+    return FundamentalTimeSeriesManager(session)
+
+
+def get_fundamental_time_series_service(session: Session = Depends(get_session),
+                                        fundamental_time_series_manager: FundamentalTimeSeriesManager = Depends(
+                                            get_fundamental_time_series_manager)) -> FundamentalTimeSeriesService:
+    return FundamentalTimeSeriesService(fundamental_time_series_manager)
 
 
 def get_company_details_orchestrator(

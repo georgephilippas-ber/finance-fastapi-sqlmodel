@@ -1,6 +1,6 @@
-from typing import Iterable, Optional, Tuple
+from typing import Iterable, Optional, Tuple, List
 
-from sqlmodel import Session
+from sqlmodel import Session, select
 
 from abstract.manager.manager import Manager, BaseModelBound, SQLModelBound
 from model.time_series.fundamental_time_series import FundamentalTimeSeries
@@ -10,6 +10,11 @@ from schema.time_frame.time_frame import TimeFrame
 class FundamentalTimeSeriesManager(Manager):
     def __init__(self, session: Session):
         super().__init__(session)
+
+    def by_company_id(self, company_id: int) -> List[FundamentalTimeSeries]:
+        query_ = select(FundamentalTimeSeries).where(FundamentalTimeSeries.company_id == company_id)
+
+        return list(self._session.exec(query_).all())
 
     def retrieve_unique(self, schema: BaseModelBound | Iterable[BaseModelBound], **kwargs) -> Optional[
         SQLModelBound]:
