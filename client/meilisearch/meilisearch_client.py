@@ -46,7 +46,7 @@ class MeilisearchClient:
 
             if documents:
                 self._client.wait_for_task(
-                    index_.add_documents(list(map(lambda document: document is not None, documents)),
+                    index_.add_documents(list(filter(lambda document_: document_ is not None, documents)),
                                          primary_key=primary_key).task_uid)
             else:
                 warning(f"meilisearch: seeding {index_name} - NO DOCUMENTS")
