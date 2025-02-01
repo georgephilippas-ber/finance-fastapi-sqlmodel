@@ -14,10 +14,7 @@ opportunities.
 
 ---
 
-## **Purpose**
-
-Invest-igator's primary goal is to provide users with a powerful and intuitive search engine specifically tailored for
-equities and ETFs. It leverages modern technologies to deliver precise, fast, and scalable search experiences.
+## ** Technology **
 
 ---
 
@@ -27,6 +24,7 @@ equities and ETFs. It leverages modern technologies to deliver precise, fast, an
 - **FastAPI**: A modern, fast, web framework for Python that powers the API layer.
 - **SQLModel**: A database abstraction layer for seamless communication with relational databases.
 - **Docker & Docker Compose**: For containerizing and orchestrating the application for easy deployment.
+- **Next.js**: React based framework for SSR and dynamic CSR components.
 
 ### 2. **Architecture**
 
@@ -36,7 +34,9 @@ and maintainability:
 - **Routes**: Handle the external HTTP API endpoints interacted with by users or clients.
 - **Orchestrators**: Manage complex workflows and coordinate business logic across services.
 - **Services**: Implement business logic and act as an abstraction for the application core.
-- **Managers**: Provide direct interactions with data sources or external systems.
+- **Managers**: Provide direct interactions with data sources.
+- **Clients**: High-level abstraction for external APIs
+- **Adapters**: Data conversion to and from schemas in the domain model.
 
 This approach ensures:
 

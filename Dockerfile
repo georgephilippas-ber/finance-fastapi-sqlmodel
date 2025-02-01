@@ -1,5 +1,8 @@
 FROM python:latest
 
+ENV IN_DOCKER=true
+
+
 WORKDIR /finance-fastapi-sqlmodel
 
 COPY requirements.txt .
