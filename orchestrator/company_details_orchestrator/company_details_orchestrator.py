@@ -29,6 +29,7 @@ class CompanyDetailsOrchestrator:
             company_overview_schema_, = self._company_service.company_overview([company_id])
 
             ticker_id_: Optional[int] = self._company_manager.ticker_id(company_id)
+
             end_of_day_change_overview_ = await self._end_of_day_change_overview_orchestrator.by_ticker_id(ticker_id_)
 
             company_snapshot_metrics_ = self._company_snapshot_metrics_manager.by_company_id_latest(company_id)
@@ -45,9 +46,10 @@ class CompanyDetailsOrchestrator:
                 end_of_day_change_overview_schema_ = None
 
             if company_snapshot_metrics_ is not None and end_of_day_change_overview_ is not None and company_overview_schema_ is not None:
-                return CompanyDetailsSchema(company_snapshot_metrics=company_snapshot_metrics_schema_,
-                                            company_overview=company_overview_schema_,
-                                            end_of_day_change_overview=end_of_day_change_overview_schema_)
+                return CompanyDetailsSchema(
+                    company_snapshot_metrics=company_snapshot_metrics_schema_,
+                    company_overview=company_overview_schema_,
+                    end_of_day_change_overview=end_of_day_change_overview_schema_)
             else:
                 return None
         except Exception as e:
