@@ -8,7 +8,8 @@ from configuration.project import PROJECT_NAME
 from core.environment.environment import EnvironmentType
 from schema.user.user import UserSchema
 
-SEED_ON_STARTUP: bool = True
+DROP_ALL_TABLES_BEFORE_SEEDING: bool = False
+SEED_ON_STARTUP: bool = False
 
 
 class ModelSliceEnum(str, Enum):
@@ -21,8 +22,6 @@ class ModelSliceEnum(str, Enum):
     MEILISEARCH_COMPANY_SEEDER = "meilisearch_company_seeder"
     FUNDAMENTAL_TIME_SERIES = "fundamental_time_series"
 
-
-DROP_ALL_TABLES_BEFORE_SEEDING: bool = False
 
 SeedSpecificationDict: TypeAlias = Dict[ModelSliceEnum, Tuple[bool, List[ModelSliceEnum]]]
 
