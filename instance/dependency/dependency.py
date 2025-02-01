@@ -85,16 +85,6 @@ def get_company_snapshot_metric_manager(session: Session = Depends(get_session),
     return CompanySnapshotMetricsManager(session, company_manager)
 
 
-def get_fundamental_time_series_manager(session: Session = Depends(get_session)) -> FundamentalTimeSeriesManager:
-    return FundamentalTimeSeriesManager(session)
-
-
-def get_fundamental_time_series_service(session: Session = Depends(get_session),
-                                        fundamental_time_series_manager: FundamentalTimeSeriesManager = Depends(
-                                            get_fundamental_time_series_manager)) -> FundamentalTimeSeriesService:
-    return FundamentalTimeSeriesService(fundamental_time_series_manager)
-
-
 def get_company_details_orchestrator(
         end_of_day_change_overview_orchestrator: EndOfDayChangeOverviewOrchestrator = Depends(
             get_end_of_day_change_overview_orchestrator),
@@ -103,3 +93,13 @@ def get_company_details_orchestrator(
         company_manager: CompanyManager = Depends(get_company_manager)):
     return CompanyDetailsOrchestrator(end_of_day_change_overview_orchestrator, company_service,
                                       company_snapshot_metrics_manager, company_manager)
+
+
+def get_fundamental_time_series_manager(session: Session = Depends(get_session)) -> FundamentalTimeSeriesManager:
+    return FundamentalTimeSeriesManager(session)
+
+
+def get_fundamental_time_series_service(session: Session = Depends(get_session),
+                                        fundamental_time_series_manager: FundamentalTimeSeriesManager = Depends(
+                                            get_fundamental_time_series_manager)) -> FundamentalTimeSeriesService:
+    return FundamentalTimeSeriesService(fundamental_time_series_manager)
