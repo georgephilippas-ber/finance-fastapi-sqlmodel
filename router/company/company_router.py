@@ -39,7 +39,7 @@ async def get_company_details(company_id: int = Query(...), session: Session = D
 
 
 @company_router.get("/fundamental-time-series")
-async def get_fundamental_time_series(ticker_id: int = Query(...), session: Session = Depends(get_session), ):
+async def get_fundamental_time_series(ticker_id: int = Query(...), session: Session = Depends(get_session)):
     pass
 
 
