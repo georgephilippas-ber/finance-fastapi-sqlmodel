@@ -8,8 +8,8 @@ from configuration.seed import SEED_ON_STARTUP, SEED_ENTITIES_SPECIFICATION
 from configuration.server import NEXUS_SERVER
 from core.environment.environment import load_environment
 from instance.shared import database_instance
-from router.authentication.authentication import authentication_router
-from router.company.company import company_router
+from router.authentication.authentication_router import authentication_router
+from router.company.company_router import company_router
 from seeder.main_seeder import seed
 
 # from router.ai.ai import ai_router

@@ -40,17 +40,6 @@ async def get_company_details(company_id: int = Query(...), session: Session = D
     return return_
 
 
-@company_router.get("/end-of-day-change-overview")
-async def get_end_of_day_change_overview(ticker_id: int = Query(...),
-                                         end_of_day_change_overview_orchestrator: EndOfDayChangeOverviewOrchestrator = Depends(
-                                             get_end_of_day_change_overview_orchestrator),
-                                         security: Callable = Depends(api_security),
-                                         session: Session = Depends(get_session)) -> EndOfDayChangeOverview:
-    return_ = await end_of_day_change_overview_orchestrator.by_ticker_id(ticker_id)
-    session.close()
-
-    return return_
-
 
 @company_router.post("/search")
 async def search(query: Optional[str] = Query(default=None), criteria: Optional[List[Criterion]] = Body(default=None),
