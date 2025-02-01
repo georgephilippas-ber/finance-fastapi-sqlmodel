@@ -21,7 +21,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[NEXUS_SERVER],
+    allow_origins=[NEXUS_SERVER, "http://localhost:3000"],
     allow_credentials=True,
     allow_headers=["*"],
     allow_methods=["*"],

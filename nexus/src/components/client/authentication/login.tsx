@@ -9,6 +9,7 @@ import {Modal} from "flowbite-react";
 
 import "../../../i18n/i18n";
 import {useTranslation} from "react-i18next";
+import {FASTAPI_SERVER_BASE_URL, IN_DOCKER} from "@/configuration/configuration";
 
 export function LoginServerErrorModal({open, onClose}: { open: boolean, onClose?: () => void })
 {
@@ -71,6 +72,7 @@ export function Login({success_url}: { success_url: string })
             validationSchema.parse({identifier, password});
 
             const success_ = await login(identifier, password);
+            console.log(IN_DOCKER, FASTAPI_SERVER_BASE_URL);
 
             if (success_)
                 router.push(success_url);
