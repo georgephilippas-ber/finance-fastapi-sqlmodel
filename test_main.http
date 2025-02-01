@@ -60,3 +60,6 @@ Cookie: SESSION_ID=George
 
 ###
 GET http://localhost:8000/company/details?company_id=19
+
+###
+GET http://localhost:8000/company/fundamental-time-series?company_id=3

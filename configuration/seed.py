@@ -27,14 +27,14 @@ DROP_ALL_TABLES_BEFORE_SEEDING: bool = False
 SeedSpecificationDict: TypeAlias = Dict[ModelSliceEnum, Tuple[bool, List[ModelSliceEnum]]]
 
 SEED_ENTITIES_SPECIFICATION: SeedSpecificationDict = {
-    ModelSliceEnum.COUNTRY_CURRENCY: (False, []),
-    ModelSliceEnum.GICS: (False, []),
-    ModelSliceEnum.EXCHANGE: (False, [ModelSliceEnum.COUNTRY_CURRENCY]),
-    ModelSliceEnum.TICKER: (False, [ModelSliceEnum.EXCHANGE]),
+    ModelSliceEnum.COUNTRY_CURRENCY: (True, []),
+    ModelSliceEnum.GICS: (True, []),
+    ModelSliceEnum.EXCHANGE: (True, [ModelSliceEnum.COUNTRY_CURRENCY]),
+    ModelSliceEnum.TICKER: (True, [ModelSliceEnum.EXCHANGE]),
     ModelSliceEnum.COMPANY_AND_COMPANY_SNAPSHOT_METRICS: (
-        False, [ModelSliceEnum.TICKER, ModelSliceEnum.COUNTRY_CURRENCY, ModelSliceEnum.GICS, ModelSliceEnum.EXCHANGE]),
-    ModelSliceEnum.USER: (False, []),
-    ModelSliceEnum.MEILISEARCH_COMPANY_SEEDER: (False, [ModelSliceEnum.COMPANY_AND_COMPANY_SNAPSHOT_METRICS]),
+        True, [ModelSliceEnum.TICKER, ModelSliceEnum.COUNTRY_CURRENCY, ModelSliceEnum.GICS, ModelSliceEnum.EXCHANGE]),
+    ModelSliceEnum.USER: (True, []),
+    ModelSliceEnum.MEILISEARCH_COMPANY_SEEDER: (True, [ModelSliceEnum.COMPANY_AND_COMPANY_SNAPSHOT_METRICS]),
     ModelSliceEnum.FUNDAMENTAL_TIME_SERIES: (True, [ModelSliceEnum.COMPANY_AND_COMPANY_SNAPSHOT_METRICS]),
 }
 
