@@ -13,7 +13,7 @@ class DBMSType(Enum):
     POSTGRESQL = auto()
 
 
-DBMS: DBMSType = DBMSType.MYSQL
+DBMS: DBMSType = DBMSType.DUCKDB
 
 if is_running_in_docker():
     DBMS: DBMSType = DBMSType.DUCKDB

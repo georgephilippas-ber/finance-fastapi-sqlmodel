@@ -30,7 +30,11 @@ class CompanyDetailsOrchestrator:
 
             ticker_id_: Optional[int] = self._company_manager.ticker_id(company_id)
 
-            end_of_day_change_overview_ = await self._end_of_day_change_overview_orchestrator.by_ticker_id(ticker_id_)
+            try:
+                end_of_day_change_overview_ = await self._end_of_day_change_overview_orchestrator.by_ticker_id(
+                    ticker_id_)
+            except Exception as e:
+                end_of_day_change_overview_ = None
 
             company_snapshot_metrics_ = self._company_snapshot_metrics_manager.by_company_id_latest(company_id)
 
@@ -54,6 +58,7 @@ class CompanyDetailsOrchestrator:
                 return None
         except Exception as e:
             print(e)
+            print("here")
             return None
 
 
