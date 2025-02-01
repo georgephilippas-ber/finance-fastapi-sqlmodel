@@ -6,12 +6,13 @@ from sqlmodel import Session
 
 from instance.dependency.dependency import get_company_service, api_security, \
     get_company_overview_search_service, get_session, \
-    get_company_details_orchestrator
+    get_company_details_orchestrator, get_fundamental_time_series_service
 from orchestrator.company_details_orchestrator.company_details_orchestrator import CompanyDetailsOrchestrator
 from schema.company.company import CompanyOverviewSchema, CompanyDetailsSchema
 from schema.company.company_search.company_search_sql import Criterion
 from service.company.company_overview_search_service import CompanyOverviewSearchService
 from service.company.company_service import CompanyService
+from service.company.fundamental_time_series_service import FundamentalTimeSeriesService
 
 company_router = APIRouter(prefix="/company")
 
@@ -39,8 +40,13 @@ async def get_company_details(company_id: int = Query(...), session: Session = D
 
 
 @company_router.get("/fundamental-time-series")
-async def get_fundamental_time_series(ticker_id: int = Query(...), session: Session = Depends(get_session)):
-    pass
+async def get_fundamental_time_series(company_id: int = Query(...), session: Session = Depends(get_session),
+                                      fundamental_time_series_service: FundamentalTimeSeriesService = Depends(
+                                          get_fundamental_time_series_service)):
+    return_ = fundamental_time_series_service.fundamental_time_series(company_id=company_id)
+    session.close()
+
+    return return_
 
 
 @company_router.post("/search")
