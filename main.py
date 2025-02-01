@@ -10,6 +10,7 @@ from core.environment.environment import load_environment
 from instance.shared import database_instance
 from router.authentication.authentication_router import authentication_router
 from router.company.company_router import company_router
+from router.company.ticker_router import ticker_router
 from seeder.main_seeder import seed
 
 # from router.ai.ai import ai_router
@@ -27,6 +28,7 @@ app.add_middleware(
 )
 
 app.include_router(authentication_router)
+app.include_router(ticker_router)
 app.include_router(company_router)
 
 

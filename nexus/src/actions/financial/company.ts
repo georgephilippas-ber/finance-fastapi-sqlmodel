@@ -74,5 +74,4 @@ export async function retrieveCompanyDetails(company_id: number): Promise<compan
 
         return undefined;
     }
-
 }

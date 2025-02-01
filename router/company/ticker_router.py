@@ -7,10 +7,10 @@ from instance.dependency.dependency import get_end_of_day_change_overview_orches
 from model.end_of_day_change_overview.end_of_day_change_overview import EndOfDayChangeOverview
 from orchestrator.eodhd.end_of_day_change_overview_orchestrator import EndOfDayChangeOverviewOrchestrator
 
-company_router = APIRouter(prefix="/ticker")
+ticker_router = APIRouter(prefix="/ticker")
 
 
-@company_router.get("/end-of-day-change-overview")
+@ticker_router.get("/end-of-day-change-overview")
 async def get_end_of_day_change_overview(ticker_id: int = Query(...),
                                          end_of_day_change_overview_orchestrator: EndOfDayChangeOverviewOrchestrator = Depends(
                                              get_end_of_day_change_overview_orchestrator),

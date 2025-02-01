@@ -5,11 +5,9 @@ from fastapi import APIRouter, Query, Depends, Body
 from sqlmodel import Session
 
 from instance.dependency.dependency import get_company_service, api_security, \
-    get_end_of_day_change_overview_orchestrator, get_company_overview_search_service, get_session, \
+    get_company_overview_search_service, get_session, \
     get_company_details_orchestrator
-from model.end_of_day_change_overview.end_of_day_change_overview import EndOfDayChangeOverview
 from orchestrator.company_details_orchestrator.company_details_orchestrator import CompanyDetailsOrchestrator
-from orchestrator.eodhd.end_of_day_change_overview_orchestrator import EndOfDayChangeOverviewOrchestrator
 from schema.company.company import CompanyOverviewSchema, CompanyDetailsSchema
 from schema.company.company_search.company_search_sql import Criterion
 from service.company.company_overview_search_service import CompanyOverviewSearchService
@@ -39,6 +37,10 @@ async def get_company_details(company_id: int = Query(...), session: Session = D
 
     return return_
 
+
+@company_router.get("/fundamental-time-series")
+async def get_fundamental_time_series(ticker_id: int = Query(...), session: Session = Depends(get_session), ):
+    pass
 
 
 @company_router.post("/search")
