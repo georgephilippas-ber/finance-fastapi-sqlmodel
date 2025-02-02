@@ -4,21 +4,7 @@ import {useEffect} from "react";
 import {DateTime} from "luxon";
 
 import Highcharts from "highcharts"
-
-type entry_type =
-    {
-        date: string;
-        value: number;
-    }
-
-export type chart_data_type =
-    {
-        title: string;
-        subtitle?: string;
-        series_name: string;
-        dependent_axis_title: string;
-        data: entry_type[];
-    }
+import {chart_data_type} from "@/schema/fundamental-time-series";
 
 
 export function SingleSeriesChart({index, chart_data, tooltip_point_format = '{series.name}: <b>{point.y:.2f}%</b>'}: {
@@ -31,6 +17,8 @@ export function SingleSeriesChart({index, chart_data, tooltip_point_format = '{s
 
     useEffect(() =>
     {
+        chart_data.data.sort((a, b) => DateTime.fromISO(a.date).toMillis() - DateTime.fromISO(b.date).toMillis());
+
         Highcharts.chart(element_id,
             {
                 chart: {

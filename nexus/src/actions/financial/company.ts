@@ -75,3 +75,25 @@ export async function retrieveCompanyDetails(company_id: number): Promise<compan
         return undefined;
     }
 }
+
+export async function retrieveFundamentalTimeSeries(company_id: number): Promise<any[] | undefined>
+{
+    try
+    {
+        const response_ = await fastApiClient.get<any[]>("/company/fundamental-time-series", {
+            params:
+                {
+                    company_id,
+                }
+        });
+
+        return response_.data;
+    }
+    catch (err)
+    {
+        console.log(err);
+
+        return undefined;
+    }
+}
+

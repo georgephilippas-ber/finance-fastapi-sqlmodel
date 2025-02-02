@@ -1,34 +1,38 @@
 import CompanyDetails from "@/components/client/company/company-details";
 import {BackButton} from "@/components/server/navigation/back-button";
 import {SingleSeriesChart} from "@/components/highcharts/highcharts";
-import {DateTime, Duration} from "luxon";
-import {faker} from "@faker-js/faker";
+import {retrieveFundamentalTimeSeries} from "@/actions/financial/company";
+import {adapt} from "@/schema/fundamental-time-series";
 
 export default async function ({searchParams}: { searchParams?: any })
 {
+    const company_id = parseInt((await searchParams).company_id || "");
+
     return (
         <div className={"p-2"}>
             <div className={"mb-2"}>
                 <BackButton href={"/members/company/search"}/>
             </div>
-            {(await searchParams)?.company_id && !isNaN(parseInt((await searchParams).company_id || "")) ?
-                <CompanyDetails company_id={parseInt((await searchParams).company_id || "")}/> : null}
+            {!isNaN(company_id) ? <CompanyDetails company_id={parseInt((await searchParams).company_id || "")}/> : null}
 
-            <SingleSeriesChart index={0} chart_data={
-                {
-                    title: "Return on Investment",
-                    subtitle: "Net Income / Assets",
-                    dependent_axis_title: "return on investment: %",
-                    series_name: "ROI",
-                    data: Array(100).fill(0).map((_value, index) =>
-                    {
-                        return {
-                            date: DateTime.now().plus(Duration.fromObject({years: index})).toISODate(),
-                            value: faker.number.float({min: 23, max: 100})
+            {!isNaN(company_id) ?
+                <>
+                    <div className={"text-xl font-semibold text-center p-4 mb-2"}>
+                        Time Series
+                    </div>
+                    <div
+                        className={"border border-white p-2 my-2 rounded-lg grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3"}>
+                        {
+                            adapt((await retrieveFundamentalTimeSeries(company_id)) as any).map((value, index) =>
+                            {
+                                return (
+                                    <SingleSeriesChart key={index} index={index} chart_data={value.chart_data}
+                                                       tooltip_point_format={value.tooltip_point_format}/>
+                                )
+                            })
                         }
-                    })
-                }
-            }/>
+                    </div>
+                </> : null}
         </div>
     );
 }
