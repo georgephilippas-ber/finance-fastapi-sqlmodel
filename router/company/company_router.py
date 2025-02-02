@@ -34,7 +34,6 @@ async def get_company_details(company_id: int = Query(...), session: Session = D
                                   get_company_details_orchestrator),
                               security: Callable = Depends(api_security)) -> Optional[CompanyDetailsSchema]:
     return_ = await company_details_orchestrator.by_company_id(company_id)
-    print(return_)
     session.close()
 
     return return_

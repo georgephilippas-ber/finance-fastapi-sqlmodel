@@ -33,6 +33,7 @@ class CompanyDetailsOrchestrator:
             try:
                 end_of_day_change_overview_ = await self._end_of_day_change_overview_orchestrator.by_ticker_id(
                     ticker_id_)
+                print("EOCO", end_of_day_change_overview_)
             except Exception as e:
                 end_of_day_change_overview_ = None
 
@@ -49,7 +50,7 @@ class CompanyDetailsOrchestrator:
             else:
                 end_of_day_change_overview_schema_ = None
 
-            if company_snapshot_metrics_ is not None and end_of_day_change_overview_ is not None and company_overview_schema_ is not None:
+            if company_snapshot_metrics_ is not None and company_overview_schema_ is not None:
                 return CompanyDetailsSchema(
                     company_snapshot_metrics=company_snapshot_metrics_schema_,
                     company_overview=company_overview_schema_,
@@ -57,8 +58,6 @@ class CompanyDetailsOrchestrator:
             else:
                 return None
         except Exception as e:
-            print(e)
-            print("here")
             return None
 
 

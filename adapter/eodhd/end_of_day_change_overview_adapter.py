@@ -11,6 +11,10 @@ class EndOfDayChangeOverviewAdapter(Adapter):
         super().__init__()
 
     def adapt(self, json_: List[Dict], date_: Optional[date] = None) -> Optional[EndOfDayChangeOverviewSchema]:
+        if len(json_) == 0:
+            print(f"WARNING: No MTD or YTD data. {date_}")
+            return None
+
         if date_ is None:
             date_ = date.today()
 
