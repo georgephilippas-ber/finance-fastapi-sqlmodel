@@ -1,9 +1,8 @@
 # Invest-igator
 
-**Invest-igator** is a search engine designed for equity and - in the future - Exchange-Traded Fund investments built
-with
-performance,
-extensibility, and portability in mind. It enables value investors to efficiently search and explore investment
+**Invest-igator** is a search engine designed for equity investments built with
+performance, extensibility, and portability in mind. It enables value investors to efficiently search and explore
+investment
 opportunities with respect to a variety of economic, financial and accounting performance metrics.
 
 ---
@@ -11,7 +10,7 @@ opportunities with respect to a variety of economic, financial and accounting pe
 ## Features
 
 - **Extensible** in terms of data sources (multi-client), data nature (macroeconomic, financial etc.) and performance
-  metrics (e.g. ROI or MCAP etc.)
+  metrics (e.g. ROI or MCAP etc.) making it easy to acquire multi-asset class capabilities in the near future
 - **Database agnostic** by leveraging SQLModel, an `SQLAlchemy` based ORM for Python and by abstracting functionalities
   of
   search engines (e.g. `meilisearch`, `elasticsearch` etc.)
