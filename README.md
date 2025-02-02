@@ -1,16 +1,20 @@
 # Invest-igator
 
-**Invest-igator** is a search engine designed for equity and ETF investments built with performance,
-extensibility, and portability in mind. It empowers users to efficiently search and explore investment
-opportunities.
+**Invest-igator** is a search engine designed for equity and Exchange-Traded Fund investments built with performance,
+extensibility, and portability in mind. It enables users to efficiently search and explore investment
+opportunities with customizable search capabilities wirh respect to economic, financial and accounting performance
+metrics.
 
 ---
 
 ## Features
 
-- **Extensible**
-- **Database agnostic**
-- **Fast and portable**
+- **Extensible** in terms of data sources (multi-client), data nature (macroeconomic, financial etc.) and performance
+  metrics
+- **Database agnostic** by leveraging SQLModel, an SQLAlchemy based ORM for Python and by abstracting functionalities of
+  search engines (e.g. meilisearch, elastic search etc.)
+- **Fast and portable** by employing the asynchronous capabilities of modern Python frameworks (e.g. using FastAPI for
+  routing and Celery) for efficiently distributing both I/O and CPU intensive workloads
 
 ---
 
@@ -20,10 +24,10 @@ opportunities.
 
 ### 1. **Technologies Used**
 
-- **Meilisearch**: A primary search engine backend delivering blazing search performance and simplicity
+- **Meilisearch**: A Rust-based search engine backend delivering blazing search performance and simplicity
 - **FastAPI**: A modern, fast, web framework for Python that powers the API layer
 - **SQLModel**: A database abstraction layer for seamless communication with relational databases
-- **Docker & Docker Compose**: For containerizing and orchestrating the application for easy deployment
+- **Docker & Docker Compose**: For containerizing and orchestrating (locally) the application for easy deployment
 - **Next.js**: React based framework for SSR and dynamic CSR components
 
 ### 2. **Architecture**
@@ -31,7 +35,7 @@ opportunities.
 Invest-igator follows a **layered architecture**, breaking functionality into specific layers for enhanced organization
 and maintainability:
 
-- **Managers**: Provide direct interactions with data sources
+- **Managers**: Provide direct interactions with persistent data sources (i.e. database tables)
 - **Services**: Implement business logic and act as an abstraction for the application core
 - **Orchestrators**: Manage complex workflows and coordinate business logic across services
 
@@ -64,7 +68,8 @@ Follow these steps to run **Invest-igator**:
 
 ## **Docker Deployment Instructions**
 
-Invest-igator comes with a Dockerized setup for seamless deployment.
+Invest-igator comes with a Dockerized setup for seamless deployment. It is based on Docker compose and scripts for
+UNIX/Linux and Linux-like environments (MINGW, WSL) are provided:
 
 1. **Run the Application**:
    Navigate to the `scripts` directory and execute the following:
