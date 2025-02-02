@@ -4,7 +4,7 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from configuration.seed import SEED_ON_STARTUP, SEED_ENTITIES_SPECIFICATION
+from configuration.seed import SEED_ON_STARTUP, SEED_ENTITIES_SPECIFICATION, DROP_ALL_TABLES_BEFORE_SEEDING
 from configuration.server import NEXUS_SERVER
 from core.environment.environment import load_environment, is_running_in_docker
 from instance.shared import database_instance
@@ -51,9 +51,20 @@ async def say_hello(name: str):
 
 
 if __name__ == "__main__":
+    if is_running_in_docker():
+        print("DOCKER")
+    else:
+        print("LOCAL")
+
     load_environment()
 
+    if is_running_in_docker():
+        from seeder.meilisearch.seed_meilisearch import seed_meilisearch
+
+        with database_instance.create_session() as session:
+            asyncio.run(seed_meilisearch(session))
+
     if SEED_ON_STARTUP:
-        asyncio.run(seed(SEED_ENTITIES_SPECIFICATION, drop_all=True, debug=True))
+        asyncio.run(seed(SEED_ENTITIES_SPECIFICATION, drop_all=DROP_ALL_TABLES_BEFORE_SEEDING, debug=True))
 
     uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=False)
