@@ -34,7 +34,7 @@ TIME_SERIES_COLUMNS: List[EODHDFinancialTimeSeriesColumn] = [
 ]
 
 
-def division_decimal(x: Decimal, y: Decimal) -> Decimal:
+def division_decimal(x: float, y: float) -> float:
     return x / y if y != 0 else None
 
 
@@ -62,7 +62,7 @@ class FundamentalTimeSeriesAdapter(Adapter):
 
         timeframe_: TimeFrame = TimeFrame(frame={})
 
-        frame_: Dict[date, List[Decimal]] = {}
+        frame_: Dict[date, List[float]] = {}
         for date_key_ in date_key_set_:
             values_ = []
             for column_ in self._columns:
@@ -72,7 +72,7 @@ class FundamentalTimeSeriesAdapter(Adapter):
                     value_candidate_ = None
 
                 if value_candidate_ is not None:
-                    values_.append(value_candidate_ / column_.scale)
+                    values_.append(float(value_candidate_ / column_.scale))
                 else:
                     values_.append(None)
 

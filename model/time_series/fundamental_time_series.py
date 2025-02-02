@@ -15,22 +15,21 @@ class FundamentalTimeSeries(SQLModel, table=True):
     record_date: date = Field(nullable=False)
 
     # EXTRACTED
-    assets: Optional[Decimal] = Field(sa_column=Column(nullable=True, default=None, type_=Numeric(26, 2)))
-    liabilities: Optional[Decimal] = Field(sa_column=Column(nullable=True, default=None, type_=Numeric(26, 2)))
-    cash: Optional[Decimal] = Field(sa_column=Column(nullable=True, default=None, type_=Numeric(26, 2)))
-    net_debt: Optional[Decimal] = Field(sa_column=Column(nullable=True, default=None, type_=Numeric(26, 2)))
-    net_working_capital: Optional[Decimal] = Field(sa_column=Column(nullable=True, default=None, type_=Numeric(26, 2)))
-    capital_expenditure: Optional[Decimal] = Field(sa_column=Column(nullable=True, default=None, type_=Numeric(26, 2)))
-    net_invested_capital: Optional[Decimal] = Field(sa_column=Column(nullable=True, default=None, type_=Numeric(26, 2)))
-    free_cash_flow: Optional[Decimal] = Field(sa_column=Column(nullable=True, default=None, type_=Numeric(26, 2)))
-    net_income: Optional[Decimal] = Field(sa_column=Column(nullable=True, default=None, type_=Numeric(26, 2)))
+    assets: Optional[float] = Field(nullable=True, default=None)
+    liabilities: Optional[float] = Field(nullable=True, default=None)
+    cash: Optional[float] = Field(nullable=True, default=None)
+    net_debt: Optional[float] = Field(nullable=True, default=None)
+    net_working_capital: Optional[float] = Field(nullable=True, default=None)
+    capital_expenditure: Optional[float] = Field(nullable=True, default=None)
+    net_invested_capital: Optional[float] = Field(nullable=True, default=None)
+    free_cash_flow: Optional[float] = Field(nullable=True, default=None)
+    net_income: Optional[float] = Field(nullable=True, default=None)
 
     # COMPUTED
-    equity: Optional[Decimal] = Field(sa_column=Column(nullable=True, default=None, type_=Numeric(26, 2)))
-    return_on_equity: Optional[Decimal] = Field(sa_column=Column(nullable=True, default=None, type_=Numeric(26, 2)))
-    free_cash_flow_return_on_assets: Optional[Decimal] = Field(
-        sa_column=Column(nullable=True, default=None, type_=Numeric(26, 2)))
-    debt_to_equity_ratio: Optional[Decimal] = Field(sa_column=Column(nullable=True, default=None, type_=Numeric(26, 2)))
+    equity: Optional[float] = Field(nullable=True, default=None)
+    return_on_equity: Optional[float] = Field(nullable=True, default=None)
+    free_cash_flow_return_on_assets: Optional[float] =Field(nullable=True, default=None)
+    debt_to_equity_ratio: Optional[float] = Field(nullable=True, default=None)
 
     company_id: int = Field(foreign_key="company.id")
     company: Company = Relationship(back_populates="fundamental_time_series")

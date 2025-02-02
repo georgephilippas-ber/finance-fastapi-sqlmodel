@@ -7,20 +7,20 @@ from pydantic import BaseModel, Field
 
 class TimeFrame(BaseModel):
     column_names: List[str] = Field(default_factory=list)
-    frame: Dict[date, List[Decimal]] = Field(default_factory=dict)
+    frame: Dict[date, List[float]] = Field(default_factory=dict)
 
     def __len__(self):
         return len(self.frame.keys())
 
-    def get_frame(self) -> Dict[date, List[Decimal]]:
+    def get_frame(self) -> Dict[date, List[float]]:
         return self.frame
 
-    def get_value(self, record_date: date, column_name: str) -> Optional[Decimal]:
+    def get_value(self, record_date: date, column_name: str) -> Optional[float]:
         index_ = self.column_names.index(column_name)
 
         return self.frame[record_date][index_]
 
-    def get_column(self, column_name: str) -> Optional[List[Decimal]]:
+    def get_column(self, column_name: str) -> Optional[List[float]]:
         index_ = self.column_names.index(column_name)
 
         return [row_[index_] for row_ in self.frame.values()]
@@ -28,14 +28,14 @@ class TimeFrame(BaseModel):
     def get_dates(self) -> List[date]:
         return list(self.frame.keys())
 
-    def _add_column(self, column_name: str, values: List[Decimal]):
+    def _add_column(self, column_name: str, values: List[float]):
         self.column_names.append(column_name)
 
         for date_key, value in zip(self.frame.keys(), values):
             self.frame[date_key].append(value)
 
-    def _binary_operator(self, column_names: Tuple[str, str], operation: Callable[[Decimal, Decimal], Decimal]) -> List[
-        Decimal]:
+    def _binary_operator(self, column_names: Tuple[str, str], operation: Callable[[float, float], float]) -> List[
+        float]:
         index_ = self.column_names.index(column_names[0]), self.column_names.index(column_names[1])
 
         values_ = []
@@ -48,7 +48,7 @@ class TimeFrame(BaseModel):
         return values_
 
     def calculate(self, new_column_name: str, columns: Tuple[str, str],
-                  operation: Callable[[Decimal, Decimal], Decimal]):
+                  operation: Callable[[float, float], float]):
         self._add_column(new_column_name, self._binary_operator(columns, operation))
 
     def columns(self) -> List[str]:

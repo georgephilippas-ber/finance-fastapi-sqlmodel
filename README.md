@@ -11,11 +11,12 @@ opportunities with respect to a variety of economic, financial and accounting pe
 ## Features
 
 - **Extensible** in terms of data sources (multi-client), data nature (macroeconomic, financial etc.) and performance
-  metrics
-- **Database agnostic** by leveraging SQLModel, an SQLAlchemy based ORM for Python and by abstracting functionalities of
-  search engines (e.g. meilisearch, elastic search etc.)
+  metrics (e.g. ROI or MCAP etc.)
+- **Database agnostic** by leveraging SQLModel, an `SQLAlchemy` based ORM for Python and by abstracting functionalities
+  of
+  search engines (e.g. `meilisearch`, `elasticsearch` etc.)
 - **Fast and portable** by employing the asynchronous capabilities of modern Python frameworks (e.g. using FastAPI for
-  routing and Celery for parallel execution) for efficiently distributing both I/O and CPU-bound intensive workloads
+  routing and `celery` for parallel execution) for efficiently distributing both I/O and CPU-bound intensive workloads
 
 ---
 
