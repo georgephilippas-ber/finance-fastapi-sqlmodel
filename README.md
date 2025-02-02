@@ -1,6 +1,7 @@
 # Invest-igator
 
-**Invest-igator** is a search engine designed for equity and - in the future - Exchange-Traded Fund investments built with
+**Invest-igator** is a search engine designed for equity and - in the future - Exchange-Traded Fund investments built
+with
 performance,
 extensibility, and portability in mind. It enables value investors to efficiently search and explore investment
 opportunities with respect to a variety of economic, financial and accounting performance metrics.
@@ -14,7 +15,7 @@ opportunities with respect to a variety of economic, financial and accounting pe
 - **Database agnostic** by leveraging SQLModel, an SQLAlchemy based ORM for Python and by abstracting functionalities of
   search engines (e.g. meilisearch, elastic search etc.)
 - **Fast and portable** by employing the asynchronous capabilities of modern Python frameworks (e.g. using FastAPI for
-  routing and Celery) for efficiently distributing both I/O and CPU intensive workloads
+  routing and Celery for parallel execution) for efficiently distributing both I/O and CPU-bound intensive workloads
 
 ---
 
@@ -27,8 +28,8 @@ opportunities with respect to a variety of economic, financial and accounting pe
 - **Meilisearch**: A Rust-based search engine backend delivering fast search performance and simplicity
 - **FastAPI**: A modern, fast, web framework for Python that powers the API layer
 - **SQLModel**: A database abstraction layer for seamless communication with relational databases
+- **Next.js**: React based frontend framework for SSR and dynamic CSR components
 - **Docker & Docker Compose**: For containerizing and orchestrating (locally) the application for easy deployment
-- **Next.js**: React based framework for SSR and dynamic CSR components
 
 ### 2. **Architecture**
 
