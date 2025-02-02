@@ -31,7 +31,6 @@ import './App.css';
 //     </>
 //   )
 // }
-
 import Highcharts from 'highcharts';
 import {DateTime, Duration} from "luxon";
 import {useEffect} from "react";
@@ -164,7 +163,7 @@ export function SingleSeriesChart({chart_data, tooltip_point_format = '{series.n
     }, [])
 
     return (
-        <div style={{borderRadius: "0.75em", width: "100%"}} id={element_id}>
+        <div style={{width: "100%"}} id={element_id}>
             <p>Loading...</p>
         </div>
     );
@@ -174,7 +173,13 @@ export function SingleSeriesChart({chart_data, tooltip_point_format = '{series.n
 function App()
 {
     return (
-        <div style={{margin: "0 auto", maxWidth: "80svw"}}>
+        <div style={{
+            margin: "0 auto",
+            maxWidth: "80svw",
+            border: "1px solid white",
+            borderRadius: "1em",
+            padding: "1em"
+        }}>
             <SingleSeriesChart chart_data={
                 {
                     title: "Return on Investment",
