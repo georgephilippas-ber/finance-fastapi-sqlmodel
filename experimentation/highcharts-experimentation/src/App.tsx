@@ -34,6 +34,8 @@ import './App.css';
 
 import Highcharts from 'highcharts';
 
+
+
 (async () =>
 {
 
