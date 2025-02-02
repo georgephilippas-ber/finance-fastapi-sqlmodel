@@ -2,7 +2,7 @@
 
 **Invest-igator** is a search engine designed for equity and Exchange-Traded Fund investments built with performance,
 extensibility, and portability in mind. It enables users to efficiently search and explore investment
-opportunities with customizable search capabilities wirh respect to economic, financial and accounting performance
+opportunities with customizable search capabilities with respect to economic, financial and accounting performance
 metrics.
 
 ---
@@ -24,7 +24,7 @@ metrics.
 
 ### 1. **Technologies Used**
 
-- **Meilisearch**: A Rust-based search engine backend delivering blazing search performance and simplicity
+- **Meilisearch**: A Rust-based search engine backend delivering fast search performance and simplicity
 - **FastAPI**: A modern, fast, web framework for Python that powers the API layer
 - **SQLModel**: A database abstraction layer for seamless communication with relational databases
 - **Docker & Docker Compose**: For containerizing and orchestrating (locally) the application for easy deployment
@@ -71,7 +71,7 @@ Follow these steps to run **Invest-igator**:
 Invest-igator comes with a Dockerized setup for seamless deployment. It is based on Docker compose and scripts for
 UNIX/Linux and Linux-like environments (MINGW, WSL) are provided:
 
-1. **Run the Application**:
+1.**Run the Application**:
    Navigate to the `scripts` directory and execute the following:
    ```bash
    cd ./scripts
@@ -81,12 +81,12 @@ UNIX/Linux and Linux-like environments (MINGW, WSL) are provided:
    Once the services are up and running, access the application in your browser at:
    [http://localhost:3000](http://localhost:3000)
 
-2. **Please use the following credentials to evaluate**:
+2.**Please use the following credentials to evaluate**:
 
 * username: `user`
 * password: `user!1A`
-
-3. **Stop the Application**:
+* 
+3.**Stop the Application**:
    To stop the running Docker services, use:
    ```bash
    ./docker-stop.sh
