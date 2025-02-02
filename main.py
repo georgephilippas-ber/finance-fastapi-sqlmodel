@@ -63,7 +63,6 @@ async def root():
     return {
         "message": "Hello World!",
         "docker": is_running_in_docker(),
-        "meilisearch_seed": SEED_HAS_RUN,
     }
 
 
@@ -75,4 +74,4 @@ async def say_hello(name: str):
 
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=False)
+    uvicorn.run("main:app", host="0.0.0.0" if is_running_in_docker() else "127.0.0.1", port=8000, reload=False)
