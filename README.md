@@ -88,7 +88,6 @@ Once the services are up and running, access the application in your browser at:
 
 * username: `user`
 * password: `user!1A`
-*
 
 3.**Stop the Application**:
 To stop the running Docker services, use:
