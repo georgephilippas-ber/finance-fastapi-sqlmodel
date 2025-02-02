@@ -1,4 +1,5 @@
 import asyncio
+from contextlib import asynccontextmanager
 
 import uvicorn
 from fastapi import FastAPI
@@ -13,11 +14,33 @@ from router.company.company_router import company_router
 from router.company.ticker_router import ticker_router
 from seeder.main_seeder import seed
 
+
 # from router.ai.ai import ai_router
 
-database_instance.create_tables(drop_all=False)
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    database_instance.create_tables(drop_all=False)
 
-app = FastAPI()
+    if is_running_in_docker():
+        print("DOCKER")
+    else:
+        print("LOCAL")
+
+    load_environment()
+
+    if is_running_in_docker():
+        from seeder.meilisearch.seed_meilisearch import seed_meilisearch
+
+        with database_instance.create_session() as session:
+            await seed_meilisearch(session)
+
+    if SEED_ON_STARTUP:
+        await seed(SEED_ENTITIES_SPECIFICATION, drop_all=DROP_ALL_TABLES_BEFORE_SEEDING, debug=True)
+
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -39,7 +62,8 @@ app.include_router(company_router)
 async def root():
     return {
         "message": "Hello World!",
-        "docker": is_running_in_docker()
+        "docker": is_running_in_docker(),
+        "meilisearch_seed": SEED_HAS_RUN,
     }
 
 
@@ -51,20 +75,4 @@ async def say_hello(name: str):
 
 
 if __name__ == "__main__":
-    if is_running_in_docker():
-        print("DOCKER")
-    else:
-        print("LOCAL")
-
-    load_environment()
-
-    if is_running_in_docker():
-        from seeder.meilisearch.seed_meilisearch import seed_meilisearch
-
-        with database_instance.create_session() as session:
-            asyncio.run(seed_meilisearch(session))
-
-    if SEED_ON_STARTUP:
-        asyncio.run(seed(SEED_ENTITIES_SPECIFICATION, drop_all=DROP_ALL_TABLES_BEFORE_SEEDING, debug=True))
-
-    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=False)
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=False)
