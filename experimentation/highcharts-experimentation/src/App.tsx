@@ -31,12 +31,6 @@ import './App.css';
 //     </>
 //   )
 // }
-import Highcharts from 'highcharts';
-import {DateTime, Duration} from "luxon";
-import {useEffect} from "react";
-
-import {faker} from "@faker-js/faker";
-
 
 
 function App()
@@ -49,21 +43,7 @@ function App()
             borderRadius: "1em",
             padding: "1em"
         }}>
-            <SingleSeriesChart chart_data={
-                {
-                    title: "Return on Investment",
-                    subtitle: "Net Income / Assets",
-                    dependent_axis_title: "return on investment: %",
-                    series_name: "ROI",
-                    data: Array(100).fill(0).map((_value, index) =>
-                    {
-                        return {
-                            date: DateTime.now().plus(Duration.fromObject({years: index})).toISODate(),
-                            value: faker.number.float({min: 23, max: 100})
-                        }
-                    })
-                }
-            }/>
+
         </div>
     );
 }

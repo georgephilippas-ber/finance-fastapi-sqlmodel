@@ -9,7 +9,7 @@ type entry_type =
         value: number;
     }
 
-type chart_data_type =
+export type chart_data_type =
     {
         title: string;
         subtitle?: string;
