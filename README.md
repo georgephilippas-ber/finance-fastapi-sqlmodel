@@ -85,4 +85,3 @@ Invest-igator comes with a Dockerized setup for seamless deployment.
    ```
 
    This will cleanly stop the containers.
-3. 
