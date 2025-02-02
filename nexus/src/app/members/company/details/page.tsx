@@ -14,7 +14,7 @@ export default async function ({searchParams}: { searchParams?: any })
             {(await searchParams)?.company_id && !isNaN(parseInt((await searchParams).company_id || "")) ?
                 <CompanyDetails company_id={parseInt((await searchParams).company_id || "")}/> : null}
 
-               <SingleSeriesChart chart_data={
+            <SingleSeriesChart index={0} chart_data={
                 {
                     title: "Return on Investment",
                     subtitle: "Net Income / Assets",

@@ -1,3 +1,5 @@
+'use client'
+
 import {useEffect} from "react";
 import {DateTime} from "luxon";
 
@@ -19,12 +21,13 @@ export type chart_data_type =
     }
 
 
-export function SingleSeriesChart({chart_data, tooltip_point_format = '{series.name}: <b>{point.y:.2f}%</b>'}: {
+export function SingleSeriesChart({index, chart_data, tooltip_point_format = '{series.name}: <b>{point.y:.2f}%</b>'}: {
+    index: number;
     chart_data: chart_data_type;
     tooltip_point_format?: string;
 })
 {
-    const element_id = crypto.randomUUID().replace(/-/g, '');
+    const element_id = "highcharts-chart-" + index;
 
     useEffect(() =>
     {
