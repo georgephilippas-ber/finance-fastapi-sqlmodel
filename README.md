@@ -51,6 +51,10 @@ This approach ensures:
 - Easier testing and debugging.
 - Enhanced flexibility for future enhancements.
 
+A customized dependency injection pattern for data seeding was developed and used alongside FastAPI's dependency
+injection
+mechanism that is meant to serve the HTTP API routes.
+
 ---
 
 ## **How to Get Started**
@@ -74,7 +78,7 @@ Invest-igator comes with a Dockerized setup for seamless deployment. It is based
 UNIX/Linux and Linux-like environments (MINGW, WSL) are provided:
 
 1.**Run the Application**:
-Navigate to the `scripts` directory and execute the following:
+Navigate to the `scripts` directory and execute docker compose using:
 
    ```bash
    cd ./scripts
