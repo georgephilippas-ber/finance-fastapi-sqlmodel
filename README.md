@@ -1,16 +1,16 @@
 # Invest-igator
 
 **Invest-igator** is a search engine designed for equity and ETF investments built with performance,
-extensibility, and portability in mind, Invest-igator empowers users to efficiently search and explore investment
+extensibility, and portability in mind. It empowers users to efficiently search and explore investment
 opportunities.
 
 ---
 
 ## **Features**
 
-- **Extensible**: Designed to easily introduce new functionalities, making it adaptable to evolving needs.
-- **Database agnostic**: Compatible with underlying databases, ensuring flexibility in deployment environments.
-- **Fast and portable**: Optimized for high-speed operations while maintaining lightweight portability.
+- **Extensible**
+- **Database agnostic**
+- **Fast and portable**
 
 ---
 
@@ -30,11 +30,12 @@ opportunities.
 
 Invest-igator follows a **layered architecture**, breaking functionality into specific layers for enhanced organization
 and maintainability:
+- 
+- **Managers**: Provide direct interactions with data sources.
+- **Services**: Implement business logic and act as an abstraction for the application core.
+- **Orchestrators**: Manage complex workflows and coordinate business logic across services.- 
 
 - **Routes**: Handle the external HTTP API endpoints interacted with by users or clients.
-- **Orchestrators**: Manage complex workflows and coordinate business logic across services.
-- **Services**: Implement business logic and act as an abstraction for the application core.
-- **Managers**: Provide direct interactions with data sources.
 - **Clients**: High-level abstraction for external APIs
 - **Adapters**: Data conversion to and from schemas in the domain model.
 
@@ -84,3 +85,4 @@ Invest-igator comes with a Dockerized setup for seamless deployment.
    ```
 
    This will cleanly stop the containers.
+3. 
