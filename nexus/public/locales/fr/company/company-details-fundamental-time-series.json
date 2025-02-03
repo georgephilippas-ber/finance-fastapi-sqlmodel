@@ -1,4 +1,7 @@
 {
+  "user_interface": {
+    "title": "Séries Chronologiques"
+  },
   "assets": {
     "title": "actifs",
     "subtitle": "actifs",

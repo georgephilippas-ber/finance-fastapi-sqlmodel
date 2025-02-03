@@ -1,6 +1,6 @@
 import CompanyDetails from "@/components/client/company/company-details";
 import {BackButton} from "@/components/server/navigation/back-button";
-import {CompanyFundamentalTimeSeries} from "@/components/client/company-fundamental-time-series";
+import {CompanyFundamentalTimeSeries} from "@/components/client/company/company-fundamental-time-series";
 
 export default async function ({searchParams}: { searchParams?: any })
 {

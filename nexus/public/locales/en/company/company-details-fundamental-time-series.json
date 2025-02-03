@@ -1,4 +1,7 @@
 {
+  "user_interface": {
+    "title": "Time Series"
+  },
   "assets": {
     "title": "assets",
     "subtitle": "assets",

@@ -22,7 +22,7 @@ export function CompanyFundamentalTimeSeries({company_id}: { company_id: number 
 
     return (<>
             <div className={"text-xl font-semibold text-center p-4 mb-2"}>
-                Time Series
+                {t("user_interface.title")}
             </div>
             {fundamentalTimeSeries ?
                 <div
