@@ -1,0 +1,67 @@
+{
+  "assets": {
+    "title": "Vermögenswerte",
+    "subtitle": "Vermögenswerte",
+    "y_axis": "Vermögenswerte (Millionen)"
+  },
+  "liabilities": {
+    "title": "Verbindlichkeiten",
+    "subtitle": "Verbindlichkeiten",
+    "y_axis": "Verbindlichkeiten (Millionen)"
+  },
+  "cash": {
+    "title": "Kasse",
+    "subtitle": "Kasse",
+    "y_axis": "Kasse (Millionen)"
+  },
+  "net_debt": {
+    "title": "Nettoverschuldung",
+    "subtitle": "Nettoverschuldung",
+    "y_axis": "Nettoverschuldung (Millionen)"
+  },
+  "net_working_capital": {
+    "title": "Netto-Umlaufvermögen",
+    "subtitle": "Netto-Umlaufvermögen",
+    "y_axis": "Netto-Umlaufvermögen (Millionen)"
+  },
+  "capital_expenditure": {
+    "title": "Investitionsausgaben",
+    "subtitle": "Investitionsausgaben",
+    "y_axis": "Investitionsausgaben (Millionen)"
+  },
+  "net_invested_capital": {
+    "title": "Nettoinvestiertes Kapital",
+    "subtitle": "Nettoinvestiertes Kapital",
+    "y_axis": "Nettoinvestiertes Kapital (Millionen)"
+  },
+  "free_cash_flow": {
+    "title": "Freier Cashflow",
+    "subtitle": "Freier Cashflow",
+    "y_axis": "Freier Cashflow (Millionen)"
+  },
+  "net_income": {
+    "title": "Nettoeinkommen",
+    "subtitle": "Nettoeinkommen",
+    "y_axis": "Nettoeinkommen (Millionen)"
+  },
+  "equity": {
+    "title": "Eigenkapital",
+    "subtitle": "Eigenkapital",
+    "y_axis": "Eigenkapital (Millionen)"
+  },
+  "return_on_equity": {
+    "title": "Eigenkapitalrendite",
+    "subtitle": "Eigenkapitalrendite",
+    "y_axis": "Eigenkapitalrendite"
+  },
+  "free_cash_flow_return_on_assets": {
+    "title": "Freier Cashflow-Rendite auf Vermögenswerte",
+    "subtitle": "Freier Cashflow-Rendite auf Vermögenswerte",
+    "y_axis": "Freier Cashflow-Rendite auf Vermögenswerte"
+  },
+  "debt_to_equity_ratio": {
+    "title": "Schulden-Eigenkapital-Verhältnis",
+    "subtitle": "Schulden-Eigenkapital-Verhältnis",
+    "y_axis": "Schulden-Eigenkapital-Verhältnis"
+  }
+}

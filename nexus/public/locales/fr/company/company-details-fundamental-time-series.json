@@ -1,0 +1,67 @@
+{
+  "assets": {
+    "title": "actifs",
+    "subtitle": "actifs",
+    "y_axis": "actifs (millions)"
+  },
+  "liabilities": {
+    "title": "passifs",
+    "subtitle": "passifs",
+    "y_axis": "passifs (millions)"
+  },
+  "cash": {
+    "title": "trésorerie",
+    "subtitle": "trésorerie",
+    "y_axis": "trésorerie (millions)"
+  },
+  "net_debt": {
+    "title": "dette nette",
+    "subtitle": "dette nette",
+    "y_axis": "dette nette (millions)"
+  },
+  "net_working_capital": {
+    "title": "fonds de roulement net",
+    "subtitle": "fonds de roulement net",
+    "y_axis": "fonds de roulement net (millions)"
+  },
+  "capital_expenditure": {
+    "title": "dépenses d'investissement",
+    "subtitle": "dépenses d'investissement",
+    "y_axis": "dépenses d'investissement (millions)"
+  },
+  "net_invested_capital": {
+    "title": "capital investi net",
+    "subtitle": "capital investi net",
+    "y_axis": "capital investi net (millions)"
+  },
+  "free_cash_flow": {
+    "title": "flux de trésorerie libre",
+    "subtitle": "flux de trésorerie libre",
+    "y_axis": "flux de trésorerie libre (millions)"
+  },
+  "net_income": {
+    "title": "revenu net",
+    "subtitle": "revenu net",
+    "y_axis": "revenu net (millions)"
+  },
+  "equity": {
+    "title": "fonds propres",
+    "subtitle": "fonds propres",
+    "y_axis": "fonds propres (millions)"
+  },
+  "return_on_equity": {
+    "title": "retour sur fonds propres",
+    "subtitle": "retour sur fonds propres",
+    "y_axis": "retour sur fonds propres"
+  },
+  "free_cash_flow_return_on_assets": {
+    "title": "flux de trésorerie libre sur actifs",
+    "subtitle": "flux de trésorerie libre sur actifs",
+    "y_axis": "flux de trésorerie libre sur actifs"
+  },
+  "debt_to_equity_ratio": {
+    "title": "ratio d'endettement sur fonds propres",
+    "subtitle": "ratio d'endettement sur fonds propres",
+    "y_axis": "ratio d'endettement sur fonds propres"
+  }
+}

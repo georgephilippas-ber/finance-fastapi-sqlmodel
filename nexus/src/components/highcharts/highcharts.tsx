@@ -7,10 +7,16 @@ import Highcharts from "highcharts"
 import {chart_data_type} from "@/schema/fundamental-time-series";
 
 
-export function SingleSeriesChart({index, chart_data, tooltip_point_format = '{series.name}: <b>{point.y:.2f}%</b>'}: {
+export function SingleSeriesChart({
+                                      index,
+                                      chart_data,
+                                      tooltip_point_format = '{series.name}: <b>{point.y:.2f}%</b>',
+                                      t
+                                  }: {
     index: number;
     chart_data: chart_data_type;
     tooltip_point_format?: string;
+    t?: (key: string) => string;
 })
 {
     const element_id = "highcharts-chart-" + index;
@@ -28,14 +34,14 @@ export function SingleSeriesChart({index, chart_data, tooltip_point_format = '{s
                     backgroundColor: 'rgba(100, 100, 100, 0.0)',
                 },
                 title: {
-                    text: chart_data.title,
+                    text: t ? t(chart_data.title) : chart_data.title,
                     style:
                         {
                             color: '#fff',
                         }
                 },
                 subtitle: {
-                    text: chart_data.subtitle,
+                    text: t && chart_data.subtitle ? t(chart_data.subtitle) : chart_data.subtitle,
                     style:
                         {
                             color: '#fff',

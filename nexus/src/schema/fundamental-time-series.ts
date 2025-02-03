@@ -38,15 +38,16 @@ export type fundamental_time_series_chart_data_type = {
     }
 }
 
-export const fundamentalTimeSeriesChartData: fundamental_time_series_chart_data_type =
-    {
+function fundamentalTimeSeriesChartData(t: (key: string) => string): fundamental_time_series_chart_data_type
+{
+    return {
         assets:
             {
                 chart_data: {
                     data: [],
-                    series_name: "assets (million)",
-                    dependent_axis_title: "assets (million)",
-                    title: "Assets"
+                    series_name: t("assets.y_axis"),
+                    dependent_axis_title: t("assets.y_axis"),
+                    title: t("assets.title"),
                 },
                 tooltip_point_format: '{series.name}: <b>{point.y:.2f}</b>'
             },
@@ -54,9 +55,9 @@ export const fundamentalTimeSeriesChartData: fundamental_time_series_chart_data_
             {
                 chart_data: {
                     data: [],
-                    series_name: "liabilities (million)",
-                    dependent_axis_title: "liabilities (million)",
-                    title: "Liabilities"
+                    series_name: t("liabilities.y_axis"),
+                    dependent_axis_title: t("liabilities.y_axis"),
+                    title: t("liabilities.title"),
                 },
                 tooltip_point_format: '{series.name}: <b>{point.y:.2f}</b>'
             },
@@ -64,9 +65,9 @@ export const fundamentalTimeSeriesChartData: fundamental_time_series_chart_data_
             {
                 chart_data: {
                     data: [],
-                    series_name: "cash (million)",
-                    dependent_axis_title: "cash (million)",
-                    title: "Cash"
+                    series_name: t("cash.y_axis"),
+                    dependent_axis_title: t("cash.y_axis"),
+                    title: t("cash.title"),
                 },
                 tooltip_point_format: '{series.name}: <b>{point.y:.2f}</b>'
             },
@@ -74,9 +75,9 @@ export const fundamentalTimeSeriesChartData: fundamental_time_series_chart_data_
             {
                 chart_data: {
                     data: [],
-                    series_name: "net debt (million)",
-                    dependent_axis_title: "net debt (million)",
-                    title: "Net Debt"
+                    series_name: t("net_debt.y_axis"),
+                    dependent_axis_title: t("net_debt.y_axis"),
+                    title: t("net_debt.title"),
                 },
                 tooltip_point_format: '{series.name}: <b>{point.y:.2f}</b>'
             },
@@ -84,9 +85,9 @@ export const fundamentalTimeSeriesChartData: fundamental_time_series_chart_data_
             {
                 chart_data: {
                     data: [],
-                    series_name: "net working capital (million)",
-                    dependent_axis_title: "net working capital (million)",
-                    title: "Net Working Capital"
+                    series_name: t("net_working_capital.y_axis"),
+                    dependent_axis_title: t("net_working_capital.y_axis"),
+                    title: t("net_working_capital.title"),
                 },
                 tooltip_point_format: '{series.name}: <b>{point.y:.2f}</b>'
             },
@@ -94,9 +95,9 @@ export const fundamentalTimeSeriesChartData: fundamental_time_series_chart_data_
             {
                 chart_data: {
                     data: [],
-                    series_name: "capital expenditure (million)",
-                    dependent_axis_title: "capital expenditure (million)",
-                    title: "Capital Expenditure"
+                    series_name: t("capital_expenditure.y_axis"),
+                    dependent_axis_title: t("capital_expenditure.y_axis"),
+                    title: t("capital_expenditure.title"),
                 },
                 tooltip_point_format: '{series.name}: <b>{point.y:.2f}</b>'
             },
@@ -104,9 +105,9 @@ export const fundamentalTimeSeriesChartData: fundamental_time_series_chart_data_
             {
                 chart_data: {
                     data: [],
-                    series_name: "net invested capital (million)",
-                    dependent_axis_title: "net invested capital (million)",
-                    title: "Net Invested Capital"
+                    series_name: t("net_invested_capital.y_axis"),
+                    dependent_axis_title: t("net_invested_capital.y_axis"),
+                    title: t("net_invested_capital.title"),
                 },
                 tooltip_point_format: '{series.name}: <b>{point.y:.2f}</b>'
             },
@@ -114,9 +115,9 @@ export const fundamentalTimeSeriesChartData: fundamental_time_series_chart_data_
             {
                 chart_data: {
                     data: [],
-                    series_name: "free cash flow (million)",
-                    dependent_axis_title: "free cash flow (million)",
-                    title: "Free Cash Flow"
+                    series_name: t("free_cash_flow.y_axis"),
+                    dependent_axis_title: t("free_cash_flow.y_axis"),
+                    title: t("free_cash_flow.title"),
                 },
                 tooltip_point_format: '{series.name}: <b>{point.y:.2f}</b>'
             },
@@ -124,9 +125,9 @@ export const fundamentalTimeSeriesChartData: fundamental_time_series_chart_data_
             {
                 chart_data: {
                     data: [],
-                    series_name: "net income (million)",
-                    dependent_axis_title: "net income (million)",
-                    title: "Net Income"
+                    series_name: t("net_income.y_axis"),
+                    dependent_axis_title: t("net_income.y_axis"),
+                    title: t("net_income.title"),
                 },
                 tooltip_point_format: '{series.name}: <b>{point.y:.2f}</b>'
             },
@@ -134,9 +135,9 @@ export const fundamentalTimeSeriesChartData: fundamental_time_series_chart_data_
             {
                 chart_data: {
                     data: [],
-                    series_name: "equity (million)",
-                    dependent_axis_title: "equity (million)",
-                    title: "Equity"
+                    series_name: t("equity.y_axis"),
+                    dependent_axis_title: t("equity.y_axis"),
+                    title: t("equity.title"),
                 },
                 tooltip_point_format: '{series.name}: <b>{point.y:.2f}</b>'
             },
@@ -144,9 +145,9 @@ export const fundamentalTimeSeriesChartData: fundamental_time_series_chart_data_
             {
                 chart_data: {
                     data: [],
-                    series_name: "return on equity",
-                    dependent_axis_title: "return on equity",
-                    title: "Return on Equity"
+                    series_name: t("return_on_equity.y_axis"),
+                    dependent_axis_title: t("return_on_equity.y_axis"),
+                    title: t("return_on_equity.title"),
                 },
                 tooltip_point_format: '{series.name}: <b>{point.y:.2f}</b>'
             },
@@ -154,9 +155,9 @@ export const fundamentalTimeSeriesChartData: fundamental_time_series_chart_data_
             {
                 chart_data: {
                     data: [],
-                    series_name: "free cash flow return on assets",
-                    dependent_axis_title: "free cash flow return on assets",
-                    title: "Free Cash Flow Return on Assets"
+                    series_name: t("free_cash_flow_return_on_assets.y_axis"),
+                    dependent_axis_title: t("free_cash_flow_return_on_assets.y_axis"),
+                    title: t("free_cash_flow_return_on_assets.title"),
                 },
                 tooltip_point_format: '{series.name}: <b>{point.y:.2f}</b>'
             },
@@ -164,14 +165,14 @@ export const fundamentalTimeSeriesChartData: fundamental_time_series_chart_data_
             {
                 chart_data: {
                     data: [],
-                    series_name: "debt to equity ratio",
-                    dependent_axis_title: "debt to equity ratio",
-                    title: "Debt to Equity Ratio"
+                    series_name: t("debt_to_equity_ratio.y_axis"),
+                    dependent_axis_title: t("debt_to_equity_ratio.y_axis"),
+                    title: t("debt_to_equity_ratio.title"),
                 },
                 tooltip_point_format: '{series.name}: <b>{point.y:.2f}</b>'
             }
     };
-
+}
 
 export function adapt_fundamental_time_series_single(key: fundamental_time_series_key_type, fundamental_time_series: any[]): entry_type[]
 {
@@ -185,11 +186,14 @@ export function adapt_fundamental_time_series_single(key: fundamental_time_serie
 }
 
 
-export function adapt(fundamental_time_series: any[]): { chart_data: chart_data_type; tooltip_point_format: string }[]
+export function adapt(fundamental_time_series: any[], t: (key: string) => string): {
+    chart_data: chart_data_type;
+    tooltip_point_format: string
+}[]
 {
     return fundamentalTimeSeriesKeys.map(value =>
     {
-        const chart_ = fundamentalTimeSeriesChartData[value];
+        const chart_ = fundamentalTimeSeriesChartData(t)[value];
 
         chart_.chart_data.data = adapt_fundamental_time_series_single(value, fundamental_time_series);
 

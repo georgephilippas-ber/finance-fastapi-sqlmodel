@@ -4,16 +4,22 @@ import {initReactI18next} from 'react-i18next';
 import en_authentication from '../../public/locales/en/authentication.json';
 import en_company_search from '../../public/locales/en/company/company-search.json'
 import en_company_details from '../../public/locales/en/company/company-details.json'
+import en_company_details_fundamental_time_series
+    from "../../public/locales/en/company/company-details-fundamental-time-series.json"
 import en_locales from "../../public/locales/en/locales.json"
 
 import de_authentication from '../../public/locales/de/authentication.json';
 import de_company_search from '../../public/locales/de/company/company-search.json'
 import de_company_details from '../../public/locales/de/company/company-details.json'
+import de_company_details_fundamental_time_series
+    from "../../public/locales/de/company/company-details-fundamental-time-series.json"
 import de_locales from "../../public/locales/de/locales.json"
 
 import fr_authentication from '../../public/locales/fr/authentication.json';
 import fr_company_search from '../../public/locales/fr/company/company-search.json'
 import fr_company_details from '../../public/locales/fr/company/company-details.json'
+import fr_company_details_fundamental_time_series
+    from "../../public/locales/fr/company/company-details-fundamental-time-series.json"
 import fr_locales from "../../public/locales/fr/locales.json"
 
 
@@ -29,6 +35,7 @@ i18n.use(initReactI18next).init({
                     authentication: en_authentication,
                     company_search: en_company_search,
                     company_details: en_company_details,
+                    company_details_fundamental_time_series: en_company_details_fundamental_time_series,
                     locales: en_locales,
                 },
             de:
@@ -36,6 +43,7 @@ i18n.use(initReactI18next).init({
                     authentication: de_authentication,
                     company_search: de_company_search,
                     company_details: de_company_details,
+                    company_details_fundamental_time_series: de_company_details_fundamental_time_series,
                     locales: de_locales,
                 },
             fr:
@@ -43,6 +51,7 @@ i18n.use(initReactI18next).init({
                     authentication: fr_authentication,
                     company_search: fr_company_search,
                     company_details: fr_company_details,
+                    company_details_fundamental_time_series: fr_company_details_fundamental_time_series,
                     locales: fr_locales,
                 }
         }

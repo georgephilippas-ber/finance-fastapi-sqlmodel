@@ -1,0 +1,67 @@
+{
+  "assets": {
+    "title": "assets",
+    "subtitle": "assets",
+    "y_axis": "assets (million)"
+  },
+  "liabilities": {
+    "title": "liabilities",
+    "subtitle": "liabilities",
+    "y_axis": "liabilities (million)"
+  },
+  "cash": {
+    "title": "cash",
+    "subtitle": "cash",
+    "y_axis": "cash (million)"
+  },
+  "net_debt": {
+    "title": "net debt",
+    "subtitle": "net debt",
+    "y_axis": "net debt (million)"
+  },
+  "net_working_capital": {
+    "title": "net working capital",
+    "subtitle": "net working capital",
+    "y_axis": "net working capital (million)"
+  },
+  "capital_expenditure": {
+    "title": "capital expenditure",
+    "subtitle": "capital expenditure",
+    "y_axis": "capital expenditure (million)"
+  },
+  "net_invested_capital": {
+    "title": "net invested capital",
+    "subtitle": "net invested capital",
+    "y_axis": "net invested capital (million)"
+  },
+  "free_cash_flow": {
+    "title": "free cash flow",
+    "subtitle": "free cash flow",
+    "y_axis": "free cash flow (million)"
+  },
+  "net_income": {
+    "title": "net income",
+    "subtitle": "net income",
+    "y_axis": "net income (million)"
+  },
+  "equity": {
+    "title": "equity",
+    "subtitle": "equity",
+    "y_axis": "equity (million)"
+  },
+  "return_on_equity": {
+    "title": "return on equity",
+    "subtitle": "return on equity",
+    "y_axis": "return on equity"
+  },
+  "free_cash_flow_return_on_assets": {
+    "title": "free cash flow return on assets",
+    "subtitle": "free cash flow return on assets",
+    "y_axis": "free cash flow return on assets"
+  },
+  "debt_to_equity_ratio": {
+    "title": "debt-to-equity ratio",
+    "subtitle": "debt-to-equity ratio",
+    "y_axis": "debt-to-equity ratio"
+  }
+}
