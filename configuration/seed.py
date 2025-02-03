@@ -8,8 +8,8 @@ from configuration.project import PROJECT_NAME
 from core.environment.environment import EnvironmentType, is_running_in_docker
 from schema.user.user import UserSchema
 
-SEED_ON_STARTUP: bool = True
-DROP_ALL_TABLES_BEFORE_SEEDING: bool = True
+SEED_ON_STARTUP: bool = False
+DROP_ALL_TABLES_BEFORE_SEEDING: bool = False
 
 if is_running_in_docker():
     SEED_ON_STARTUP: bool = False
